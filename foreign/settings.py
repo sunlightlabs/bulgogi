@@ -79,11 +79,9 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
-
-# Make this unique, and don't share it with anybody.
-SECRET_KEY = 'ly)pei%0q#-2%@=7p(&qrmy24v44jg5t4&bcnrr^(r+c@gq3^p'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -91,6 +89,11 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.app_directories.Loader',
 #     'django.template.loaders.eggs.Loader',
 )
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'dryrub.context_processors.custom_context',
+    )
+
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
@@ -120,6 +123,9 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'foreign',
+    'compressor',
+    'dryrub',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
@@ -156,3 +162,8 @@ LOGGING = {
         },
     }
 }
+
+try:
+    from local_settings import *
+except:
+    pass

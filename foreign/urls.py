@@ -6,7 +6,8 @@ from django.conf.urls import patterns, include, url
 
 urlpatterns = patterns('',
     # Examples:
-    # url(r'^$', 'foreign.views.home', name='home'),
+    url(r'^incoming_fara/(\d+)', 'foreign.views.incoming_fara', name='incoming-fara'),
+    url(r'^form_profile/(\d+)', 'foreign.views.fara_profile', name='form-profile'),
     # url(r'^foreign/', include('foreign.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:

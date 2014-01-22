@@ -1,0 +1,89 @@
+{% extends "foreign/foreign_base.html" %}
+{% block main_content %}
+<div id="floatingNavWrapper">
+    <div id="floatingNav">
+        
+        <div id="miniNavWrapper">
+            <div id="miniNav">
+                <ul>
+                    
+                        <li><a href="#profile_section">Document Profile</a></li>
+                    
+                        <li><a href="#doc_section">Document</a></li>
+                    
+                </ul>
+            </div>
+        </div>
+ 	</div>
+</div>
+
+
+	<div class="withNav">
+		<!-- <h3 class="insideBar"> -->
+		<h3>{{ registrant }}</h3>
+		
+	</div>
+
+
+	<a class="sectionLink" name="profile_section"></a>
+	<div class="overviewBar withNav withTip">
+		<h3 class="insideBar">{{ doc_type }}</h3>
+	</div>
+
+	<div class="module withNav">
+			<p class="tip">
+			{% if doc_type = "Supplemental" %}
+				Report of activities posted every six months
+			{% endif %}
+			{% if doc_type = "Registration" %}
+				Initial registration form
+			{% endif %}
+			{% if doc_type = "Exhibit AB" %}
+				New client form
+			{% endif %}
+			{% if doc_type = "Amendment" %}
+				Amends a previous form
+			{% endif %}
+			</p>
+
+		<p>Date Received: {{ stamp_date }}</p>
+		
+		<table>
+			<thead>
+				<th class="header"><h4>Clients</h4></th>
+			</thead>
+			<tbody>
+				{% for c in clients %}
+					<tr><td class="{{ c.2 }}">{{ c.1 }}</td></tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+		{% if processed %}
+		<p align="right"> Download detailed spreadsheets here:</p>	
+		<button class="downloadButton linkBtn">Download spreadsheet</button>
+		<br />
+		{% endif %}
+		
+	</div>			
+
+
+	<a class="sectionLink" name="doc_section"></a>
+	<div class="overviewBar withNav withTip">
+		<h3 class="insideBar">Document</h3>
+	</div>
+	<div class="module withNav">
+		<iframe width="85%" height="700px" src="{{ view_doc_url }}"></iframe>
+
+		<hr/>	
+		<p>
+			Download this PDF from the Department of Justice <a href="{{ source_url }}">here</a>.
+		</p>
+
+		<br/>
+		<p>
+			Document from the Department of Justice <a href="http://www.fara.gov/">Foreign Agent Registration Act</a> records.
+		</p>
+	</div> 
+</div>
+{% endblock %}

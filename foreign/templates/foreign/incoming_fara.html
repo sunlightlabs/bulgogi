@@ -1,0 +1,54 @@
+{% extends "foreign/foreign_base.html" %}
+{% block main_content %}
+{% load staticfiles %}
+<!-- <div id="floatingNavWrapper">
+    <div id="floatingNav">
+        
+        <div id="miniNavWrapper">
+            <div id="miniNav">
+                <ul>
+                    
+                        <li><a href="#profile_section">Document Profile</a></li>
+                    
+                        <li><a href="#doc_section">Document</a></li>
+                    
+                </ul>
+            </div>
+        </div>
+ 	</div>
+</div> -->
+
+
+	<div class="withNav">
+
+		<h3>Latest Foreign Agent Registration documents</h3>
+		
+	</div>
+	<div class="module withNav">
+		<table>
+			<thead class="header">
+				<th>Registrant</th><th>Date received</th><th>Document type</th><th>Processed</th>
+			</thead>
+			<tbody>
+				{% for c in info.1 %}
+					<tr class="{{ c.place }}">
+						<td><a href="{{ STATIC_URL }}/{{ c.profile_url }}">{{ c.reg_name }}</a></td>
+						<td>{{ c.stamp_date }}</td>
+						<td>{{ c.doc_type }}</td>
+						<td>{% if c.processed = True %}
+								<img src="{% static "dryrub/images/icon_check.png" %}">
+							{% else %} 
+								<img src="{% static "dryrub/images/icon_cross.png" %}">
+							{% endif %}
+						</td>
+
+					</tr></a>
+				{% endfor %}
+			</tbody>
+		</table>
+
+		<p>{% if info.0.page.previous %}<a href="{{ STATIC_URL }}/incoming_fara/{{ info.0.page.previous }}">Previous Page</a> /{% endif %} Page {{ info.0.page.this }} / <a href="{{ STATIC_URL }}/incoming_fara/{{ info.0.page.next }}">Next Page</a>
+
+		</div>
+
+{% endblock %}
