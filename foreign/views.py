@@ -10,13 +10,13 @@ from django.http import HttpResponse
 from foreign.local_settings import FARA_ENDPOINT, API_USER, API_PASSWORD
 
 def incoming_fara(request, page=0):
-	url = FARA_ENDPOINT + "documents/" + str(page) + "/"
+	url = "/".join([FARA_ENDPOINT, "documents", str(page)])
 	response = requests.get(url, auth=(API_USER, API_PASSWORD))
 	data = response.json()
 	docs = []
 	page = int(page)
-	if page > 1:
-		page = {"previous":page-1, "this":page, "next":page+1}
+	if page != 0:
+		page = {"previous":page-1, "this":page, "next":page+1,}
 	else:
 		page = {"this":page, "next":page+1}
 	
@@ -33,8 +33,7 @@ def incoming_fara(request, page=0):
 		else:
 			place = "odd"	
 		count = count + 1
-
-		url = FARA_ENDPOINT + "registrant/" + str(reg_id) + "/"
+		url = "/".join([FARA_ENDPOINT, "registrant", str(reg_id)])
 		response = requests.get(url, auth=(API_USER, API_PASSWORD))
 		data = response.json()
 		reg_name = data[0]["reg_name"]
@@ -52,7 +51,8 @@ def incoming_fara(request, page=0):
 	return render(request, 'foreign/incoming_fara.html', {"info":info})
 
 def fara_profile(request, form_id):
-	url = FARA_ENDPOINT + "doc/" + str(form_id) + "/"
+	url = "/".join([FARA_ENDPOINT, "doc", str(form_id)])
+	print url
 	response = requests.get(url, auth=(API_USER, API_PASSWORD))
 	data = response.json()
 	source_url = data["url"]
@@ -62,7 +62,8 @@ def fara_profile(request, form_id):
 	processed = data["processed"]
 	print processed
 
-	url = FARA_ENDPOINT + "registrant/" + str(reg_id) + "/"
+	url = "/".join([FARA_ENDPOINT, "registrant", str(reg_id)])
+	print url
 	response = requests.get(url, auth=(API_USER, API_PASSWORD))
 	data = response.json()
 	registrant = data[0]["reg_name"]
