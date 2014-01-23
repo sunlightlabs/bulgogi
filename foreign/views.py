@@ -9,7 +9,7 @@ from django.http import HttpResponse
 
 from foreign.local_settings import FARA_ENDPOINT, API_USER, API_PASSWORD
 
-def incoming_fara(request, page):
+def incoming_fara(request, page=0):
 	url = FARA_ENDPOINT + "documents/" + str(page) + "/"
 	response = requests.get(url, auth=(API_USER, API_PASSWORD))
 	data = response.json()
@@ -32,7 +32,6 @@ def incoming_fara(request, page):
 			place = "even"
 		else:
 			place = "odd"	
-		print place, count
 		count = count + 1
 
 		url = FARA_ENDPOINT + "registrant/" + str(reg_id) + "/"
