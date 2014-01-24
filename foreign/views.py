@@ -9,13 +9,17 @@ from django.http import HttpResponse
 
 from foreign.local_settings import FARA_ENDPOINT, API_USER, API_PASSWORD
 
-def incoming_fara(request, page=0):
-	url = "/".join([FARA_ENDPOINT, "documents", str(page)])
-	response = requests.get(url, auth=(API_USER, API_PASSWORD))
+def incoming_fara(request):
+	if request.GET.get('p'):
+		page = int(request.GET.get('p'))
+	else:
+		page = 1
+	url = "/".join([FARA_ENDPOINT, "docs"])
+	response = requests.get(url, auth=(API_USER, API_PASSWORD), params={"p":page})
 	data = response.json()
 	docs = []
 	page = int(page)
-	if page != 0:
+	if page != 	1:
 		page = {"previous":page-1, "this":page, "next":page+1,}
 	else:
 		page = {"this":page, "next":page+1}
@@ -33,10 +37,11 @@ def incoming_fara(request, page=0):
 		else:
 			place = "odd"	
 		count = count + 1
-		url = "/".join([FARA_ENDPOINT, "registrant", str(reg_id)])
-		response = requests.get(url, auth=(API_USER, API_PASSWORD))
+		url = "/".join([FARA_ENDPOINT, "registrant"])
+		response = requests.get(url, auth=(API_USER, API_PASSWORD), params={"reg_id":reg_id})
 		data = response.json()
-		reg_name = data[0]["reg_name"]
+		print data
+		reg_name = data["reg_name"]
 
 		docs.append({
 			"reg_name": reg_name,
@@ -51,23 +56,21 @@ def incoming_fara(request, page=0):
 	return render(request, 'foreign/incoming_fara.html', {"info":info})
 
 def fara_profile(request, form_id):
-	url = "/".join([FARA_ENDPOINT, "doc", str(form_id)])
-	print url
-	response = requests.get(url, auth=(API_USER, API_PASSWORD))
+	url = "/".join([FARA_ENDPOINT, "docs"])
+	response = requests.get(url, auth=(API_USER, API_PASSWORD), params={"doc_id":form_id})
 	data = response.json()
+	print data
 	source_url = data["url"]
 	reg_id = data["reg_id"]
 	stamp_date = data["stamp_date"]
 	doc_type = data["doc_type"]
 	processed = data["processed"]
-	print processed
 
-	url = "/".join([FARA_ENDPOINT, "registrant", str(reg_id)])
-	print url
-	response = requests.get(url, auth=(API_USER, API_PASSWORD))
+	url = "/".join([FARA_ENDPOINT, "registrant"])
+	response = requests.get(url, auth=(API_USER, API_PASSWORD), params={"reg_id":reg_id})
 	data = response.json()
-	registrant = data[0]["reg_name"]
-	clients = data[0]["clients"]
+	registrant = data["reg_name"]
+	clients = data["clients"]
 	view_doc_url= http_link(source_url)
 
 	client_list = []
@@ -80,7 +83,6 @@ def fara_profile(request, form_id):
 			place = "even"
 		else:
 			place = "odd"	
-		print place, count
 		count = count + 1
 		client_list.append([client_id, client_name, place])
 
