@@ -31,7 +31,7 @@
 		</tbody>
 	</table>
 
-	<p>{% if info.0.page.previous >= 0 %}<a href="{{ STATIC_URL }}/incoming_fara/{{ info.0.page.previous }}">Previous Page</a> /{% endif %} Page {{ info.0.page.this }} / <a href="{{ STATIC_URL }}/incoming_fara/{{ info.0.page.next }}">Next Page</a>
+	<p>{% if info.0.page.previous >= 0 %}<a href="{{ STATIC_URL }}/incoming_fara?p={{ info.0.page.previous }}">Previous Page</a> /{% endif %} Page {{ info.0.page.this }} / <a href="{{ STATIC_URL }}/incoming_fara?p={{ info.0.page.next }}">Next Page</a>
 
 	</div>
 
