@@ -59,9 +59,9 @@
 			</tbody>
 		</table>
 
-		{% if processed %}
+		{% if download %}
 		<p align="right"> Download detailed spreadsheets here:</p>	
-		<button class="downloadButton linkBtn">Download spreadsheet</button>
+		<a href="{{ download }}"><button class="downloadButton linkBtn">Download spreadsheet</button></a>
 		<br />
 		{% endif %}
 		

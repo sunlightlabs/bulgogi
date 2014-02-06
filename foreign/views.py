@@ -17,6 +17,8 @@ def incoming_fara(request):
 	url = "/".join([FARA_ENDPOINT, "docs"])
 	response = requests.get(url, auth=(API_USER, API_PASSWORD), params={"p":page})
 	data = response.json()
+	print url
+	print data
 	docs = []
 	page = int(page)
 	if page != 	1:
@@ -38,10 +40,14 @@ def incoming_fara(request):
 			place = "odd"	
 		count = count + 1
 		url = "/".join([FARA_ENDPOINT, "registrant"])
-		response = requests.get(url, auth=(API_USER, API_PASSWORD), params={"reg_id":reg_id})
-		data = response.json()
-		print data
-		reg_name = data["reg_name"]
+		
+		try:
+			# brand new registrants will not have a reg name in the system yet
+			response = requests.get(url, auth=(API_USER, API_PASSWORD), params={"reg_id":reg_id})
+			data = response.json()
+			reg_name = data["reg_name"]
+		except:
+			reg_name = ''
 
 		docs.append({
 			"reg_name": reg_name,
@@ -73,6 +79,14 @@ def fara_profile(request, form_id):
 	clients = data["clients"]
 	view_doc_url= http_link(source_url)
 
+	download = 'http://fara.sunlightfoundation.com.s3.amazonaws.com/spreadsheets/forms/form_' + form_id + '.zip'
+	r = requests.head(download)
+	if r.status_code == requests.codes.ok:
+		download = download
+	else:
+		download = None
+
+
 	client_list = []
 	count = 1
 	for client in clients:
@@ -88,13 +102,14 @@ def fara_profile(request, form_id):
 
 	
 	return render(request, 'foreign/form_profile.html', {
-			"source_url":source_url,
-			"stamp_date":stamp_date,
+			"source_url": source_url,
+			"stamp_date": stamp_date,
 			"doc_type": doc_type,
 			"registrant": registrant,
 			"view_doc_url": view_doc_url,
 			"clients": client_list,
 			"processed": processed,
+			"download": download,
 		})
 
 def http_link(link):
