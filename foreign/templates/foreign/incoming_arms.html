@@ -1,0 +1,30 @@
+{% extends "foreign/foreign_base.html" %}
+{% block main_content %}
+{% load staticfiles %}
+
+<div class="withNav">
+
+	<h3>Proposed Arms Feed</h3>
+	<p>Latest press releases from <a href="http://www.dsca.mil/major-arms-sales/">The Defense Security Cooperation Agency</a>.</p>
+	
+</div>
+<div class="module withNav">
+	<table>
+		<thead class="header">
+			<th>Title</th><th>Date</th>
+		</thead>
+		<tbody>
+			{% for r in results %}
+				<tr class="{{ r.row }}">
+					<td><a href="{{ STATIC_URL }}/arms_profile/{{ r.id }}">{{ r.title }}</a></td>
+					<td>{{ r.date }}</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<p>{% if info.0.page.previous >= 0 %}<a href="{{ STATIC_URL }}/incoming_arms?p={{ page.previous }}">Previous Page</a> /{% endif %} Page {{ page.this }} / <a href="{{ STATIC_URL }}/incoming_arms?p={{ page.next }}">Next Page</a>
+
+	</div>
+
+{% endblock %}

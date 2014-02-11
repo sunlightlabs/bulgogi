@@ -48,22 +48,25 @@
 
 		<p>Date Received: {{ stamp_date }}</p>
 		
+		{% if clients %}
 		<table>
 			<thead>
-				<th class="header"><h4>Clients</h4></th>
+				<th class="header"><h4>Client</h4></th><th>Location</th>
 			</thead>
 			<tbody>
 				{% for c in clients %}
-					<tr><td class="{{ c.2 }}">{{ c.1 }}</td></tr>
+					<tr><td class="{{ c.2 }}">{{ c.1 }}</td><td class="{{ c.2 }}">{{ c.3 }}</td></tr>
 				{% endfor %}
 			</tbody>
 		</table>
+		{% endif %}
 
 		{% if download %}
 		<p align="right"> Download detailed spreadsheets here:</p>	
 		<a href="{{ download }}"><button class="downloadButton linkBtn">Download spreadsheet</button></a>
 		<br />
 		{% endif %}
+
 		
 	</div>			
 
