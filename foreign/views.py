@@ -9,6 +9,9 @@ from django.http import HttpResponse
 
 from foreign.local_settings import FARA_ENDPOINT, API_USER, API_PASSWORD
 
+def about(request):
+	return render(request, 'foreign/about_foreign.html',)
+
 def incoming_arms(request):
 	if request.GET.get('p'):
 		page = int(request.GET.get('p'))
@@ -55,9 +58,13 @@ def arms_profile(request, doc_id):
 	response = requests.get(url, auth=(API_USER, API_PASSWORD), params={"doc_id":doc_id})
 	data = response.json()
 
+	date = data["date"]
+	date = date.split('-')
+	date = date[1] + '/' + date[2] + '/' + date[0]
+
 	results={
 		'title': data['title'], 
-		'date': data['date'], 
+		'date': date, 
 		'location': data['location'], 
 		'text': data['text'], 
 	}

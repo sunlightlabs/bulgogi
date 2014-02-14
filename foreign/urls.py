@@ -5,6 +5,7 @@ from django.conf.urls import patterns, include, url
 # admin.autodiscover()
 
 urlpatterns = patterns('',
+	url(r'^$', 'foreign.views.about', name='about'),
     url(r'^incoming_fara', 'foreign.views.incoming_fara', name='incoming-fara'),
     url(r'^form_profile/(\d+)', 'foreign.views.fara_profile', name='form-profile'),
     url(r'^incoming_arms', 'foreign.views.incoming_arms', name='incoming-arms'),
