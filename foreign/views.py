@@ -45,7 +45,7 @@ def incoming_arms(request):
 			"id": d["id"],
 			"title": d["title"],
 			"row": row,
-			"pdf_url": d["pdf_url"]
+			"pdf_url": d["pdf_url"],
 		}
 		results.append(info)
 		count += 1
@@ -63,10 +63,12 @@ def arms_profile(request, doc_id):
 	date = date[1] + '/' + date[2] + '/' + date[0]
 
 	results={
+		'doc_id': doc_id,
 		'title': data['title'], 
 		'date': date, 
 		'location': data['location'], 
 		'text': data['text'], 
+		'pdf_url': data['pdf_url'],
 	}
 
 	return render(request, 'foreign/arms_profile.html', results)
@@ -145,6 +147,7 @@ def fara_profile(request, form_id):
 	count = 1
 	if data.has_key('clients'):
 		for client in data['clients']:
+			client_dict = {}
 			client_name =  client["client_name"]
 			location = client["location"]
 			client_id = client["client_id"]
@@ -156,8 +159,23 @@ def fara_profile(request, form_id):
 				row = "odd"	
 			count = count + 1
 		
-			client_list.append([client_id, client_name, row, location])
+			client_dict = {"client_id":client_id, "client_name":client_name, "row":row, "location":location}
+
+			if client.has_key("payment"):
+				client_dict["payment"] = int(client["payment"])
+				payment = True			
+			if client.has_key("contact"):
+				client_dict["contact"] = int(client["contact"])
+				contact = True
+
+			client_list.append(client_dict)	
+
+	if "payment" not in locals():
+		payment = False
 	
+	if "contact" not in locals():
+		contact = False
+
 
 	download = 'http://fara.sunlightfoundation.com.s3.amazonaws.com/spreadsheets/forms/form_' + form_id + '.zip'
 	r = requests.head(download)
@@ -175,6 +193,8 @@ def fara_profile(request, form_id):
 			"clients": client_list,
 			"processed": processed,
 			"download": download,
+			"payment": payment,
+			"contact": contact,
 		})
 
 # I font think I am using this

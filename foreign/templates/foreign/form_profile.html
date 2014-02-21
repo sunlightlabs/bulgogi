@@ -1,4 +1,5 @@
 {% extends "foreign/foreign_base.html" %}
+{% load humanize %}
 {% block main_content %}
 <div id="floatingNavWrapper">
     <div id="floatingNav">
@@ -7,7 +8,7 @@
             <div id="miniNav">
                 <ul>
                     
-                        <li><a href="#profile_section">Document Profile</a></li>
+                        <li><a href="#profile_section">Summary</a></li>
                     
                         <li><a href="#doc_section">Document</a></li>
                     
@@ -27,10 +28,12 @@
 
 	<a class="sectionLink" name="profile_section"></a>
 	<div class="overviewBar withNav withTip">
-		<h3 class="insideBar">{{ doc_type }}</h3>
+		<h3 class="insideBar">Summary</h3>
 	</div>
 
 	<div class="module withNav">
+
+			<h4 class="insideBar">Document type: {{ doc_type }}</h4>
 			<p class="tip">
 			{% if doc_type = "Supplemental" %}
 				Report of activities posted every six months
@@ -51,11 +54,19 @@
 		{% if clients %}
 		<table>
 			<thead>
-				<th class="header"><h4>Client</h4></th><th>Location</th>
+				<th class="header"><h4>Client</h4></th>
+				<th>Location</th>
+				{% if payment == True %}<th>Payment</th>{% endif %}
+				{% if contact == True %}<th>Contacts</th>{% endif %}
 			</thead>
 			<tbody>
 				{% for c in clients %}
-					<tr><td class="{{ c.2 }}">{{ c.1 }}</td><td class="{{ c.2 }}">{{ c.3 }}</td></tr>
+					<tr>
+						<td class="{{ c.row }}">{{ c.client_name }}</td>
+						<td class="{{ c.row }}">{{ c.location }}</td>
+						{% if payment == True %}<td class="{{ c.row }}">{{ c.payment|intcomma }}</td>{% endif %}
+						{% if contact == True %}<td class="{{ c.row }}">{{ c.contact }}</td>{% endif %}
+					</tr>
 				{% endfor %}
 			</tbody>
 		</table>
@@ -66,8 +77,7 @@
 		<a href="{{ download }}"><button class="downloadButton linkBtn">Download spreadsheet</button></a>
 		<br />
 		{% endif %}
-
-		
+	
 	</div>			
 
 

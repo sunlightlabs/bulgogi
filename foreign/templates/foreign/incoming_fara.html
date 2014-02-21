@@ -18,14 +18,14 @@
 <div class="module withNav">
 	<table>
 		<thead class="header">
-			<th>Registrant</th><th>Date received</th><th>Document type</th><th>Processed</th>
+			<th>Document type</th><th>Registrant</th><th>Date received</th><th>Processed</th>
 		</thead>
 		<tbody>
 			{% for c in info.1 %}
 				<tr class="{{ c.place }}">
-					<td><a href="{{ STATIC_URL }}/{{ c.profile_url }}">{{ c.reg_name }}</a></td>
+					<td><a href="{{ STATIC_URL }}/{{ c.profile_url }}">{{ c.doc_type }}</a></td>
+					<td>{{ c.reg_name }}</td>
 					<td>{{ c.stamp_date }}</td>
-					<td>{{ c.doc_type }}</td>
 					<td>{% if c.processed = True %}
 							<img src="{% static "dryrub/images/icon_check.png" %}">
 						{% else %} 
