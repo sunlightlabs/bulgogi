@@ -1,0 +1,147 @@
+{% extends "foreign/foreign_base.html" %}
+{% load humanize %}
+{% block main_content %}
+<div id="floatingNavWrapper">
+    <div id="floatingNav">
+        
+        <div id="miniNavWrapper">
+            <div id="miniNav">
+                <ul>
+                    
+                        <li><a href="#profile_section">Registrant Summary</a></li>
+                    
+                        <li><a href="#stats_section">Client Statistics</a></li>
+
+                        <li><a href="#docs_section">Documents</a></li>
+                    
+                </ul>
+            </div>
+        </div>
+ 	</div>
+</div>
+
+
+	<div class="withNav">
+		<h3 class="insideBar">
+		<h3>{{ results.reg_name }}</h3>
+		
+	</div>
+
+	<a class="sectionLink" name="profile_section"></a>
+	<div class="overviewBar withNav withTip">
+		<h3 class="insideBar">Registrant Summary</h3>
+	</div>
+
+	<div class="module withNav">
+
+		<h3 class="insideBar">{{ results.registrant }}</h3>
+		<h4>Running totals since 2013</h4>
+		<br>
+
+		{% if results.total_contributions  %}
+			<p>
+				${{ results.total_contributions|floatformat:2|intcomma }} Contributions by the registrant's employees and or PAC.
+			</p>
+		{% endif %}
+		
+		{% if results.total_payments %}
+			<p>
+				${{ results.total_payments|floatformat:2|intcomma }} Payments to the registrant
+			</p>
+		{% endif %}
+		{% if results.total_disbursements %}
+			<p>
+				${{ results.total_disbursements|floatformat:2|intcomma }} Disbursements to the registrant
+			</p>
+		{% endif %}
+
+		{% if results.total_contacts %}
+			<p>
+				{{ results.total_contacts }} Contacts by the registrant
+			</p>
+		{% endif %}
+
+	
+	</div>	
+
+	<a class="sectionLink" name="stats_section"></a>
+	<div class="overviewBar withNav withTip">
+		<h3 class="insideBar">Client Statistics</h3>
+	</div>
+	<div class="module withNav">
+		<br>
+		<h4>Running totals since 2013</h4>
+
+		{% if results.clients %}
+			<h4><b>Clients</b></h4>
+			{% for c in results.clients %}
+				<h4>
+					<a href="/client-profile/{{ c.client_id }}">{{ c.name }}</a>
+				</h4>
+				<p>
+					Location: <a href="/location-profile/{{ c.location_id }}">{{ c.location }}</a>	
+				</p>
+				{% if c.contact %}
+					<p>
+						{{ c.contact }} contacts on behalf of the client.
+					</p>
+				{% endif %}
+				{% if c.payment %}
+					<p>
+						${{ c.payment|floatformat:2|intcomma }} in payments funding the client.
+					</p>
+				{% endif %}
+				{% if c.disbursement %}
+					<p>
+						${{ c.disbursement|floatformat:2|intcomma }} in disbursements on behalf of the client.
+					</p>
+				{% endif %}
+				
+				</br>
+			{% endfor %}
+			<br>
+		{% endif %}
+
+		{% if results.terminated_clients %}
+			<h4><b>Former Clients</b></h4>
+			{% for c in results.terminated_clients %}
+				<h4>
+					<a href="/client-profile/{{ c.client_id }}">{{ c.name }}</a>
+				</h4>
+				<p>
+					Location: <a href="/location-profile/{{ c.location_id }}">{{ c.location }}</a>	
+				</p>
+				{% if c.contact %}
+					<p>
+						{{ c.contact }} contacts on behalf of the client.
+					</p>
+				{% endif %}
+				{% if c.payment %}
+					<p>
+						${{ c.payment|floatformat:2|intcomma }} in payments funding the client.
+					</p>
+				{% endif %}
+				{% if c.disbursement %}
+					<p>
+						${{ c.disbursement|floatformat:2|intcomma }} in disbursements on behalf of the client.
+					</p>
+				{% endif %}
+				
+				</br>
+			{% endfor %}
+		<br>
+		{% endif %}
+
+	</div>
+
+	<a class="sectionLink" name="docs_section"></a>
+	<div class="overviewBar withNav withTip">
+		<h3 class="insideBar">Documents</h3>
+	</div>
+	<div class="module withNav">
+
+		{% include "foreign/fara_doc_table.html" with table_info=table_info %}
+
+
+</div>
+{% endblock %}

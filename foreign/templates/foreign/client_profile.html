@@ -1,0 +1,90 @@
+{% extends "foreign/foreign_base.html" %}
+{% load humanize %}
+{% block main_content %}
+<div id="floatingNavWrapper">
+    <div id="floatingNav">
+        
+        <div id="miniNavWrapper">
+            <div id="miniNav">
+                <ul>
+                    
+                        <li><a href="#profile_section">Summary</a></li>
+                    
+                        <li><a href="#stats_section">Statistics</a></li>
+                    
+                </ul>
+            </div>
+        </div>
+ 	</div>
+</div>
+
+
+	<div class="withNav">
+		<h3 class="insideBar">
+		<h3>{{ client }}</h3>
+		
+	</div>
+
+	<a class="sectionLink" name="profile_section"></a>
+	<div class="overviewBar withNav withTip">
+		<h3 class="insideBar">Client Summary</h3>
+	</div>
+
+	<div class="module withNav">
+		<br>
+
+		<h3 class="insideBar">{{ results.client }}</h3>
+
+
+		<h4 class="insideBar">Location: <a href="/location-profile/{{ results.location_id }}">{{ results.location }}</a></h4>
+		
+		<br>
+
+		{% if results.active_reg %}
+			<h4 class="insideBar">Agents representing {{ results.client }} </h4>
+			<blockquote>
+			{% for reg in results.active_reg %}
+				<p><a href="/reg-profile/{{ reg.id }}"><b>{{reg.name}}</b></a></p>
+			{% endfor %}
+			</blockquote>
+		{% endif %}
+
+		{% if results.terminated_reg %}
+			<br>
+			<h4 class="insideBar">Agents formerly representing {{ results.client }} </h4>
+			<blockquote>
+			{% for reg in results.terminated_reg %}
+				<p><a href="/reg-profile/{{ reg.id }}"><b>{{reg.name}}</b></a></p>
+			{% endfor %}
+			</blockquote>
+		{% endif %}
+
+	
+	</div>	
+
+	<a class="sectionLink" name="stats_section"></a>
+	<div class="overviewBar withNav withTip">
+		<h3 class="insideBar">Client Statistics</h3>
+	</div>
+	<div class="module withNav">
+		<br>
+		
+		<h4>Running totals since 2013</h4>
+		<br>	
+		{% if results.contacts %}
+			<h4 class="insideBar">{{ results.contacts }} Contacts</h4>
+		{% endif %}
+
+		{% if results.total_payment %}
+			<h4 class="insideBar">${{ results.total_payment|floatformat:2|intcomma }} Payments</h4>
+
+		{% endif %}
+
+		{% if results.total_disbursement %}
+			<h4 class="insideBar">${{ results.total_disbursement|floatformat:2|intcomma }} Disbursements</h4>
+		{% endif %}
+
+	</div>	
+
+</div>
+{% endblock %}

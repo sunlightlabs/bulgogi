@@ -1,6 +1,5 @@
 {% extends "foreign/foreign_base.html" %}
 {% block main_content %}
-{% load staticfiles %}
 
 <div class="withNav">
 
@@ -12,34 +11,13 @@
 		Click <a href="/#fara_section">here</a> for an explanation of these records.
 	</p>
 
-
 	
 </div>
+
 <div class="module withNav">
-	<table>
-		<thead class="header">
-			<th>Document type</th><th>Registrant</th><th>Date received</th><th>Processed</th>
-		</thead>
-		<tbody>
-			{% for c in info.1 %}
-				<tr class="{{ c.place }}">
-					<td><a href="{{ STATIC_URL }}/{{ c.profile_url }}">{{ c.doc_type }}</a></td>
-					<td>{{ c.reg_name }}</td>
-					<td>{{ c.stamp_date }}</td>
-					<td>{% if c.processed = True %}
-							<img src="{% static "dryrub/images/icon_check.png" %}">
-						{% else %} 
-							<img src="{% static "dryrub/images/icon_cross.png" %}">
-						{% endif %}
-					</td>
+	
+	{% include "foreign/fara_doc_table.html" with table_info=table_info %}
 
-				</tr></a>
-			{% endfor %}
-		</tbody>
-	</table>
-
-	<p>{% if info.0.page.previous >= 0 %}<a href="{{ STATIC_URL }}/incoming_fara?p={{ info.0.page.previous }}">Previous Page</a> /{% endif %} Page {{ info.0.page.this }} / <a href="{{ STATIC_URL }}/incoming_fara?p={{ info.0.page.next }}">Next Page</a>
-
-	</div>
+</div>
 
 {% endblock %}

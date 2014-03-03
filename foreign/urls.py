@@ -6,10 +6,13 @@ from django.conf.urls import patterns, include, url
 
 urlpatterns = patterns('',
 	url(r'^$', 'foreign.views.about', name='about'),
-    url(r'^incoming_fara', 'foreign.views.incoming_fara', name='incoming-fara'),
-    url(r'^form_profile/(\d+)', 'foreign.views.fara_profile', name='form-profile'),
-    url(r'^incoming_arms', 'foreign.views.incoming_arms', name='incoming-arms'),
-    url(r'^arms_profile/(\d+)', 'foreign.views.arms_profile', name='arms-profile'),
+    url(r'^incoming-fara', 'foreign.views.incoming_fara', name='incoming-fara'),
+    url(r'^form-profile/(\d+)', 'foreign.views.form_profile', name='form-profile'),
+    url(r'^incoming-arms', 'foreign.views.incoming_arms', name='incoming-arms'),
+    url(r'^arms-profile/(\d+)', 'foreign.views.arms_profile', name='arms-profile'),
+    url(r'^client-profile/(\d+)', 'foreign.views.client_profile', name='client-profile'),
+    url(r'^reg-profile/(\d+)', 'foreign.views.reg_profile', name='reg-profile'),
+    url(r'^location-profile/(\d+)', 'foreign.views.location_profile', name='location-profile'),
     # url(r'^foreign/', include('foreign.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:

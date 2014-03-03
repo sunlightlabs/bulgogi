@@ -17,7 +17,7 @@ def incoming_arms(request):
 		page = int(request.GET.get('p'))
 	else:
 		page = 1
-	url = "/".join([FARA_ENDPOINT, "proposed_arms"])
+	url = "/".join([FARA_ENDPOINT, "proposed-arms"])
 	response = requests.get(url, auth=(API_USER, API_PASSWORD), params={"p":page})
 	data = response.json()
 	docs = []
@@ -54,7 +54,7 @@ def incoming_arms(request):
 
 def arms_profile(request, doc_id):
 	# need to build this
-	url = "/".join([FARA_ENDPOINT, "proposed_arms"])
+	url = "/".join([FARA_ENDPOINT, "proposed-arms"])
 	response = requests.get(url, auth=(API_USER, API_PASSWORD), params={"doc_id":doc_id})
 	data = response.json()
 
@@ -79,54 +79,17 @@ def incoming_fara(request):
 		page = int(request.GET.get('p'))
 	else:
 		page = 1
-	# change to agentfeed
 	url = "/".join([FARA_ENDPOINT, "docs"])
 	response = requests.get(url, params={"p":page,"key":API_PASSWORD})
 	data = response.json()
-	docs = []
-	
 	page = int(page)
-	if page != 	1:
-		page = {"previous":page-1, "this":page, "next":page+1,}
-	else:
-		page = {"this":page, "next":page+1}
-	
-	count = 1
-	for d in data['results']:
-		doc_id = str(d["doc_id"])
-		doc_type = d["doc_type"]
-		processed = d["processed"]
-		stamp_date = d["stamp_date"]
-		reg_id = d["reg_id"]
-		profile_url = "form_profile/" + doc_id
-		if d.has_key("reg_name"):
-			reg_name = d["reg_name"]
-		else:
-			reg_name = ''
 
-		if count % 2 != 0:
-			place = "even"
-		else:
-			place = "odd"	
-		count = count + 1
+	table_info = make_doc_table(data, page)
 
-		docs.append({
-			"reg_name": reg_name,
-			"doc_id": doc_id,
-			"doc_type": doc_type,
-			"processed": processed,
-			"stamp_date": stamp_date,
-			"profile_url": profile_url,
-			"place": place,
-		})
-		
+	return render(request, 'foreign/incoming_fara.html', {"table_info":table_info})
 
-
-	info = [{"page": page}, docs]	
-	return render(request, 'foreign/incoming_fara.html', {"info":info})
-
-def fara_profile(request, form_id):
-	url = "/".join([FARA_ENDPOINT, "doc_profile", form_id])
+def form_profile(request, form_id):
+	url = "/".join([FARA_ENDPOINT, "doc-profile", form_id])
 	response = requests.get(url, params={"doc_id":form_id, "key":API_PASSWORD})
 	data = response.json()
 	data = data['results']
@@ -195,11 +158,161 @@ def fara_profile(request, form_id):
 			"download": download,
 			"payment": payment,
 			"contact": contact,
+			"reg_id": reg_id,
 		})
 
-# I font think I am using this
-def http_link(link):
-	link = "http://fara.sunlightfoundation.com.s3.amazonaws.com/html/" + link[25:-4] + "/index.html"
-	return link
+def client_profile(request, client_id):
+	url = "/".join([FARA_ENDPOINT, "client-profile", client_id])
+	response = requests.get(url, params={"key":API_PASSWORD})
+	data = response.json()
+	data = data['results']
+	
+	results = {}
+	results['client'] = data['client_name']
+	results['location'] = data['location']
+	results['location_id'] = data['location_id']
+
+	if data.has_key('total_payment'):
+		results['total_payment'] = data['total_payment']
+	if data.has_key('contacts'):
+		results['contacts'] = data['contacts']
+	if data.has_key('total_disbursement'):
+		results['total_disbursement'] = data['total_disbursement']
+
+	if data.has_key('active_reg'):
+		active_reg = []
+		for reg in data['active_reg']:
+			reg = {'name':reg['name'], 'id':reg['reg_id']}
+			active_reg.append(reg)
+		results['active_reg'] = active_reg
+
+	if data.has_key('terminated_reg'):
+		terminated_reg = []
+		for reg in data['terminated_reg']:
+			reg= {'name':reg['name'], 'id':reg['reg_id']}
+			terminated_reg.append(reg)
+		results['terminated_reg'] = terminated_reg
+
+	return render(request, 'foreign/client_profile.html', {"results":results})
+
+def reg_profile(request, reg_id):
+	url = "/".join([FARA_ENDPOINT, "reg-profile", reg_id])
+	response = requests.get(url, params={"key":API_PASSWORD})
+	data = response.json()
+	data = data['results']
+	results = {}
+	if data['registrant'].has_key('name'):
+		results['reg_name'] = data['registrant']['name']
+	
+	if data['registrant'].has_key('total_contributions'):
+		results['total_contributions'] = data['registrant']['total_contributions']
+	
+	if data['registrant'].has_key('total_payments'):
+		results['total_payments'] = data['registrant']['total_payments']
+
+	if data['registrant'].has_key('total_disbursements'):
+		results['total_disbursements'] = data['registrant']['total_disbursements']
+
+	if data['registrant'].has_key('total_contacts'):
+		results['total_contacts'] = data['registrant']['total_contacts']
+
+	if data.has_key('clients'):
+		clients = []
+		for c in data['clients']:
+			client = {}
+			client['name'] = c['client_name']
+			client['location'] = c['location']
+			client['location_id'] = c['location_id']
+			client['client_id'] = c['client_id']
+			if c.has_key('contact'):
+				client['contact'] = c['contact']
+			if c.has_key('payment'):
+				client['payment'] = c['payment']
+			if c.has_key('disbursemant'):
+				client['disbursement'] = c['disbursement']
+			
+			clients.append(client)
+		results['clients'] = clients
+	
+	if data.has_key('terminated_clients'):
+		terminated_clients = []
+		for c in data['terminated_clients']:
+			client = {}
+			client['name'] = c['client_name']
+			client['location'] = c['location']
+			client['location_id'] = c['location_id']
+			client['client_id'] = c['client_id']
+			if c.has_key('contact'):
+				client['contact'] = c['contact']
+			if c.has_key('payment'):
+				client['payment'] = c['payment']
+			if c.has_key('disbursement'):
+				client['disbursement'] = c['disbursement']
+			
+			terminated_clients.append(client)
+		results['terminated_clients'] = terminated_clients
+
+	#document table
+	if request.GET.get('p'):
+		page = int(request.GET.get('p'))
+	else:
+		page = 1
+	url = "/".join([FARA_ENDPOINT, "docs"])
+	response = requests.get(url, params={"p":page,"key":API_PASSWORD,"reg_id":reg_id})
+	data = response.json()
+	page = int(page)
+
+	table_info = make_doc_table(data, page)
+
+	return render(request, 'foreign/reg_profile.html', {"results":results, "table_info":table_info})
+
+def location_profile(request, location_id):
+	url = "/".join([FARA_ENDPOINT, "place-profile", location_id])
+	response = requests.get(url, params={"key":API_PASSWORD})
+	data = response.json()
+
+	results = data
+	return render(request, 'foreign/location_profile.html', {"results":results})
+
+def make_doc_table(data, page):
+	docs = []
+	count = 1
+	if page != 	1:
+		page = {"previous":page-1, "this":page, "next":page+1,}
+	else:
+		page = {"this":page, "next":page+1}
+
+	for d in data['results']:
+		doc_id = str(d["doc_id"])
+		doc_type = d["doc_type"]
+		processed = d["processed"]
+		stamp_date = d["stamp_date"]
+		reg_id = d["reg_id"]
+		profile_url = "form-profile/" + doc_id
+		if d.has_key("reg_name"):
+			reg_name = d["reg_name"]
+		else:
+			reg_name = ''
+
+		if count % 2 != 0:
+			place = "even"
+		else:
+			place = "odd"	
+		count = count + 1
+
+		docs.append({
+			"reg_name": reg_name,
+			"doc_id": doc_id,
+			"doc_type": doc_type,
+			"processed": processed,
+			"stamp_date": stamp_date,
+			"profile_url": profile_url,
+			"place": place,
+		})
+		
+	info = [{"page": page}, docs]
+	return info
+
+
 
 
