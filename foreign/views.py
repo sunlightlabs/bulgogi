@@ -93,7 +93,6 @@ def form_profile(request, form_id):
 	response = requests.get(url, params={"doc_id":form_id, "key":API_PASSWORD})
 	data = response.json()
 	data = data['results']
-
 	source_url = data["url"]
 	reg_id = data["reg_id"]
 	stamp_date = data["stamp_date"]
@@ -113,6 +112,7 @@ def form_profile(request, form_id):
 			client_dict = {}
 			client_name =  client["client_name"]
 			location = client["location"]
+			location_id = client["location_id"]
 			client_id = client["client_id"]
 		
 			# I like the look of the chart this way
@@ -122,7 +122,7 @@ def form_profile(request, form_id):
 				row = "odd"	
 			count = count + 1
 		
-			client_dict = {"client_id":client_id, "client_name":client_name, "row":row, "location":location}
+			client_dict = {"client_id":client_id, "client_name":client_name, "row":row, "location":location, "location_id":location_id}
 
 			if client.has_key("payment"):
 				client_dict["payment"] = int(client["payment"])
@@ -270,8 +270,14 @@ def location_profile(request, location_id):
 	url = "/".join([FARA_ENDPOINT, "place-profile", location_id])
 	response = requests.get(url, params={"key":API_PASSWORD})
 	data = response.json()
+	data = data['results']
+	results = {}
+	
+	if results.has_key('proposed_sales'):
+		results['proposed_sales'] = data['proposed_sales']
+	if results.has_key('clients'):
+		results['clients'] = data['clients']
 
-	results = data
 	return render(request, 'foreign/location_profile.html', {"results":results})
 
 def make_doc_table(data, page):
@@ -314,5 +320,8 @@ def make_doc_table(data, page):
 	return info
 
 
-
+# Converts the original url to the sunlight url
+def http_link(link):
+	link = "http://fara.sunlightfoundation.com.s3.amazonaws.com/html/" + link[25:-4] + "/index.html"
+	return link
 

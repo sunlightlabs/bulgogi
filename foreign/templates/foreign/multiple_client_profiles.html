@@ -1,0 +1,63 @@
+{% load humanize %}
+<br>
+<h4>Running totals since 2013</h4>
+
+{% if clients %}
+	<h4><b>Clients</b></h4>
+	{% for c in results.clients %}
+		<h4>
+			<a href="/client-profile/{{ c.client_id }}">{{ c.name }}</a>
+		</h4>
+		<p>
+			Location: <a href="/location-profile/{{ c.location_id }}">{{ c.location }}</a>	
+		</p>
+		{% if c.contact %}
+			<p>
+				{{ c.contact }} contacts on behalf of the client.
+			</p>
+		{% endif %}
+		{% if c.payment %}
+			<p>
+				${{ c.payment|floatformat:2|intcomma }} in payments funding the client.
+			</p>
+		{% endif %}
+		{% if c.disbursement %}
+			<p>
+				${{ c.disbursement|floatformat:2|intcomma }} in disbursements on behalf of the client.
+			</p>
+		{% endif %}
+		
+		</br>
+	{% endfor %}
+	<br>
+{% endif %}
+
+{% if terminated_clients %}
+	<h4><b>Former Clients</b></h4>
+	{% for c in results.terminated_clients %}
+		<h4>
+			<a href="/client-profile/{{ c.client_id }}">{{ c.name }}</a>
+		</h4>
+		<p>
+			Location: <a href="/location-profile/{{ c.location_id }}">{{ c.location }}</a>	
+		</p>
+		{% if c.contact %}
+			<p>
+				{{ c.contact }} contacts on behalf of the client.
+			</p>
+		{% endif %}
+		{% if c.payment %}
+			<p>
+				${{ c.payment|floatformat:2|intcomma }} in payments funding the client.
+			</p>
+		{% endif %}
+		{% if c.disbursement %}
+			<p>
+				${{ c.disbursement|floatformat:2|intcomma }} in disbursements on behalf of the client.
+			</p>
+		{% endif %}
+		
+		</br>
+	{% endfor %}
+<br>
+{% endif %}

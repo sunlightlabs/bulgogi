@@ -6,7 +6,7 @@
 
 	<h3>Proposed Arms Feed</h3>
 	<p>
-		Latest press releases from <a href="http://www.dsca.mil/major-arms-sales/">The Defense Security Cooperation Agency</a>.
+		Latest press releases from <a href="http://www.dsca.mil/major-arms-sales/">The Defense Security Cooperation Agency</a>. Keep in mind, the sales mentioned in this feed are only proposed and may not happen. 
 	</p>
 	<p>
 		Click <a href="/#arms_section">here</a> for an explanation of these records.
@@ -14,22 +14,9 @@
 	
 </div>
 <div class="module withNav">
-	<table>
-		<thead class="header">
-			<th>Title</th><th>Date</th>
-		</thead>
-		<tbody>
-			{% for r in results %}
-				<tr class="{{ r.row }}">
-					<td><a href="{{ STATIC_URL }}/arms-profile/{{ r.id }}">{{ r.title }}</a></td>
-					<td>{{ r.date }}</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
 
-	<p>{% if info.0.page.previous >= 0 %}<a href="{{ STATIC_URL }}/incoming-arms?p={{ page.previous }}">Previous Page</a> /{% endif %} Page {{ page.this }} / <a href="{{ STATIC_URL }}/incoming-arms?p={{ page.next }}">Next Page</a>
+{% include "foreign/arms_table.html" with results=results info=info %}
 
-	</div>
+</div>
 
 {% endblock %}

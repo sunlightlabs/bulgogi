@@ -22,7 +22,7 @@
 	<div class="withNav">
 		<!-- <h3 class="insideBar"> -->
 		<h4>Foreign Agent</h4>
-		<h3><a href="/reg-profile/{{ reg_id }}">{{ registrant }}</a></h3>
+		<h3><a href="/reg-profile/{{ reg_id }}/{{ registrant }}">{{ registrant }}</a></h3>
 		
 	</div>
 
@@ -63,8 +63,8 @@
 			<tbody>
 				{% for c in clients %}
 					<tr>
-						<td class="{{ c.row }}"><a href="/client-profile/{{ c.client_id }}">{{ c.client_name }}</a></td>
-						<td class="{{ c.row }}"><a href="/location-profile/{{ c.locaton_id }}">{{ c.location }}</td>
+						<td class="{{ c.row }}"><a href="/client-profile/{{ c.client_id }}/{{ c.client_name }}">{{ c.client_name }}</a></td>
+						<td class="{{ c.row }}"><a href="/location-profile/{{ c.location_id }}/{{ c.location }}">{{ c.location }}</a></td>
 						{% if payment == True %}<td class="{{ c.row }}">{{ c.payment|floatformat:2|intcomma }}</td>{% endif %}
 						{% if contact == True %}<td class="{{ c.row }}">{{ c.contact }}</td>{% endif %}
 					</tr>

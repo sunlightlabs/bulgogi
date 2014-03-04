@@ -1,0 +1,18 @@
+<table>
+	<thead class="header">
+		<th>Title</th><th>Date</th>
+	</thead>
+	<tbody>
+		{% for r in results %}
+			<tr class="{{ r.row }}">
+				<td><a href="/arms-profile/{{ r.id }}">{{ r.title }}</a></td>
+				<td>{{ r.date }}</td>
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>
+
+{% if info != None %}
+	<p>{% if info.0.page.previous >= 0 %}<a href="?p={{ page.previous }}">Previous Page</a> /{% endif %} Page {{ page.this }} / <a href="?p={{ page.next }}">Next Page</a>
+{% endif %}
+
