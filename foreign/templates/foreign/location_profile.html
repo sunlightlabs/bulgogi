@@ -20,7 +20,7 @@
 </div>
 
 <div class="withNav">
-	<h3  class="insideBar"># add location Name</h3> 
+	<h3  class="insideBar">{{ results.location }}</h3> 
 </div>
 
 <a class="sectionLink" name="client_section"></a>
@@ -29,12 +29,53 @@
 </div>
 
 <div class="module withNav">
-	
+
 	<br>
-	{{ results.clients }}
-
-
+	{% for c in results.clients %}
 	
+	<h5><a href="/client-profile/{{ c.id }}"> {{ c.client_name }}</a></h5>
+	{% if c.client_type %}
+		<p>{{ c.client_type }}</p>
+	{% endif %}
+
+
+	{% if c.description %}
+		<p>{{ c.description }}</p>
+	{% endif %}
+	
+	{% if c.total_payment %}
+		<p>${{ c.total_payment|floatformat:2|intcomma }} in payments on behalf of the client.</p>
+	{% endif %}
+
+	{% if c.total_disbursement %}
+		<p>${{ c.total_disbursements|floatformat:2|intcomma }} in disbursements on behalf of the client.</p>
+	{% endif %}
+
+	{% if c.contacts %}
+		<p>{{ c.contacts }} contacts on behalf of the client.</p>
+	{% endif %}
+
+	{% if c.active_reg %}
+		<p><b>Registrants that represent the client</b></p>
+		<blockquote>
+		{% for active in c.active_reg %}
+			<p><a href="/reg-profile/{{ active.reg_id }}">{{ active.name }}</a><p> 
+		{% endfor %}
+		</blockquote>
+	{% endif %}
+
+	{% if c.terminated_reg %}
+		<p><b>Registrants that formerly represented the client</b></p>
+		<blockquote>
+		{% for terminated in c.terminated_reg %}
+			<p><a href="/reg-profile/{{ terminated.reg_id }}">{{ terminated.name }}</a><p> 
+		{% endfor %}
+		</blockquote>
+	{% endif %}
+
+	<br>
+
+	{% endfor %}
 
 </div>
 
@@ -45,12 +86,21 @@
 
 <div class="module withNav">
 
+{% if proposed_sales != None %}
+
 	<p>
 		Latest press releases from <a href="http://www.dsca.mil/major-arms-sales/">The Defense Security Cooperation Agency</a>. Keep in mind, the sales mentioned in this feed are only proposed and may not happen. 
 	</p>
-# add row highlighting
 
-{% include "foreign/arms_table.html" with results=results.proposed_sales info=None %}
+	# add row highlighting
+
+	{% include "foreign/arms_table.html" with results=results.proposed_sales info=None %}
+{% else %}
+
+	<p>
+		No press releases from <a href="http://www.dsca.mil/major-arms-sales/">The Defense Security Cooperation Agency</a> found for {{ results.location }}. 
+	</p>
+{% endif %}
 
 </div>
 

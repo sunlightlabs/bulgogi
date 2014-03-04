@@ -273,9 +273,14 @@ def location_profile(request, location_id):
 	data = data['results']
 	results = {}
 	
-	if results.has_key('proposed_sales'):
+	results['location'] = data['location_name']
+
+	if data.has_key('proposed_sales'):
 		results['proposed_sales'] = data['proposed_sales']
-	if results.has_key('clients'):
+	else:
+		results['proposed_sales'] = None
+
+	if data.has_key('clients'):
 		results['clients'] = data['clients']
 
 	return render(request, 'foreign/location_profile.html', {"results":results})
