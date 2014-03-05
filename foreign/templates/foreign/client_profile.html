@@ -1,6 +1,11 @@
 {% extends "foreign/foreign_base.html" %}
 {% load humanize %}
 {% block main_content %}
+
+<div class="overviewBar withNav withTip">
+	<h3 class="insideBar">Client Profile</h3>
+</div>
+
 <div id="floatingNavWrapper">
     <div id="floatingNav">
         
@@ -41,7 +46,7 @@
 		<h4>Running totals since 2013:</h4>
 		<br>	
 		{% if results.contacts %}
-			<h4 class="insideBar">{{ results.contacts }} Contacts</h4>
+			<h4 class="insideBar"><a href="/contact-table?client_id={{ results.client_id }}"> {{ results.contacts }} Contacts</a></h4>
 		{% endif %}
 
 		{% if results.total_payment %}

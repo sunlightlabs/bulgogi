@@ -1,0 +1,50 @@
+{% extends "foreign/foreign_base.html" %}
+{% load humanize %}
+{% block main_content %}
+<div class="module withNav">
+
+<h3>
+	Contacts for 
+	{% for t in title %}
+		{% if t.id %}<a href="{{ t.type }}-profile/{{ t.id }}">{% endif %}
+			{{ t.text }} 
+		{% if t.id %}</a>{% endif %}; 
+	{% endfor %}
+
+</h3>
+
+<table>
+	<thead class="header">
+		<th>Date</th>
+		<th>Contact</th>
+		<th>Client</th>
+		<th>Registrant</th>
+		<th>Description</th>
+		<th>Employees</th>
+	</thead>
+	<tbody>
+		{% for c in contacts %}
+			<tr class="{{ c.row }}">
+				<td><a href="/form-profile/{{ c.doc_id }}">{{ c.date }}</a></td>
+				<td>
+					{% for person in c.contact %}
+						{% if person.recipient_id %}<a href="/recipient-profile/{{ person.recipient_id }}">{% endif %}
+							{{ person.name }}
+						{% if person.recipient_id %}</a>{% endif %}; 
+					{% endfor %}
+				</td>
+				<td><a href="/client-profile/{{ c.client_id }}">{{ c.client }}</a></td>
+				<td><a href="/reg-profile/{{ c.reg_id }}">{{ c.reg_name }}</td>
+				<td>{{ c.description }}</td>
+				<td>{{ c.employees }}</td>
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>
+
+{% if page %}
+	<p>{% if page.previous > 0 %}<a href="?p={{ page.previous }}">Previous Page</a> /{% endif %} Page {{ page.this }} / <a href="?p={{ page.next }}">Next Page</a>
+{% endif %}
+
+</div>
+{% endblock %}

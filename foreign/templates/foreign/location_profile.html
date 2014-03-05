@@ -2,6 +2,10 @@
 {% load humanize %}
 {% block main_content %}
 
+<div class="overviewBar withNav withTip">
+	<h3 class="insideBar">Location Profile</h3>
+</div>
+
 <div id="floatingNavWrapper">
     <div id="floatingNav">
         
@@ -19,8 +23,9 @@
  	</div>
 </div>
 
+
 <div class="withNav">
-	<h3  class="insideBar">{{ results.location }}</h3> 
+	<h2  class="insideBar">{{ results.location }}</h2> 
 </div>
 
 <a class="sectionLink" name="client_section"></a>
@@ -32,7 +37,7 @@
 
 	<br>
 	{% for c in results.clients %}
-	
+
 	<h5><a href="/client-profile/{{ c.id }}"> {{ c.client_name }}</a></h5>
 	{% if c.client_type %}
 		<p>{{ c.client_type }}</p>
@@ -52,7 +57,7 @@
 	{% endif %}
 
 	{% if c.contacts %}
-		<p>{{ c.contacts }} contacts on behalf of the client.</p>
+		<p><a href="/contact-table?client_id={{ c.id }}">{{ c.contacts }} contacts on behalf of the client.</a></p>
 	{% endif %}
 
 	{% if c.active_reg %}
@@ -86,13 +91,11 @@
 
 <div class="module withNav">
 
-{% if proposed_sales != None %}
+{% if results.proposed_sales %}
 
 	<p>
 		Latest press releases from <a href="http://www.dsca.mil/major-arms-sales/">The Defense Security Cooperation Agency</a>. Keep in mind, the sales mentioned in this feed are only proposed and may not happen. 
 	</p>
-
-	# add row highlighting
 
 	{% include "foreign/arms_table.html" with results=results.proposed_sales info=None %}
 {% else %}

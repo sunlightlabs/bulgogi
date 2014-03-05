@@ -13,6 +13,7 @@ urlpatterns = patterns('',
     url(r'^client-profile/(\d+)', 'foreign.views.client_profile', name='client-profile'),
     url(r'^reg-profile/(\d+)', 'foreign.views.reg_profile', name='reg-profile'),
     url(r'^location-profile/(\d+)', 'foreign.views.location_profile', name='location-profile'),
+    url(r'^contact-table', 'foreign.views.contact_table', name='contact-table')
     # url(r'^foreign/', include('foreign.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:

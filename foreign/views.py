@@ -71,6 +71,9 @@ def arms_profile(request, doc_id):
 		'pdf_url': data['pdf_url'],
 	}
 
+	if data.has_key('location_id'):
+		results['location_id'] = data['location_id']
+
 	return render(request, 'foreign/arms_profile.html', results)
 
 # rewrite for new endpoint
@@ -159,6 +162,7 @@ def form_profile(request, form_id):
 			"payment": payment,
 			"contact": contact,
 			"reg_id": reg_id,
+			"doc_id": form_id
 		})
 
 def client_profile(request, client_id):
@@ -169,6 +173,7 @@ def client_profile(request, client_id):
 	
 	results = {}
 	results['client'] = data['client_name']
+	results['client_id'] = client_id
 	results['location'] = data['location']
 	results['location_id'] = data['location_id']
 
@@ -201,6 +206,7 @@ def reg_profile(request, reg_id):
 	data = response.json()
 	data = data['results']
 	results = {}
+	results['reg_id'] = reg_id
 	if data['registrant'].has_key('name'):
 		results['reg_name'] = data['registrant']['name']
 	
@@ -274,9 +280,11 @@ def location_profile(request, location_id):
 	results = {}
 	
 	results['location'] = data['location_name']
+	results['location_id'] = location_id
 
 	if data.has_key('proposed_sales'):
 		results['proposed_sales'] = data['proposed_sales']
+		print results['proposed_sales']
 	else:
 		results['proposed_sales'] = None
 
@@ -323,6 +331,41 @@ def make_doc_table(data, page):
 		
 	info = [{"page": page}, docs]
 	return info
+
+	return render(request, 'foreign/location_profile.html', {"results":results})
+
+def contact_table(request):
+	url = "/".join([FARA_ENDPOINT, "contact-table"])
+	
+	query_params = {}
+	query_params['key'] = API_PASSWORD
+	if request.GET.get('reg_id'):
+		query_params['reg_id'] = request.GET.get('reg_id')
+	if request.GET.get('doc_id'):
+		query_params['doc_id'] = request.GET.get('doc_id')
+	if request.GET.get('client_id'):
+		query_params['client_id'] = request.GET.get('client_id')
+	if request.GET.get('recipient_id'):
+		query_params['recipient_id'] = request.GET.get('recipient_id')
+	if request.GET.get('contact_id'):
+		query_params['contact_id'] = request.GET.get('contact_id')
+	if request.GET.get('location_id'):
+		query_params['location_id'] = request.GET.get('location_id')
+	if request.GET.get('p'):
+		page = int(request.GET.get('p'))
+		p = request.GET.get('p')
+		query_params['p'] = p
+	else:
+		p = 1
+	page ={}
+	page['this'] = p
+	page['previous'] = p - 1
+	page['next'] = p + 1
+	response = requests.get(url, params=query_params)
+	data = response.json()
+
+	return render(request, 'foreign/contact_table.html', {"title":data['title'], "page":page, "contacts":data['results']})
+
 
 
 # Converts the original url to the sunlight url

@@ -26,6 +26,15 @@
 	<div class="module withNav">
 
 		<p>Date Received: {{ date }}</p>
+		<p>Location:
+		{% if location_id %}
+			<a href="/location-profile/{{ location_id }}"> {{ location }}</a>
+		{% else %}
+			{{ location }}
+		{% endif %}
+		</p>
+
+
 		<p>
 			Download this PDF of this press release from the The Defense Security Cooperation Agency <a href="{{ pdf_url }}">here</a>.
 		</p>

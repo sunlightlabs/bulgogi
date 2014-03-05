@@ -53,20 +53,22 @@
 		<p>Date Received: {{ stamp_date }}</p>
 		
 		{% if clients %}
+
 		<table>
 			<thead>
 				<th class="header"><h4>Client</h4></th>
 				<th>Location</th>
 				{% if payment == True %}<th>Payment</th>{% endif %}
-				{% if contact == True %}<th>Contacts</th>{% endif %}
+				{% if contact == True %}<th><a href="/contact-table?doc_id={{ doc_id }}">Contacts</a></th>{% endif %}
 			</thead>
+
 			<tbody>
 				{% for c in clients %}
 					<tr>
 						<td class="{{ c.row }}"><a href="/client-profile/{{ c.client_id }}/{{ c.client_name }}">{{ c.client_name }}</a></td>
 						<td class="{{ c.row }}"><a href="/location-profile/{{ c.location_id }}/{{ c.location }}">{{ c.location }}</a></td>
-						{% if payment == True %}<td class="{{ c.row }}">{{ c.payment|floatformat:2|intcomma }}</td>{% endif %}
-						{% if contact == True %}<td class="{{ c.row }}">{{ c.contact }}</td>{% endif %}
+						{% if payment == True %}<td class="{{ c.row }}">${{ c.payment|floatformat:2|intcomma }}</td>{% endif %}
+						{% if contact == True %}<td class="{{ c.row }}"><a href="/contact-table?doc_id={{ doc_id }}&client_id={{ c.client_id }}">{{ c.contact }}</td>{% endif %}
 					</tr>
 				{% endfor %}
 			</tbody>
@@ -76,8 +78,12 @@
 		{% if download %}
 		<p align="right"> Download detailed spreadsheets here:</p>	
 		<a href="{{ download }}"><button class="downloadButton linkBtn">Download spreadsheet</button></a>
-		<br />
 		{% endif %}
+		
+		{% if not processed %}
+			<p>* This form has not yet been processed. There may be changes to the client list.</p>
+		{% endif %}
+		<br />
 	
 	</div>			
 
