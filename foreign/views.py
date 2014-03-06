@@ -293,6 +293,34 @@ def location_profile(request, location_id):
 
 	return render(request, 'foreign/location_profile.html', {"results":results})
 
+def recipient_profile(request, recip_id):
+	url = "/".join([FARA_ENDPOINT, "recipient-profile", recip_id])
+	response = requests.get(url, params={"key":API_PASSWORD})
+	data = response.json() 
+	print data
+	r = data['results']
+
+	if len(r) > 1 or r[0]['agency'] == 'Congress':
+		results = {}
+		results["congress_member"] = True
+		results['bioguide'] = r[0]['bioguide_id']
+		records = []
+		for entity in data['results']:
+			print entity
+			records.append(entity)
+			if entity['agency'] == "Congress":
+				results['name'] = entity['name']
+				results['title'] = entity['title']
+		results['records'] = records
+
+
+		### add special formatting here
+
+	else:
+		results = data['results'][0]
+		results['recip_id'] = recip_id
+	return render(request, 'foreign/recipient_profile.html', {"results":results})
+
 def make_doc_table(data, page):
 	docs = []
 	count = 1

@@ -1,0 +1,69 @@
+{% extends "foreign/foreign_base.html" %}
+{% load humanize %}
+{% block main_content %}
+<div class="module withNav">
+{% if not results.congress_member %}
+	<h3>{{ results.title }} {{ results.name }}</h3>
+
+	{% if results.office_detail %}
+		<h4>{{ results.office_detail }}</h4>
+	{% endif %}
+
+	{% if results.agency %}
+		<h4>{{ results.agency }}</h4>
+	{% endif %}
+
+	{% if results.contacts %}
+		<h5>
+			<a href="/contact-table?recipient_id={{ results.recip_id }}">
+				{{ results.contacts }} Contacts
+			<a>
+		</h5>
+	{% endif %}
+
+	{% if results.total_contribution %}
+		<h5>
+				${{ results.total_contribution|floatformat:2|intcomma }} in political contributions, according to FARA. 
+		</h5>
+	{% endif %}
+{% else %}
+
+<h3>{{ results.title }} {{ results.name }}</h3>
+
+<h4>Member of Congress</h4>
+
+<img src="http://assets.sunlightfoundation.com/moc/100x125/{{ results.bioguide }}.jpg">
+
+<br>
+<h4> Records for {{ results.title }} {{ results.name }}, employees of {{ results.title }} {{ results.name }} and leadership PACs </h4>
+{% for record in results.records %}
+	<h5>{{ record.name }}</h5>
+	<p>
+		{{ record.agency }} {{ record.office_detial }}
+	</p>
+	{% if record.contacts %}
+		<p>
+			<a href="/contact-table?recipient_id={{ record.recipient_id }}">{{ record.contacts }} contacts</a>
+		</p>
+	{% endif %}
+	{% if record.total_contribution %}
+		<p>
+				${{ record.total_contribution|floatformat:2|intcomma }} in political contributions, according to FARA. 
+		</p>
+	{% endif %}
+
+<br>
+
+{% endfor %}
+
+
+{% endif %}
+
+
+
+</div>
+
+
+
+
+{% endblock %}
