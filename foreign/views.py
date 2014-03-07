@@ -431,10 +431,48 @@ def contact_table(request):
 			query = str(key) + "=" + str(query_params[key]) + "&"
 			url_param = url_param + query
 	page['query_params'] = url_param
-	print page
 
 	return render(request, 'foreign/contact_table.html', {"title":data['title'], "page":page, "contacts":data['results']})
 
+def payment_table(request):
+	url = "/".join([FARA_ENDPOINT, "payment-table"])
+	query_params = {}
+	query_params['key'] = API_PASSWORD
+	if request.GET.get('reg_id'):
+		query_params['reg_id'] = request.GET.get('reg_id')
+	if request.GET.get('doc_id'):
+		query_params['doc_id'] = request.GET.get('doc_id')
+	if request.GET.get('client_id'):
+		query_params['client_id'] = request.GET.get('client_id')
+	if request.GET.get('payment_id'):
+		query_params['payment_id'] = request.GET.get('payment_id')
+	if request.GET.get('location_id'):
+		query_params['location_id'] = request.GET.get('location_id')
+	if request.GET.get('p'):
+		page = int(request.GET.get('p'))
+		p = int(request.GET.get('p'))
+		query_params['p'] = p
+	else:
+		p = 1
+
+	response = requests.get(url, params=query_params)
+	data = response.json()
+
+	page ={}
+	page['this'] = p
+	page['previous'] = p - 1
+	page['next'] = p + 1
+	page['total'] = data['page']['num_pages']
+	url_param = ''
+	for key in query_params.keys():
+		print "working"
+		if key != "key" and key != "p":
+			print key
+			query = str(key) + "=" + str(query_params[key]) + "&"
+			url_param = url_param + query
+	page['query_params'] = url_param
+
+	return render(request, 'foreign/payment_table.html', {"title":data['title'], "page":page, "payments":data['results']})
 
 
 # Converts the original url to the sunlight url
