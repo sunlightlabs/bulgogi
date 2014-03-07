@@ -51,28 +51,117 @@
 			</p>
 
 		<p>Date Received: {{ stamp_date }}</p>
-		
-		{% if clients %}
+		{% if totals.total_contribution %}
+			<table>	
+				<thead>
+					<th class="header">Political donations from {{ registrant }}</th>
+				</thead>
+				<tbody>
+					<tr class="even"><td><a href="/contribution-table?doc_id{{ doc_id }}">${{ totals.total_contribution|floatformat:2|intcomma }}</a></td></tr>
+				</tbody>
+			</table>
+		{% endif %}
 
-		<table>
-			<thead>
-				<th class="header"><h4>Client</h4></th>
-				<th>Location</th>
-				{% if payment == True %}<th>Payment</th>{% endif %}
-				{% if contact == True %}<th><a href="/contact-table?doc_id={{ doc_id }}">Contacts</a></th>{% endif %}
-			</thead>
+		{% if clients or terminated_clients %}
+			<table>
+				<thead>
+					<th class="header">Client</th>
+					<th>Location</th>
+					{% if totals.total_payment %}<th>Payment</th>{% endif %}
+					{% if totals.total_contact %}<th>Contacts</th>{% endif %}
+					{% if totals.total_disbursement %}<th>Disbursements</th>{% endif %}
+				</thead>
 
-			<tbody>
-				{% for c in clients %}
+				<tbody>
+					{% for c in clients %}
+						<tr class="{{ c.row }}">
+						<td >
+							<a href="/client-profile/{{ c.client_id }}/{{ c.client_name }}">{{ c.client_name }}</a>
+						</td>
+						<td>
+							<a href="/location-profile/{{ c.location_id }}/{{ c.location }}">{{ c.location }}</a>
+						</td>
+						{% if totals.total_payment %}
+							<td>
+								{% if c.payment %}
+									<a href="/payment-table?doc_id={{ doc_id }}&client_id={{ c.client_id }}">${{ c.payment|floatformat:2|intcomma }}
+								{% endif %}
+							</td>
+						{% endif %}
+						{% if totals.total_contact %}
+							<td>
+								{% if c.contact %}
+									<a href="/contact-table?doc_id={{ doc_id }}&client_id={{ c.client_id }}">{{ c.contact }}</a>
+								{% endif %}
+							</td>
+						{% endif %}
+						{% if totals.total_disbursement %}
+							<td>
+								{% if c.disbursement %}
+									<a href="/disbursement-table?doc_id={{ doc_id }}&client_id={{ c.client_id }}">${{ c.disbursement|floatformat:2|intcomma }}
+								{% endif %}
+							
+							</td>
+						{% endif %}
+						</tr>
+					{% endfor %}
+
+					{% for c in terminated_clients %}
+							<tr class="{{ c.row }}">
+							<td >
+								<a href="/client-profile/{{ c.client_id }}/{{ c.client_name }}">{{ c.client_name }}</a>
+							</td>
+							<td>
+								<a href="/location-profile/{{ c.location_id }}/{{ c.location }}">{{ c.location }}</a>
+							</td>
+							{% if totals.total_payment %}
+							<td>
+								{% if c.payment %}<a href="/payment-table?doc_id={{ doc_id }}&client_id={{ c.client_id }}">${{ c.payment|floatformat:2|intcomma }}{% endif %}
+							</td>
+							{% endif %}
+							{% if totals.total_contact %}
+							<td>
+								{% if c.contact %}
+									<a href="/contact-table?doc_id={{ doc_id }}&client_id={{ c.client_id }}">{{ c.contact }}</a>
+								{% endif %}
+							</td>
+							{% endif %}
+							{% if totals.total_disbursement %}
+							<td>
+								{% if c.disbursement %}<a href="/disbursement-table?doc_id={{ doc_id }}&client_id={{ c.client_id }}">${{ c.disbursement|floatformat:2|intcomma }}{% endif %}
+							</td>
+							{% endif %}
+						</tr>
+					{% endfor %}
+					{% if totals %}
 					<tr>
-						<td class="{{ c.row }}"><a href="/client-profile/{{ c.client_id }}/{{ c.client_name }}">{{ c.client_name }}</a></td>
-						<td class="{{ c.row }}"><a href="/location-profile/{{ c.location_id }}/{{ c.location }}">{{ c.location }}</a></td>
-						{% if payment == True %}<td class="{{ c.row }}">${{ c.payment|floatformat:2|intcomma }}</td>{% endif %}
-						{% if contact == True %}<td class="{{ c.row }}"><a href="/contact-table?doc_id={{ doc_id }}&client_id={{ c.client_id }}">{{ c.contact }}</td>{% endif %}
+						<td>
+							Totals:
+						</td>
+						<td></td>
+						{% if totals.total_payment %}
+							<td><a href="/payment-table?doc_id={{ doc_id }}">
+								${{ totals.total_payment|floatformat:2|intcomma }}</a>
+							</td>
+						{% endif %}
+						{% if totals.total_contact %}
+							<td><a href="/contact-table?doc_id={{ doc_id }}">
+								{{ totals.total_contact }}</a>
+							</td>
+						{% endif %}
+						{% if totals.total_disbursement %}
+							<td><a href="/disbursement-table?doc_id={{ doc_id }}">
+								${{ totals.total_disbursement|floatformat:2|intcomma }}</a></td>
+						{% endif %}
 					</tr>
-				{% endfor %}
-			</tbody>
-		</table>
+					{% endif %}
+
+				</tbody>
+			</table>
+
+			{% if terminated_client %}
+				<p>* terminated client</p>
+			{% endif %}
 		{% endif %}
 
 		{% if download %}
@@ -83,6 +172,7 @@
 		{% if not processed %}
 			<p>* This form has not yet been processed. There may be changes to the client list.</p>
 		{% endif %}
+
 		<br />
 	
 	</div>			
@@ -101,6 +191,7 @@
 		</p>
 
 		<br/>
+		
 		<p>
 			Document from the Department of Justice <a href="http://www.fara.gov/">Foreign Agent Registration Act</a> records.
 		</p>

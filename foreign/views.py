@@ -108,40 +108,43 @@ def form_profile(request, form_id):
 	else:
 		registrant = None
 
+	for d in data:
+		print d, "\n\n"
+	totals = {}
+	if data.has_key('total_contribution'):
+		totals['total_contribution'] = data['total_contribution']
+	if data.has_key('total_contact'):
+		totals['total_contact'] = data['total_contact']
+	if data.has_key('total_payment'):
+		totals['total_payment'] = data['total_payment']
+	if data.has_key('total_disbursement'):
+		totals['total_disbursement'] = data['total_disbursement']
+
 	client_list = []
 	count = 1
-	if data.has_key('clients'):
+	if data.has_key('clients') or data.has_key('terminated_clients'):
 		for client in data['clients']:
 			client_dict = {}
-			client_name =  client["client_name"]
-			location = client["location"]
-			location_id = client["location_id"]
-			client_id = client["client_id"]
-		
 			# I like the look of the chart this way
 			if count % 2 != 0:
 				row = "even"
 			else:
 				row = "odd"	
 			count = count + 1
-		
-			client_dict = {"client_id":client_id, "client_name":client_name, "row":row, "location":location, "location_id":location_id}
-
+			client_dict = {"client_id": client["client_id"], 
+							"client_name": client["client_name"], 
+							"row": row, 
+							"location": client["location"], 
+							"location_id": client["location_id"],
+			}
 			if client.has_key("payment"):
 				client_dict["payment"] = int(client["payment"])
-				payment = True			
 			if client.has_key("contact"):
 				client_dict["contact"] = int(client["contact"])
-				contact = True
+			if client.has_key("disbursement"):
+				client_dict["disbursement"] = int(client["disbursement"])
 
 			client_list.append(client_dict)	
-
-	if "payment" not in locals():
-		payment = False
-	
-	if "contact" not in locals():
-		contact = False
-
 
 	download = 'http://fara.sunlightfoundation.com.s3.amazonaws.com/spreadsheets/forms/form_' + form_id + '.zip'
 	r = requests.head(download)
@@ -149,7 +152,7 @@ def form_profile(request, form_id):
 		download = download
 	else:
 		download = None
-	
+
 	return render(request, 'foreign/form_profile.html', {
 			"source_url": source_url,
 			"stamp_date": stamp_date,
@@ -159,10 +162,9 @@ def form_profile(request, form_id):
 			"clients": client_list,
 			"processed": processed,
 			"download": download,
-			"payment": payment,
-			"contact": contact,
 			"reg_id": reg_id,
-			"doc_id": form_id
+			"doc_id": form_id,
+			"totals": totals,
 		})
 
 def client_profile(request, client_id):
@@ -253,7 +255,7 @@ def reg_profile(request, reg_id):
 					client['contact'] = c['contact']
 				if c.has_key('payment'):
 					client['payment'] = c['payment']
-				if c.has_key('disbursemant'):
+				if c.has_key('disbursement'):
 					client['disbursement'] = c['disbursement']
 
 		results['clients'] = clients
@@ -412,21 +414,24 @@ def contact_table(request):
 		query_params['p'] = p
 	else:
 		p = 1
+
+	response = requests.get(url, params=query_params)
+	data = response.json()
+
 	page ={}
 	page['this'] = p
 	page['previous'] = p - 1
 	page['next'] = p + 1
+	page['total'] = data['page']['num_pages']
 	url_param = ''
 	for key in query_params.keys():
-		if key != "key":
+		print "working"
+		if key != "key" and key != "p":
+			print key
 			query = str(key) + "=" + str(query_params[key]) + "&"
 			url_param = url_param + query
-
-
 	page['query_params'] = url_param
-
-	response = requests.get(url, params=query_params)
-	data = response.json()
+	print page
 
 	return render(request, 'foreign/contact_table.html', {"title":data['title'], "page":page, "contacts":data['results']})
 
