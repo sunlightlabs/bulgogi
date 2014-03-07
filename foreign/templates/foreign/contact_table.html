@@ -43,7 +43,7 @@
 </table>
 
 {% if page %}
-	<p>{% if page.previous > 0 %}<a href="?p={{ page.previous }}">Previous Page</a> /{% endif %} Page {{ page.this }} / <a href="?p={{ page.next }}">Next Page</a>
+	<p>{% if page.previous > 0 %}<a href="?{{ page.params }}&p={{ page.previous }}">Previous Page</a> /{% endif %} Page {{ page.this }} / <a href="?{{ page.params }}&p={{ page.next }}">Next Page</a>
 {% endif %}
 
 </div>

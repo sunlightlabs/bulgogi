@@ -7,7 +7,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
 
-from foreign.local_settings import FARA_ENDPOINT, API_USER, API_PASSWORD
+from foreign.local_settings import FARA_ENDPOINT, API_USER, API_PASSWORD, CONGRESS_PASSWORD
 
 def about(request):
 	return render(request, 'foreign/about_foreign.html',)
@@ -183,6 +183,10 @@ def client_profile(request, client_id):
 		results['contacts'] = data['contacts']
 	if data.has_key('total_disbursement'):
 		results['total_disbursement'] = data['total_disbursement']
+	if data.has_key('description'):
+		results['description'] = data['description']
+	if data.has_key('client_type'):
+		results['client_type'] = data['client_type']
 
 	if data.has_key('active_reg'):
 		active_reg = []
@@ -238,6 +242,20 @@ def reg_profile(request, reg_id):
 				client['disbursement'] = c['disbursement']
 			
 			clients.append(client)
+		for c in data['terminated_clients']:
+			if c.has_key('contact') or c.has_key('payment') or c.has_key('disbursemant'):
+				client = {}
+				client['name'] = c['client_name']
+				client['location'] = c['location']
+				client['location_id'] = c['location_id']
+				client['client_id'] = c['client_id']
+				if c.has_key('contact'):
+					client['contact'] = c['contact']
+				if c.has_key('payment'):
+					client['payment'] = c['payment']
+				if c.has_key('disbursemant'):
+					client['disbursement'] = c['disbursement']
+
 		results['clients'] = clients
 	
 	if data.has_key('terminated_clients'):
@@ -297,30 +315,40 @@ def recipient_profile(request, recip_id):
 	url = "/".join([FARA_ENDPOINT, "recipient-profile", recip_id])
 	response = requests.get(url, params={"key":API_PASSWORD})
 	data = response.json() 
-	print data
 	r = data['results']
 
+	# Congressional results include staff and leadership PACs
 	if len(r) > 1 or r[0]['agency'] == 'Congress':
 		results = {}
 		results["congress_member"] = True
-		results['bioguide'] = r[0]['bioguide_id']
+		bioguide_id = r[0]['bioguide_id']
+		results['bioguide'] = bioguide_id
 		records = []
 		for entity in data['results']:
-			print entity
 			records.append(entity)
 			if entity['agency'] == "Congress":
 				results['name'] = entity['name']
 				results['title'] = entity['title']
 		results['records'] = records
+		
+		url = "/".join(["http://congress.api.sunlightfoundation.com", "committees"])
+		response = requests.get(url, params={"apikey":CONGRESS_PASSWORD, "member_ids":bioguide_id})
+		committee_data = response.json()
+		#### still need to do some check for multiple pages of results?
+		print committee_data
+		results["committee_data"] = committee_data["results"]
 
-
-		### add special formatting here
 
 	else:
 		results = data['results'][0]
 		results['recip_id'] = recip_id
+
 	return render(request, 'foreign/recipient_profile.html', {"results":results})
 
+
+### add agency profile
+
+### tables
 def make_doc_table(data, page):
 	docs = []
 	count = 1
@@ -364,7 +392,6 @@ def make_doc_table(data, page):
 
 def contact_table(request):
 	url = "/".join([FARA_ENDPOINT, "contact-table"])
-	
 	query_params = {}
 	query_params['key'] = API_PASSWORD
 	if request.GET.get('reg_id'):
@@ -381,7 +408,7 @@ def contact_table(request):
 		query_params['location_id'] = request.GET.get('location_id')
 	if request.GET.get('p'):
 		page = int(request.GET.get('p'))
-		p = request.GET.get('p')
+		p = int(request.GET.get('p'))
 		query_params['p'] = p
 	else:
 		p = 1
@@ -389,6 +416,15 @@ def contact_table(request):
 	page['this'] = p
 	page['previous'] = p - 1
 	page['next'] = p + 1
+	url_param = ''
+	for key in query_params.keys():
+		if key != "key":
+			query = str(key) + "=" + str(query_params[key]) + "&"
+			url_param = url_param + query
+
+
+	page['query_params'] = url_param
+
 	response = requests.get(url, params=query_params)
 	data = response.json()
 
