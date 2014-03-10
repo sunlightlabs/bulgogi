@@ -228,6 +228,9 @@ def reg_profile(request, reg_id):
 	if data['registrant'].has_key('total_contacts'):
 		results['total_contacts'] = data['registrant']['total_contacts']
 
+	if data['registrant'].has_key('payments2013'):
+		results['payments2013'] = data['registrant']['payments2013']
+
 	if data.has_key('clients'):
 		clients = []
 		for c in data['clients']:
@@ -240,7 +243,7 @@ def reg_profile(request, reg_id):
 				client['contact'] = c['contact']
 			if c.has_key('payment'):
 				client['payment'] = c['payment']
-			if c.has_key('disbursemant'):
+			if c.has_key('disbursement'):
 				client['disbursement'] = c['disbursement']
 			
 			clients.append(client)
