@@ -1,33 +1,36 @@
 {% load humanize %}
 <br>
-<h4>Running totals since 2013</h4>
+<h4>Running totals</h4>
 
 {% if clients %}
 	<h4><b>Clients</b></h4>
 	{% for c in results.clients %}
-
 		<h4>
 			<a href="/client-profile/{{ c.client_id }}">{{ c.name }}</a>
 		</h4>
 		<p>
 			Location: <a href="/location-profile/{{ c.location_id }}">{{ c.location }}</a>	
 		</p>
+		{% if c.primary_contractor %}
+			<p>
+				Primary contractor: <a href="/location-profile/{{ c.primary_contractor_id }}">{{ c.primary_contractor }}</a>
+			</p>
+		{% endif %}
 		{% if c.contact %}
 			<p>
-				<a href="/contact-table?reg_id={{ reg_id }}&client_id={{ c.client_id }}">{{ c.contact }} contacts on behalf of the client.</a>
+				<a href="/contact-table?reg_id={{ reg_id }}&client_id={{ c.client_id }}">{{ c.contact }} contacts on behalf of the client.</a></a>
 			</p>
 		{% endif %}
 		{% if c.payment %}
 			<p>
-				${{ c.payment|floatformat:2|intcomma }} in payments funding the client.
+				<a href="/contact-table?reg_id={{ reg_id }}&client_id={{ c.client_id }}">See all payments funding the client.</a>
 			</p>
 		{% endif %}
 		{% if c.disbursement %}
 			<p>
-				${{ c.disbursement|floatformat:2|intcomma }} in disbursements on behalf of the client.
+				<a href="/disbursement-table?reg_id={{ reg_id }}&client_id={{ c.client_id }}">See all disbursements on behalf of the client.</a>
 			</p>
 		{% endif %}
-		
 		</br>
 	{% endfor %}
 	<br>
@@ -47,17 +50,16 @@
 				<a href="/contact-table?reg_id={{ reg_id }}&client_id={{ c.client_id }}">{{ c.contact }} contacts on behalf of the client.</a></a>
 			</p>
 		{% endif %}
-		{% if c.payment %}
+		{% if payment %}
 			<p>
-				${{ c.payment|floatformat:2|intcomma }} in payments funding the client.
+				<a href="/contact-table?reg_id={{ reg_id }}&client_id={{ c.client_id }}">See all payments funding the client.</a>
 			</p>
 		{% endif %}
 		{% if c.disbursement %}
 			<p>
-				${{ c.disbursement|floatformat:2|intcomma }} in disbursements on behalf of the client.
+				<a href="/disbursement-table?reg_id={{ reg_id }}&client_id={{ c.client_id }}">See all disbursements on behalf of the client.</a>
 			</p>
 		{% endif %}
-		
 		</br>
 	{% endfor %}
 <br>

@@ -1,0 +1,93 @@
+{% extends "foreign/foreign_base.html" %}
+{% load humanize %}
+{% block main_content %}
+
+<div class="module withNav">
+<div class="search-results">	
+
+{% if not results.congress_member %}
+	<div class="contentHeader">
+		<h3>{{ results.title }} {{ results.name }}</h3>
+
+		{% if results.office_detail %}
+			<h4>{{ results.office_detail }}</h4>
+		{% endif %}
+
+		{% if results.agency %}
+			<h4>{{ results.agency }}</h4>
+		{% endif %}
+	</div>
+
+	<div class="search-results">
+		{% if results.contacts %}
+			<h5>
+				<a href="/contact-table?recipient_id={{ results.recip_id }}">
+					{{ results.contacts }} Contacts
+				<a>
+			</h5>
+		{% endif %}
+
+		{% if results.total_contribution %}
+			<h5>
+					${{ results.total_contribution|floatformat:2|intcomma }} in political contributions, according to FARA. 
+			</h5>
+		{% endif %}
+	</div>
+
+{% else %}
+	<div class="contentHeader">
+		<div class="result-photo">
+			<img src="http://assets.sunlightfoundation.com/moc/100x125/{{ results.bioguide }}.jpg" align="right" alt="{{ results.title }} {{ results.name }}">
+		</div>
+
+		<h3>{{ results.title }} {{ results.name }}</h3>
+
+		<h4>Member of Congress</h4>
+		{% if results.committee_data %}
+			<h5>Committees for the member:</h5>
+			<ul>
+			{% for r in results.committee_data %}
+				<li>{{ r.name  }}
+				{% if r.subcomittee == True %}
+					(Subcommittee)
+				{% endif %}
+				</li>
+			{% endfor %}
+			</ul>
+		{% endif %}
+
+	</div>
+
+	<br>
+	<p>
+	<h3> Records for {{ results.title }} {{ results.name }}, employees of {{ results.title }} {{ results.name }} and leadership PACs </h3>
+	</p>
+	{% for record in results.records %}
+		<div class="search-results">
+			<h5>{{ record.name }}</h5>
+			<p>
+				{{ record.agency }} {{ record.office_detial }}
+			</p>
+			{% if record.contacts %}
+				<p>
+					<a href="/contact-table?recipient_id={{ record.recipient_id }}">{{ record.contacts }} contacts</a>
+				</p>
+			{% endif %}
+
+			{% if record.total_contribution %}
+				<p>
+						${{ record.total_contribution|floatformat:2|intcomma }} in political contributions, according to FARA. 
+				</p>
+			{% endif %}
+		</div>
+	<br>
+
+	{% endfor %}
+
+{% endif %}
+
+
+</div>
+</div>
+
+{% endblock %}

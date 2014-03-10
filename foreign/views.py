@@ -7,7 +7,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
 
-from foreign.local_settings import FARA_ENDPOINT, API_USER, API_PASSWORD
+from foreign.local_settings import FARA_ENDPOINT, API_USER, API_PASSWORD, CONGRESS_PASSWORD
 
 def about(request):
 	return render(request, 'foreign/about_foreign.html',)
@@ -108,40 +108,43 @@ def form_profile(request, form_id):
 	else:
 		registrant = None
 
+	for d in data:
+		print d, "\n\n"
+	totals = {}
+	if data.has_key('total_contribution'):
+		totals['total_contribution'] = data['total_contribution']
+	if data.has_key('total_contact'):
+		totals['total_contact'] = data['total_contact']
+	if data.has_key('total_payment'):
+		totals['total_payment'] = data['total_payment']
+	if data.has_key('total_disbursement'):
+		totals['total_disbursement'] = data['total_disbursement']
+
 	client_list = []
 	count = 1
-	if data.has_key('clients'):
+	if data.has_key('clients') or data.has_key('terminated_clients'):
 		for client in data['clients']:
 			client_dict = {}
-			client_name =  client["client_name"]
-			location = client["location"]
-			location_id = client["location_id"]
-			client_id = client["client_id"]
-		
 			# I like the look of the chart this way
 			if count % 2 != 0:
 				row = "even"
 			else:
 				row = "odd"	
 			count = count + 1
-		
-			client_dict = {"client_id":client_id, "client_name":client_name, "row":row, "location":location, "location_id":location_id}
-
+			client_dict = {"client_id": client["client_id"], 
+							"client_name": client["client_name"], 
+							"row": row, 
+							"location": client["location"], 
+							"location_id": client["location_id"],
+			}
 			if client.has_key("payment"):
 				client_dict["payment"] = int(client["payment"])
-				payment = True			
 			if client.has_key("contact"):
 				client_dict["contact"] = int(client["contact"])
-				contact = True
+			if client.has_key("disbursement"):
+				client_dict["disbursement"] = int(client["disbursement"])
 
 			client_list.append(client_dict)	
-
-	if "payment" not in locals():
-		payment = False
-	
-	if "contact" not in locals():
-		contact = False
-
 
 	download = 'http://fara.sunlightfoundation.com.s3.amazonaws.com/spreadsheets/forms/form_' + form_id + '.zip'
 	r = requests.head(download)
@@ -149,7 +152,7 @@ def form_profile(request, form_id):
 		download = download
 	else:
 		download = None
-	
+
 	return render(request, 'foreign/form_profile.html', {
 			"source_url": source_url,
 			"stamp_date": stamp_date,
@@ -159,10 +162,9 @@ def form_profile(request, form_id):
 			"clients": client_list,
 			"processed": processed,
 			"download": download,
-			"payment": payment,
-			"contact": contact,
 			"reg_id": reg_id,
-			"doc_id": form_id
+			"doc_id": form_id,
+			"totals": totals,
 		})
 
 def client_profile(request, client_id):
@@ -183,6 +185,10 @@ def client_profile(request, client_id):
 		results['contacts'] = data['contacts']
 	if data.has_key('total_disbursement'):
 		results['total_disbursement'] = data['total_disbursement']
+	if data.has_key('description'):
+		results['description'] = data['description']
+	if data.has_key('client_type'):
+		results['client_type'] = data['client_type']
 
 	if data.has_key('active_reg'):
 		active_reg = []
@@ -222,6 +228,9 @@ def reg_profile(request, reg_id):
 	if data['registrant'].has_key('total_contacts'):
 		results['total_contacts'] = data['registrant']['total_contacts']
 
+	if data['registrant'].has_key('payments2013'):
+		results['payments2013'] = data['registrant']['payments2013']
+
 	if data.has_key('clients'):
 		clients = []
 		for c in data['clients']:
@@ -234,10 +243,24 @@ def reg_profile(request, reg_id):
 				client['contact'] = c['contact']
 			if c.has_key('payment'):
 				client['payment'] = c['payment']
-			if c.has_key('disbursemant'):
+			if c.has_key('disbursement'):
 				client['disbursement'] = c['disbursement']
 			
 			clients.append(client)
+		for c in data['terminated_clients']:
+			if c.has_key('contact') or c.has_key('payment') or c.has_key('disbursemant'):
+				client = {}
+				client['name'] = c['client_name']
+				client['location'] = c['location']
+				client['location_id'] = c['location_id']
+				client['client_id'] = c['client_id']
+				if c.has_key('contact'):
+					client['contact'] = c['contact']
+				if c.has_key('payment'):
+					client['payment'] = c['payment']
+				if c.has_key('disbursement'):
+					client['disbursement'] = c['disbursement']
+
 		results['clients'] = clients
 	
 	if data.has_key('terminated_clients'):
@@ -293,6 +316,44 @@ def location_profile(request, location_id):
 
 	return render(request, 'foreign/location_profile.html', {"results":results})
 
+def recipient_profile(request, recip_id):
+	url = "/".join([FARA_ENDPOINT, "recipient-profile", recip_id])
+	response = requests.get(url, params={"key":API_PASSWORD})
+	data = response.json() 
+	r = data['results']
+
+	# Congressional results include staff and leadership PACs
+	if len(r) > 1 or r[0]['agency'] == 'Congress':
+		results = {}
+		results["congress_member"] = True
+		bioguide_id = r[0]['bioguide_id']
+		results['bioguide'] = bioguide_id
+		records = []
+		for entity in data['results']:
+			records.append(entity)
+			if entity['agency'] == "Congress":
+				results['name'] = entity['name']
+				results['title'] = entity['title']
+		results['records'] = records
+		
+		url = "/".join(["http://congress.api.sunlightfoundation.com", "committees"])
+		response = requests.get(url, params={"apikey":CONGRESS_PASSWORD, "member_ids":bioguide_id})
+		committee_data = response.json()
+		#### still need to do some check for multiple pages of results?
+		print committee_data
+		results["committee_data"] = committee_data["results"]
+
+
+	else:
+		results = data['results'][0]
+		results['recip_id'] = recip_id
+
+	return render(request, 'foreign/recipient_profile.html', {"results":results})
+
+
+### add agency profile
+
+### tables
 def make_doc_table(data, page):
 	docs = []
 	count = 1
@@ -336,7 +397,6 @@ def make_doc_table(data, page):
 
 def contact_table(request):
 	url = "/".join([FARA_ENDPOINT, "contact-table"])
-	
 	query_params = {}
 	query_params['key'] = API_PASSWORD
 	if request.GET.get('reg_id'):
@@ -353,19 +413,69 @@ def contact_table(request):
 		query_params['location_id'] = request.GET.get('location_id')
 	if request.GET.get('p'):
 		page = int(request.GET.get('p'))
-		p = request.GET.get('p')
+		p = int(request.GET.get('p'))
 		query_params['p'] = p
 	else:
 		p = 1
+
+	response = requests.get(url, params=query_params)
+	data = response.json()
+
 	page ={}
 	page['this'] = p
 	page['previous'] = p - 1
 	page['next'] = p + 1
-	response = requests.get(url, params=query_params)
-	data = response.json()
+	page['total'] = data['page']['num_pages']
+	url_param = ''
+	for key in query_params.keys():
+		print "working"
+		if key != "key" and key != "p":
+			print key
+			query = str(key) + "=" + str(query_params[key]) + "&"
+			url_param = url_param + query
+	page['query_params'] = url_param
 
 	return render(request, 'foreign/contact_table.html', {"title":data['title'], "page":page, "contacts":data['results']})
 
+def payment_table(request):
+	url = "/".join([FARA_ENDPOINT, "payment-table"])
+	query_params = {}
+	query_params['key'] = API_PASSWORD
+	if request.GET.get('reg_id'):
+		query_params['reg_id'] = request.GET.get('reg_id')
+	if request.GET.get('doc_id'):
+		query_params['doc_id'] = request.GET.get('doc_id')
+	if request.GET.get('client_id'):
+		query_params['client_id'] = request.GET.get('client_id')
+	if request.GET.get('payment_id'):
+		query_params['payment_id'] = request.GET.get('payment_id')
+	if request.GET.get('location_id'):
+		query_params['location_id'] = request.GET.get('location_id')
+	if request.GET.get('p'):
+		page = int(request.GET.get('p'))
+		p = int(request.GET.get('p'))
+		query_params['p'] = p
+	else:
+		p = 1
+
+	response = requests.get(url, params=query_params)
+	data = response.json()
+
+	page ={}
+	page['this'] = p
+	page['previous'] = p - 1
+	page['next'] = p + 1
+	page['total'] = data['page']['num_pages']
+	url_param = ''
+	for key in query_params.keys():
+		print "working"
+		if key != "key" and key != "p":
+			print key
+			query = str(key) + "=" + str(query_params[key]) + "&"
+			url_param = url_param + query
+	page['query_params'] = url_param
+
+	return render(request, 'foreign/payment_table.html', {"title":data['title'], "page":page, "payments":data['results']})
 
 
 # Converts the original url to the sunlight url

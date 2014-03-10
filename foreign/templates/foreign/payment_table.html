@@ -4,7 +4,7 @@
 <div class="module withNav">
 
 <h3>
-	Contacts for 
+	Payments for 
 	{% for t in title %}
 		{% if t.id %}<a href="{{ t.type }}-profile/{{ t.id }}">{% endif %}
 			{{ t.text }} 
@@ -16,27 +16,33 @@
 <table>
 	<thead class="header">
 		<th>Date</th>
-		<th>Contact</th>
+		<th>Amount</th>
 		<th>Client</th>
 		<th>Registrant</th>
-		<th>Description</th>
-		<th>Employees</th>
-	</thead>
+		<th>Purpose</th>
+		<th>From Subcontractor</th>
+			</thead>
 	<tbody>
-		{% for c in contacts %}
-			<tr class="{{ c.row }}">
-				<td><a href="/form-profile/{{ c.doc_id }}">{{ c.date }}</a></td>
+		{% for p in payments %}
+			<tr class="{{ p.row }}">
 				<td>
-					{% for person in c.contact %}
-						{% if person.recipient_id %}<a href="/recipient-profile/{{ person.recipient_id }}">{% endif %}
-							{{ person.name }}
-						{% if person.recipient_id %}</a>{% endif %}; 
-					{% endfor %}
+					<a href="/form-profile/{{ p.doc_id }}">{{ p.date }}</a>
 				</td>
-				<td><a href="/client-profile/{{ c.client_id }}">{{ c.client }}</a></td>
-				<td><a href="/reg-profile/{{ c.reg_id }}">{{ c.reg_name }}</td>
-				<td>{{ c.description }}</td>
-				<td>{{ c.employees }}</td>
+				<td>
+					${{ p.amount|floatformat:2|intcomma }}
+				</td>
+				<td>
+					<a href="/client-profile/{{ p.client_id }}">{{ p.client }}</a>
+				</td>
+				<td>
+					<a href="/reg-profile/{{ p.reg_id }}">{{ p.reg_name }}
+					</td>
+				<td>
+					{{ c.purpose }}
+				</td>
+				<td>
+					<a href="/reg-profile/{{ c.subcontractor_id }}">{{ c.subcontractor }}</a>
+				</td>
 			</tr>
 		{% endfor %}
 	</tbody>

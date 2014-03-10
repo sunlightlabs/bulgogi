@@ -40,29 +40,59 @@
 	<div class="module withNav">
 
 		<h3 class="insideBar">{{ results.registrant }}</h3>
-		<h4>Running totals since 2013</h4>
+		<h4></h4>
 		<br>
 
-		{% if results.total_contributions  %}
+		{% if results.contributions13 %}
 			<p>
-				${{ results.total_contributions|floatformat:2|intcomma }} Contributions by the registrant's employees and or PAC.
+				${{ results.contributions13|floatformat:2|intcomma }} Contributions by the registrant's employees and or PAC in 2013.
 			</p>
 		{% endif %}
-		
+		{% if results.contributions14 %}
+			<p><b>${{ results.contributions14|floatformat:2|intcomma }}</b> 
+			{% if results.complete_records14 %}
+				Contributions by the registrant's employees and or PAC for 2014.
+			{% else %}
+				Contributions by the registrant's employees and or PAC for 2014, so far.
+			{% endif %}
+			</p>
+		{% endif %}
+
+
+		{% if results.payments2013 %}
+		<p>
+			<b>${{ results.payments2013|floatformat:2|intcomma }} Payments to the Registrant in 2013.</b>
+		</p>
+		{% endif %}
+		{% if results.payments2014 %}
+		<p>
+			<b>${{ results.payments2014|floatformat:2|intcomma }}</b>
+			{% if results.complete_records14 %}
+				Payments by the registrant's employees and or PAC for 2014.
+			{% else %}
+				Payments by the registrant's employees and or PAC for 2014, so far.
+			{% endif %}
+		</p>
+		{% endif %}
 		{% if results.total_payments %}
 			<p>
-				${{ results.total_payments|floatformat:2|intcomma }} Payments to the registrant
+				<a href="/payment-table?reg_id={{ results.reg_id }}">See all payment records to the registrant</a>
 			</p>
+		{% endif %}
+		{% if results.disbursements2013 %}
+		<p>
+			<b>Payments recived in 2013: ${{ results.disbursements2013|floatformat:2|intcomma }}</b>
+		</p>
 		{% endif %}
 		{% if results.total_disbursements %}
 			<p>
-				${{ results.total_disbursements|floatformat:2|intcomma }} Disbursements to the registrant
+				<a href="/disbursement-table?reg_id={{ results.reg_id }}">See all disbursement records to the registrant</a>
 			</p>
 		{% endif %}
 
 		{% if results.total_contacts %}
 			<p>
-				<a href="/contact-table?reg_id={{ reg_id }}">{{ results.total_contacts }} Contacts by the registrant</a> 
+				<a href="/contact-table?reg_id={{ results.reg_id }}">{{ results.total_contacts }} Contacts by the registrant</a> 
 			</p>
 		{% endif %}
 
