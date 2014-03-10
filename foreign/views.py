@@ -108,8 +108,6 @@ def form_profile(request, form_id):
 	else:
 		registrant = None
 
-	for d in data:
-		print d, "\n\n"
 	totals = {}
 	if data.has_key('total_contribution'):
 		totals['total_contribution'] = data['total_contribution']
@@ -248,7 +246,7 @@ def reg_profile(request, reg_id):
 			
 			clients.append(client)
 		for c in data['terminated_clients']:
-			if c.has_key('contact') or c.has_key('payment') or c.has_key('disbursemant'):
+			if c.has_key('contact') or c.has_key('payment') or c.has_key('disbursement'):
 				client = {}
 				client['name'] = c['client_name']
 				client['location'] = c['location']
@@ -307,7 +305,6 @@ def location_profile(request, location_id):
 
 	if data.has_key('proposed_sales'):
 		results['proposed_sales'] = data['proposed_sales']
-		print results['proposed_sales']
 	else:
 		results['proposed_sales'] = None
 
@@ -340,7 +337,6 @@ def recipient_profile(request, recip_id):
 		response = requests.get(url, params={"apikey":CONGRESS_PASSWORD, "member_ids":bioguide_id})
 		committee_data = response.json()
 		#### still need to do some check for multiple pages of results?
-		print committee_data
 		results["committee_data"] = committee_data["results"]
 
 
@@ -428,9 +424,7 @@ def contact_table(request):
 	page['total'] = data['page']['num_pages']
 	url_param = ''
 	for key in query_params.keys():
-		print "working"
 		if key != "key" and key != "p":
-			print key
 			query = str(key) + "=" + str(query_params[key]) + "&"
 			url_param = url_param + query
 	page['query_params'] = url_param
@@ -468,15 +462,50 @@ def payment_table(request):
 	page['total'] = data['page']['num_pages']
 	url_param = ''
 	for key in query_params.keys():
-		print "working"
 		if key != "key" and key != "p":
-			print key
 			query = str(key) + "=" + str(query_params[key]) + "&"
 			url_param = url_param + query
 	page['query_params'] = url_param
 
 	return render(request, 'foreign/payment_table.html', {"title":data['title'], "page":page, "payments":data['results']})
 
+def disbursement_table(request):
+	url = "/".join([FARA_ENDPOINT, "disbursement-table"])
+	query_params = {}
+	query_params['key'] = API_PASSWORD
+	if request.GET.get('reg_id'):
+		query_params['reg_id'] = request.GET.get('reg_id')
+	if request.GET.get('doc_id'):
+		query_params['doc_id'] = request.GET.get('doc_id')
+	if request.GET.get('client_id'):
+		query_params['client_id'] = request.GET.get('client_id')
+	if request.GET.get('disbursement_id'):
+		query_params['disbursement_id'] = request.GET.get('disbursement_id')
+	if request.GET.get('location_id'):
+		query_params['location_id'] = request.GET.get('location_id')
+	if request.GET.get('p'):
+		page = int(request.GET.get('p'))
+		p = int(request.GET.get('p'))
+		query_params['p'] = p
+	else:
+		p = 1
+
+	response = requests.get(url, params=query_params)
+	data = response.json()
+
+	page ={}
+	page['this'] = p
+	page['previous'] = p - 1
+	page['next'] = p + 1
+	page['total'] = data['page']['num_pages']
+	url_param = ''
+	for key in query_params.keys():
+		if key != "key" and key != "p":
+			query = str(key) + "=" + str(query_params[key]) + "&"
+			url_param = url_param + query
+	page['query_params'] = url_param
+
+	return render(request, 'foreign/disbursement_table.html', {"title":data['title'], "page":page, "disbursements":data['results']})
 
 # Converts the original url to the sunlight url
 def http_link(link):
