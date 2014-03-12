@@ -211,6 +211,8 @@ def reg_profile(request, reg_id):
 	data = data['results']
 	results = {}
 	results['reg_id'] = reg_id
+	
+	print data['registrant']
 	if data['registrant'].has_key('name'):
 		results['reg_name'] = data['registrant']['name']
 	
@@ -285,7 +287,7 @@ def reg_profile(request, reg_id):
 	else:
 		page = 1
 	url = "/".join([FARA_ENDPOINT, "docs"])
-	response = requests.get(url, params={"p":page,"key":API_PASSWORD,"reg_id":reg_id})
+	response = requests.get(url, params={"p":page,"key":API_PASSWORD,"reg_id":reg_id, "doc_type":"all"})
 	data = response.json()
 	page = int(page)
 
@@ -506,6 +508,59 @@ def disbursement_table(request):
 	page['query_params'] = url_param
 
 	return render(request, 'foreign/disbursement_table.html', {"title":data['title'], "page":page, "disbursements":data['results']})
+
+
+def contribution_table(request):
+	url = "/".join([FARA_ENDPOINT, "contribution-table"])
+	query_params = {}
+	query_params['key'] = API_PASSWORD
+	if request.GET.get('reg_id'):
+		query_params['reg_id'] = request.GET.get('reg_id')
+	
+	if request.GET.get('doc_id'):
+		query_params['doc_id'] = request.GET.get('doc_id')
+	
+	if request.GET.get('recipient_id'):
+		query_params['recipient_id'] = request.GET.get('recipient_id')
+	
+	if request.GET.get('recipient'):
+		query_params['recipient'] = request.GET.get('recipient')
+	
+	if request.GET.get('date'):
+		query_params['date'] = request.GET.get('date')
+
+	if request.GET.get('amount'):
+		query_params['amount'] = request.GET.get('amount')
+
+	if request.GET.get('registrant'):
+		query_params['registrant'] = request.GET.get('registrant')
+
+	if request.GET.get('p'):
+		page = int(request.GET.get('p'))
+		p = int(request.GET.get('p'))
+		query_params['p'] = p
+	else:
+		p = 1
+
+	response = requests.get(url, params=query_params)
+	data = response.json()
+
+	page ={}
+	page['this'] = p
+	page['previous'] = p - 1
+	page['next'] = p + 1
+	page['total'] = data['page']['num_pages']
+	
+	url_param = ''
+	for key in query_params.keys():
+		if key != "key" and key != "p":
+			query = str(key) + "=" + str(query_params[key]) + "&"
+			url_param = url_param + query
+	page['query_params'] = url_param
+
+	return render(request, 'foreign/contribution_table.html', {"title":data['title'], "page":page, "contributions":data['results']})
+
+
 
 # Converts the original url to the sunlight url
 def http_link(link):

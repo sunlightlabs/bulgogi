@@ -1,0 +1,63 @@
+{% extends "foreign/foreign_base.html" %}
+{% load humanize %}
+{% block main_content %}
+<div class="module withNav">
+
+<h3>
+	Contributions for 
+	{% for t in title %}
+		{% if t.id %}<a href="{{ t.type }}-profile/{{ t.id }}">{% endif %}
+			{{ t.text }} 
+		{% if t.id %}</a>{% endif %}; 
+	{% endfor %}
+</h3>
+
+<table>
+	<thead class="header">
+		<th>Date</th>
+		<th>Amount</th>
+		<th>Recipient</th>
+		<th>Registrant</th>
+		<th>Contributor</th>
+
+	</thead>
+	<tbody>
+		{% for c in contributions %}
+			<tr class="{{ c.row }}">
+				<td>
+					<a href="/form-profile/{{ c.doc_id }}">{{ c.date }}</a>
+				</td>
+				<td>
+					${{ c.amount|floatformat:2|intcomma }}
+				</td>
+				<td>
+					<a href="/recipient-profile/{{ c.recipient_id }}">{{ c.recipient }}</a>
+				</td>
+				<td>
+					<a href="/reg-profile/{{ c.reg_id }}">{{ c.registrant }}
+				</td>
+				<td>
+					{{ c.contributor }}
+				</td>
+
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>
+
+{% if page %}
+	<p>
+	{% if page.previous > 0 %}
+		<a href="?{{ page.query_params }}p={{ page.previous }}">Previous Page</a> /
+	{% endif %} 
+	Page {{ page.this }} 
+	{% if  page.total > 1 %}
+		(of <a href="?{{ page.query_params }}p={{ page.total }}">{{ page.total }} pages</a>) 
+	{% endif %}
+	{% if page.total > 1 %}
+		/ <a href="?{{ page.query_params }}p={{ page.next }}">Next Page</a>
+	{% endif %}
+{% endif %}
+
+</div>
+{% endblock %}

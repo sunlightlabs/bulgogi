@@ -21,7 +21,7 @@
 	<div class="search-results">
 		{% if results.contacts %}
 			<h5>
-				<a href="/contact-table?recipient_id={{ results.recip_id }}">
+				<a href="/contact-table?recipient_id={{ record.recipient_id }}">
 					{{ results.contacts }} Contacts
 				<a>
 			</h5>
@@ -29,7 +29,7 @@
 
 		{% if results.total_contribution %}
 			<h5>
-					${{ results.total_contribution|floatformat:2|intcomma }} in political contributions, according to FARA. 
+					<a href="/contribution-table?recipient_id={{ record.recipient_id }}">${{ results.total_contribution|floatformat:2|intcomma }} in political contributions, according to FARA.<a>
 			</h5>
 		{% endif %}
 	</div>
@@ -73,10 +73,9 @@
 					<a href="/contact-table?recipient_id={{ record.recipient_id }}">{{ record.contacts }} contacts</a>
 				</p>
 			{% endif %}
-
 			{% if record.total_contribution %}
 				<p>
-						${{ record.total_contribution|floatformat:2|intcomma }} in political contributions, according to FARA. 
+						<a href="/contribution-table?recipient_id={{ record.recipient_id }}">${{ record.total_contribution|floatformat:2|intcomma }} in political contributions, according to FARA.</a> 
 				</p>
 			{% endif %}
 		</div>

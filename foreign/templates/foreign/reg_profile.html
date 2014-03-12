@@ -58,6 +58,12 @@
 			</p>
 		{% endif %}
 
+		{% if results.total_contributions %}
+			<p>
+				<a href="/contribution-table?reg_id={{ results.reg_id }}">See all FARA political contribution records from the registrant</a> 
+			</p>
+		{% endif %}
+
 
 		{% if results.payments2013 %}
 		<p>
