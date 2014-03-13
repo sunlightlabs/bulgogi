@@ -1,0 +1,53 @@
+{% extends "foreign/foreign_base.html" %}
+{% load humanize %}
+{% load static %}
+
+
+
+
+{% block js %}
+<script src="{% static "dryrub/js/jquery.tablesorter.min.js" %}"></script>
+{% endblock %}
+
+{% block main_content %}
+<div class="module withNav">
+
+<h3>
+	2013 Foreign Agent Totals
+</h3>
+<div class="clear"></div>
+
+<table class="tablesorter" "mainPageTable">
+	<thead class="header">
+		<th class="sort">Foreign Agent</th>
+		<th class="sort">Payments</th>
+		<th class="sort">Complete records</th>
+		<th class="sort">Federal lobbying</th>
+		<th class="sort">State Dept. contacts</th>
+		<th class="sort">Media contacts</th>
+	</thead>
+	<tbody>
+		{% for d in data %}
+			<tr > 
+				<td><a href="/registrant-profile/{{ d.reg_id }}">{{ d.reg_name }}</a></td>
+				<td>{{ d.payments2013|floatformat:2|intcomma }}</td>
+				<td>{{ d.complete_records13 }}</td>
+				<td>{{ d.federal_lobbying }}</td>
+				<td>{{ d.state_dept_lobbying }}</td>
+				<td>{{ d.pr }}</td>
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>
+
+
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function() { 
+        $("table").tablesorter({ 
+        sortList: [[0,0]] 
+    }); 
+});
+</script>
+{% endblock %}

@@ -4,7 +4,7 @@
 <div class="module withNav">
 
 <h3>
-	Contributions for 
+	Contributions {% if title %}for {% endif %}
 	{% for t in title %}
 		{% if t.id %}<a href="{{ t.type }}-profile/{{ t.id }}">{% endif %}
 			{{ t.text }} 
@@ -46,6 +46,7 @@
 </table>
 
 {% if page %}
+<div id="pagination_container">
 	<p>
 	{% if page.previous > 0 %}
 		<a href="?{{ page.query_params }}p={{ page.previous }}">Previous Page</a> /
@@ -57,6 +58,7 @@
 	{% if page.total > 1 %}
 		/ <a href="?{{ page.query_params }}p={{ page.next }}">Next Page</a>
 	{% endif %}
+</div>
 {% endif %}
 
 </div>

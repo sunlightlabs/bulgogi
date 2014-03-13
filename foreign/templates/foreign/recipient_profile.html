@@ -2,12 +2,10 @@
 {% load humanize %}
 {% block main_content %}
 
-<div class="module withNav">
-<div class="search-results">	
 
 {% if not results.congress_member %}
-	<div class="contentHeader">
-		<h3>{{ results.title }} {{ results.name }}</h3>
+<div class="module withNav">	
+	<h3>{{ results.title }} {{ results.name }}</h3>
 
 		{% if results.office_detail %}
 			<h4>{{ results.office_detail }}</h4>
@@ -16,7 +14,6 @@
 		{% if results.agency %}
 			<h4>{{ results.agency }}</h4>
 		{% endif %}
-	</div>
 
 	<div class="search-results">
 		{% if results.contacts %}
@@ -33,60 +30,102 @@
 			</h5>
 		{% endif %}
 	</div>
-
+</div>
 {% else %}
-	<div class="contentHeader">
-		<div class="result-photo">
-			<img src="http://assets.sunlightfoundation.com/moc/100x125/{{ results.bioguide }}.jpg" align="right" alt="{{ results.title }} {{ results.name }}">
+<div id="floatingNavWrapper">
+    <div id="floatingNav">
+        
+        <div id="miniNavWrapper">
+            <div id="miniNav">
+                <ul>
+                    
+                        <li><a href="#summary_section">Summary</a></li>
+                    	{% if results.committee_data %}
+                        <li><a href="#committee_section">Committee assignments</a></li>
+                        {% endif %}
+                        <li><a href="#records_section">Records</a></li>
+                    
+                </ul>
+            </div>
+        </div>
+ 	</div>
+</div>
+
+		
+		<a class="sectionLink" name="summary_section"></a>
+		<div class="overviewBar withNav withTip">
+			<h3 class="insideBar">{{ results.title }} {{ results.name }}</h3>
+		</div>		
+
+		<div class="module withNav">
+
+			<div class="result-photo">
+				<img src="http://assets.sunlightfoundation.com/moc/100x125/{{ results.bioguide }}.jpg" align="right" alt="{{ results.title }} {{ results.name }}">
+			</div>
+
+			<h4>Member of Congress</h4>
+			
+			{% if results.ie_profile %}
+				<h5>
+					See full <a href="{{ results.ie_profile }}">Influence Explorer</a> profile
+				</h5>
+			{% else %}
+				<br><br>
+			{% endif %}
+			<br><br>
+
 		</div>
 
-		<h3>{{ results.title }} {{ results.name }}</h3>
-
-		<h4>Member of Congress</h4>
 		{% if results.committee_data %}
-			<h5>Committees for the member:</h5>
-			<ul>
-			{% for r in results.committee_data %}
-				<li>{{ r.name  }}
-				{% if r.subcomittee == True %}
-					(Subcommittee)
-				{% endif %}
-				</li>
-			{% endfor %}
-			</ul>
+			<a class="sectionLink" name="committee_section"></a>
+			<div class="overviewBar withNav withTip">
+				<h3 class="insideBar">Committees of the member</h3>
+			</div>
+			<div class="module withNav">
+				<ul>
+					{% for r in results.committee_data %}
+						<li>{{ r.name  }}
+						{% if r.subcomittee == True %}
+							(Subcommittee)
+						{% endif %}
+						</li>
+					{% endfor %}
+				</ul>
+			</div>
 		{% endif %}
 
-	</div>
-
-	<br>
-	<p>
-	<h3> Records for {{ results.title }} {{ results.name }}, employees of {{ results.title }} {{ results.name }} and leadership PACs </h3>
-	</p>
-	{% for record in results.records %}
-		<div class="search-results">
-			<h5>{{ record.name }}</h5>
-			<p>
-				{{ record.agency }} {{ record.office_detial }}
-			</p>
-			{% if record.contacts %}
-				<p>
-					<a href="/contact-table?recipient_id={{ record.recipient_id }}">{{ record.contacts }} contacts</a>
-				</p>
-			{% endif %}
-			{% if record.total_contribution %}
-				<p>
-						<a href="/contribution-table?recipient_id={{ record.recipient_id }}">${{ record.total_contribution|floatformat:2|intcomma }} in political contributions, according to FARA.</a> 
-				</p>
-			{% endif %}
+		<a class="sectionLink" name="records_section"></a>
+		<div class="overviewBar withNav withTip">
+			<h3 class="insideBar">Records for {{ results.title }} {{ results.name }}, employees of {{ results.title }} {{ results.name }} and leadership PACs </h3>
 		</div>
-	<br>
 
-	{% endfor %}
+		<div class="module withNav">
+			<br>
+			{% for record in results.records %}
+			<div class="search-results">
+				<h5>{{ record.name }}</h5>
+				<p>
+					{{ record.agency }} {{ record.office_detial }}
+				</p>
+				{% if record.contacts %}
+					<p>
+						<a href="/contact-table?recipient_id={{ record.recipient_id }}">{{ record.contacts }} contacts</a>
+					</p>
+				{% endif %}
+				{% if record.total_contribution %}
+					<p>
+							<a href="/contribution-table?recipient_id={{ record.recipient_id }}">${{ record.total_contribution|floatformat:2|intcomma }} in political contributions, according to FARA.</a> 
+					</p>
+				{% endif %}
+			</div>
+			<br>
 
+			{% endfor %}
+	
 {% endif %}
 
 
-</div>
+
 </div>
 
 {% endblock %}

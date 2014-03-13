@@ -18,7 +18,7 @@ urlpatterns = patterns('',
     url(r'^payment-table', 'foreign.views.payment_table', name='payment-table'),
     url(r'^disbursement-table', 'foreign.views.disbursement_table', name='disbursement-table'),
     url(r'^contribution-table', 'foreign.views.contribution_table', name='contribution-table'),
-    
+    url(r'^registrants2013', 'foreign.views.reg_totals13', name='registrants2013')
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     # Uncomment the next line to enable the admin:

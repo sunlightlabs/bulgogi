@@ -341,10 +341,16 @@ def recipient_profile(request, recip_id):
 		#### still need to do some check for multiple pages of results?
 		results["committee_data"] = committee_data["results"]
 
+		ie_profile = 'http://influenceexplorer.com/bioguide/' + bioguide_id
+		r = requests.head(ie_profile)
+		print r.status_code
+		if r.status_code == 302:
+			results['ie_profile'] = ie_profile
 
 	else:
 		results = data['results'][0]
 		results['recip_id'] = recip_id
+
 
 	return render(request, 'foreign/recipient_profile.html', {"results":results})
 
@@ -560,7 +566,14 @@ def contribution_table(request):
 
 	return render(request, 'foreign/contribution_table.html', {"title":data['title'], "page":page, "contributions":data['results']})
 
+def reg_totals13(request):
+	url = "/".join([FARA_ENDPOINT, "reg-2013"])
+	query_params = {}
+	query_params['key'] = API_PASSWORD
+	response = requests.get(url, params=query_params)
+	data = response.json()
 
+	return render(request, 'foreign/registrants_2013.html', {"data":data['results']})
 
 # Converts the original url to the sunlight url
 def http_link(link):

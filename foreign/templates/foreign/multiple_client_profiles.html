@@ -1,6 +1,5 @@
 {% load humanize %}
 <br>
-<h4>Running totals</h4>
 
 {% if clients %}
 	<h4><b>Clients</b></h4>
@@ -8,6 +7,7 @@
 		<h4>
 			<a href="/client-profile/{{ c.client_id }}">{{ c.name }}</a>
 		</h4>
+		<blockquote>
 		<p>
 			Location: <a href="/location-profile/{{ c.location_id }}">{{ c.location }}</a>	
 		</p>
@@ -18,19 +18,20 @@
 		{% endif %}
 		{% if c.contact %}
 			<p>
-				<a href="/contact-table?reg_id={{ reg_id }}&client_id={{ c.client_id }}">{{ c.contact }} contacts on behalf of the client.</a></a>
+				<a href="/contact-table?reg_id={{ reg_id }}&client_id={{ c.client_id }}">{{ c.contact }} contacts</a> on behalf of the client.
 			</p>
 		{% endif %}
 		{% if c.payment %}
 			<p>
-				<a href="/contact-table?reg_id={{ reg_id }}&client_id={{ c.client_id }}">See all payments funding the client.</a>
+				See all <a href="/contact-table?reg_id={{ reg_id }}&client_id={{ c.client_id }}">payments</a> funding the client.
 			</p>
 		{% endif %}
 		{% if c.disbursement %}
 			<p>
-				<a href="/disbursement-table?reg_id={{ reg_id }}&client_id={{ c.client_id }}">See all disbursements on behalf of the client.</a>
+				See all <a href="/disbursement-table?reg_id={{ reg_id }}&client_id={{ c.client_id }}">disbursements</a> on behalf of the client.
 			</p>
 		{% endif %}
+		</blockquote>
 		</br>
 	{% endfor %}
 	<br>
@@ -42,25 +43,27 @@
 		<h4>
 			<a href="/client-profile/{{ c.client_id }}">{{ c.name }}</a>
 		</h4>
+		<blockquote>
 		<p>
 			Location: <a href="/location-profile/{{ c.location_id }}">{{ c.location }}</a>	
 		</p>
 		{% if c.contact %}
 			<p>
-				<a href="/contact-table?reg_id={{ reg_id }}&client_id={{ c.client_id }}">{{ c.contact }} contacts on behalf of the client.</a></a>
+				<a href="/contact-table?reg_id={{ reg_id }}&client_id={{ c.client_id }}">{{ c.contact }} contacts</a> on behalf of the client
 			</p>
 		{% endif %}
 		{% if payment %}
 			<p>
-				<a href="/contact-table?reg_id={{ reg_id }}&client_id={{ c.client_id }}">See all payments funding the client.</a>
+				See all <a href="/contact-table?reg_id={{ reg_id }}&client_id={{ c.client_id }}">payments</a> funding the client
 			</p>
 		{% endif %}
 		{% if c.disbursement %}
 			<p>
-				<a href="/disbursement-table?reg_id={{ reg_id }}&client_id={{ c.client_id }}">See all disbursements on behalf of the client.</a>
+				See all <a href="/disbursement-table?reg_id={{ reg_id }}&client_id={{ c.client_id }}">disbursements</a> on behalf of the client.
 			</p>
 		{% endif %}
 		</br>
+		</blockquote>
 	{% endfor %}
 <br>
 {% endif %}

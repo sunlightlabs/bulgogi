@@ -2,41 +2,43 @@
 {% load humanize %}
 {% block main_content %}
 
-<div class="overviewBar withNav withTip">
-	<h3 class="insideBar">Foreign Agent Profile</h3>
-</div>
 
 <div id="floatingNavWrapper">
-    <div id="floatingNav">
-        
-        <div id="miniNavWrapper">
-            <div id="miniNav">
-                <ul>
-                    
-                        <li><a href="#profile_section">Registrant Summary</a></li>
-                    
-                        <li><a href="#stats_section">Client Statistics</a></li>
+<div id="floatingNav" class="">        
+    <div class="withNav" id="changeDates"><h4>Foreign Agent Profile {{ results.reg_name }}</h4></div>
 
-                        <li><a href="#docs_section">Documents</a></li>
-                    
-                </ul>
-            </div>
+    
+    <div id="miniNavWrapper">
+        <div id="miniNav">
+            <ul>
+                
+                    <li><a href="#profile_section">Summary</a></li>
+                
+                    <li><a href="#stats_section">Client Statistics</a></li>
+
+                    <li><a href="#docs_section">Documents</a></li>
+                
+            </ul>
         </div>
- 	</div>
+    </div>
+</div>
 </div>
 
 
+
+
+<a class="sectionLink" name="stats_section"></a>
+	<div class="overviewBar withNav withTip">
+		<h3 class="insideBar">Foreign Agent Summary
+        </div>
+
+	
 	<div class="withNav">
 		<h3 class="insideBar">
 		<h3>{{ results.reg_name }}</h3>
 		
 	</div>
-
-	<a class="sectionLink" name="profile_section"></a>
-	<div class="overviewBar withNav withTip">
-		<h3 class="insideBar">Registrant Summary</h3>
-	</div>
-
+	
 	<div class="module withNav">
 
 		<h3 class="insideBar">{{ results.registrant }}</h3>
@@ -60,7 +62,7 @@
 
 		{% if results.total_contributions %}
 			<p>
-				<a href="/contribution-table?reg_id={{ results.reg_id }}">See all FARA political contribution records from the registrant</a> 
+				See all FARA <a href="/contribution-table?reg_id={{ results.reg_id }}">political contribution records</a> from the registrant
 			</p>
 		{% endif %}
 
@@ -82,7 +84,7 @@
 		{% endif %}
 		{% if results.total_payments %}
 			<p>
-				<a href="/payment-table?reg_id={{ results.reg_id }}">See all payment records to the registrant</a>
+				See all <a href="/payment-table?reg_id={{ results.reg_id }}">payment records</a> to the registrant
 			</p>
 		{% endif %}
 		{% if results.disbursements2013 %}
@@ -92,13 +94,13 @@
 		{% endif %}
 		{% if results.total_disbursements %}
 			<p>
-				<a href="/disbursement-table?reg_id={{ results.reg_id }}">See all disbursement records to the registrant</a>
+				See all <a href="/disbursement-table?reg_id={{ results.reg_id }}">disbursement records</a> to the registrant
 			</p>
 		{% endif %}
 
 		{% if results.total_contacts %}
 			<p>
-				<a href="/contact-table?reg_id={{ results.reg_id }}">{{ results.total_contacts }} Contacts by the registrant</a> 
+				<a href="/contact-table?reg_id={{ results.reg_id }}">{{ results.total_contacts }} contacts</a> by the registrant 
 			</p>
 		{% endif %}
 

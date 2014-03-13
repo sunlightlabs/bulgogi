@@ -4,7 +4,7 @@
 <div class="module withNav">
 
 <h3>
-	Contacts for 
+	Contacts {% if title %}for {% endif %} 
 	{% for t in title %}
 		{% if t.id %}<a href="{{ t.type }}-profile/{{ t.id }}">{% endif %}
 			{{ t.text }} 
@@ -34,7 +34,7 @@
 					{% endfor %}
 				</td>
 				<td><a href="/client-profile/{{ c.client_id }}">{{ c.client }}</a></td>
-				<td><a href="/reg-profile/{{ c.reg_id }}">{{ c.reg_name }}</td>
+				<td><a href="/reg-profile/{{ c.reg_id }}">{{ c.registrant }}</td>
 				<td>{{ c.description }}</td>
 				<td>{{ c.employees }}</td>
 			</tr>

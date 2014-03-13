@@ -2,60 +2,47 @@
 {% load humanize %}
 {% block main_content %}
 
-<div class="overviewBar withNav withTip">
-	<h3 class="insideBar">Client Profile</h3>
-</div>
-
 <div id="floatingNavWrapper">
-    <div id="floatingNav">
-        
-        <div id="miniNavWrapper">
-            <div id="miniNav">
-                <ul>
-                    
-                        <li><a href="#stats_section">Client Statistics</a></li>
+<div id="floatingNav">        
+    <div class="withNav" id="changeDates"><h4>Client Profile {{ results.client }}</h4></div>
 
-                        <li><a href="#profile_section">Summary</a></li>
-                    
-                    
-                </ul>
-            </div>
+    
+    <div id="miniNavWrapper">
+        <div id="miniNav">
+            <ul>
+                
+                    <li><a href="#stats_section">Client Statistics</a></li>
+
+                    <li><a href="#profile_section">Summary</a></li>
+                
+            </ul>
         </div>
- 	</div>
+    </div>
+</div>
 </div>
 
-	<div class="withNav">
-		<h3 class="insideBar">{{ results.client }}</h3>
-	</div>
-
-	<div class="withNav">
-		<h3 class="insideBar">
-		<h3>{{ client }}</h3>
-		
-	</div>
-
-		<a class="sectionLink" name="stats_section"></a>
-	<div class="overviewBar withNav withTip">
+<a class="sectionLink" name="stats_section"></a>
+<div class="overviewBar withNav withTip">
 		<h3 class="insideBar">Client Statistics</h3>
 	</div>
 	<div class="module withNav">
+		<h3 class="insideBar">
+		<h3>{{ results.client }}</h3>
+
 		<br>
 		<h4 class="insideBar">Location: <a href="/location-profile/{{ results.location_id }}/{{ results.location }}">{{ results.location }}</a></h4>
-		<br>
 
-		<h4>Running totals since 2013:</h4>
-		<br>	
 		{% if results.contacts %}
 			<h4 class="insideBar"><a href="/contact-table?client_id={{ results.client_id }}"> {{ results.contacts }} Contacts</a></h4>
 		{% endif %}
 
 		{% if results.total_payment %}
-			<h4 class="insideBar">${{ results.total_payment|floatformat:2|intcomma }} Payments</h4>
+			<h4 class="insideBar">See all <a href="/payment-table?client_id={{ results.client_id }}">payment records</a></h4>
 
 		{% endif %}
 
 		{% if results.total_disbursement %}
-			<h4 class="insideBar">${{ results.total_disbursement|floatformat:2|intcomma }} Disbursements</h4>
+			<h4 class="insideBar">See all <a href="/disbursement-table?client_id={{ results.client_id }}"> disbursements records</a></h4>
 		{% endif %}
 
 	</div>	

@@ -4,7 +4,7 @@
 <div class="module withNav">
 
 <h3>
-	Payments for 
+	Payments {% if title %}for {% endif %}
 	{% for t in title %}
 		{% if t.id %}<a href="{{ t.type }}-profile/{{ t.id }}">{% endif %}
 			{{ t.text }} 
@@ -35,7 +35,7 @@
 					<a href="/client-profile/{{ p.client_id }}">{{ p.client }}</a>
 				</td>
 				<td>
-					<a href="/reg-profile/{{ p.reg_id }}">{{ p.reg_name }}
+					<a href="/reg-profile/{{ p.reg_id }}">{{ p.registrant }}
 					</td>
 				<td>
 					{{ c.purpose }}

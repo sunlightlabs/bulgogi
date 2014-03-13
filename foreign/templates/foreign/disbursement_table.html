@@ -4,7 +4,7 @@
 <div class="module withNav">
 
 <h3>
-	Payments for 
+	Disbursements {% if title %}for {% endif %}
 	{% for t in title %}
 		{% if t.id %}<a href="{{ t.type }}-profile/{{ t.id }}">{% endif %}
 			{{ t.text }} 

@@ -1,12 +1,93 @@
 {% extends "dryrub/base.html" %}
 
-{% block sitecss %}{% endblock %}
+{% block sitecss %}
+<style type="text/css">
+
+thead {
+    border-bottom: solid 1px #DADFDB;
+    background: rgba(105,165,159,.17);
+}
+
+table .even, li.even, div.even{ 
+	background-color: #F6F4F0;
+	}
+
+#sub_nav {
+/* background: url('../../dryrub/images/bg_tdNav2.png') no-repeat top left;
+    height: 42px; */
+    background: rgba(105,165,159,.17);
+    padding: 20px 0;
+    margin-bottom: 45px;
+    margin-top: -15px;
+    border-bottom: 1px dashed #dcdcd8;
+    }
+
+#sub_nav ul {
+    margin-right: 25px;
+    }
+
+#sub_nav li {
+    float:left;
+    border-right: 1px solid #cacdce;
+    padding: 0 15px;
+    line-height: 15px;
+    text-align: center;
+    font-size: 145%; 
+    margin-bottom: 15px; 
+    font-weight: normal;
+    }
+
+#sub_nav li.last, .content-header-links li.last {
+    border-right: none;
+    padding-right: 0;
+    }
+
+#sub_nav li.first{
+    margin-left: 25px;
+    }
+
+/*removed white hover color*/
+#sub_nav li:hover {
+   padding: 0 15px;
+   font-weight: normal;
+}
+
+.pagination_container {
+    padding-top:0px;
+    padding-bottom:0px;
+    }
+
+/*added this so the foreign stays highlighted*/
+#foreign {
+	margin-top: 2px;
+	background: rgba(90, 157, 141, .14);
+	border: 1px solid rgba(108, 98, 98, .14);
+	}
+</style>
+
+{% endblock %}
 {% block search %}{% endblock %}
 
 {% block main %}
 <div id="contentHeader">
 	<h2>Foreign Influence Explorer</h2>
+	<br>
 </div>
+
+<nav id="sub_nav">
+<ul>
+    <li class="first"><a href="/incoming-fara">Foreign Agent Feed</a></li>
+    <li><a href="/incoming-arms">Proposed Arms Feed</a></li>
+    <li>Locations</li>
+    <li><a href="/registrants2013">Foreign Agents</a></li>
+	<li>Clients</li>
+    <li class="last"><a href="/">About</a></li>
+</ul>
+
+</nav>
+
+
+
 
 {% block main_content %}{% endblock %}
 

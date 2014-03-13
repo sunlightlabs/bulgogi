@@ -1,30 +1,27 @@
 {% extends "foreign/foreign_base.html" %}
 {% load humanize %}
 {% block main_content %}
+
+
 <div id="floatingNavWrapper">
-    <div id="floatingNav">
-        
-        <div id="miniNavWrapper">
-            <div id="miniNav">
-                <ul>
+<div id="floatingNav">        
+    <div class="withNav" id="changeDates">
+    	<h4>Document Profile {{ results.reg_name }}</h4>
+    </div>
+
+    <div id="miniNavWrapper">
+        <div id="miniNav">
+            <ul>
+                
+                    <li><a href="#profile_section">Summary</a></li>
                     
-                        <li><a href="#profile_section">Summary</a></li>
-                    
-                        <li><a href="#doc_section">Document</a></li>
-                    
-                </ul>
-            </div>
+                    <li><a href="#doc_section">Document</a></li>
+                
+            </ul>
         </div>
- 	</div>
+    </div>
 </div>
-
-
-	<div class="withNav">
-		<!-- <h3 class="insideBar"> -->
-		<h4>Foreign Agent</h4>
-		<h3><a href="/reg-profile/{{ reg_id }}/{{ registrant }}">{{ registrant }}</a></h3>
-		
-	</div>
+</div>
 
 
 	<a class="sectionLink" name="profile_section"></a>
@@ -33,6 +30,8 @@
 	</div>
 
 	<div class="module withNav">
+			<h4>Foreign Agent</h4>
+			<h3><a href="/reg-profile/{{ reg_id }}/{{ registrant }}">{{ registrant }}</a></h3>
 
 			<h4 class="insideBar">Document type: {{ doc_type }}</h4>
 			<p class="tip">
