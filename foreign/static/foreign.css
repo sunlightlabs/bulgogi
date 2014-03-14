@@ -1,0 +1,68 @@
+/* Table styling */
+thead {
+    border-bottom: solid 1px #DADFDB;
+    background: rgba(105,165,159,.17);
+}
+
+table .even, li.even, div.even{ 
+    background-color: #F6F4F0;
+    }
+
+/* Sub navigation bar matching Real Time. Foreign navigation font is bigger but the proportions should stay consistent  */
+
+#sub_nav {
+    height: 10px;
+    background: rgba(105,165,159,.17);
+    padding: 20px 0 20px 0;
+    /* white space under the bar */
+    margin-bottom: 40px;
+    /* mess with this number to make the top blue bar and the top of the dotted line meet up */
+    margin-top: -15px;
+    border-bottom: 1px dashed #dcdcd8;
+    }
+
+#sub_nav ul {
+    margin-right: 25px;
+    }
+
+#sub_nav li {
+    float:left;
+    border-right: 1px solid #cacdce;
+    /* the 0 keeps the words spaced. the second number is the spacing between words */
+    padding: 0 15px;
+    /* this moves the text in the blue box */
+    line-height: 10px;
+    text-align: center;
+    font-size: 125%; 
+    /* this is does control how far the blue extends and the dotted line*/
+    margin-bottom: 15px; 
+    /* margin-top will move the top of the blue but not the dotted line*/
+    font-weight: normal;
+    }
+
+#sub_nav li.last, .content-header-links li.last {
+    border-right: none;
+    padding-right: 0;
+    }
+
+#sub_nav li.first{
+    margin-left: 25px;
+    }
+
+/*removed white hover color*/
+#sub_nav li:hover {
+   font-weight: normal;
+}
+
+/* doesn't seem to do much */
+.pagination_container {
+    padding-top:0px;
+    padding-bottom:0px;
+    }
+
+/* added this so the foreign stays highlighted*/
+#foreign {
+    padding-top: 2px;
+    background: rgba(90, 157, 141, .14);
+    border: 1px solid rgba(108, 98, 98, .14);
+    }

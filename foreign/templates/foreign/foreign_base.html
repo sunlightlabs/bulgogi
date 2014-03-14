@@ -3,33 +3,28 @@
 
 {% block sitecss %}
     <link rel="stylesheet" href="{% static "foreign/css/foreign.css" %}" />
-    ]
 {% endblock %}
 
 {% block search %}{% endblock %}
 
 {% block main %}
-<div id="contentHeader">
-	<h2>Foreign Influence Explorer</h2>
-	<br>
-</div>
+    <div id="contentHeader">
+    	<h2>Foreign Influence Explorer</h2>
+    	<br>
+    </div>
 
-<nav id="sub_nav">
-<ul>
-    <li class="first"><a href="/incoming-fara">Foreign Agent Feed</a></li>
-    <li><a href="/incoming-arms">Proposed Arms Feed</a></li>
-    <li>Locations</li>
-    <li><a href="/registrants2013">Foreign Agents</a></li>
-	<li>Clients</li>
-    <li class="last"><a href="/">About</a></li>
-</ul>
+    <nav id="sub_nav">
+        <ul>
+            <li class="first"><a href="/incoming-fara">Foreign Agent Feed</a></li>
+            <li><a href="/incoming-arms">Proposed Arms Feed</a></li>
+            <li>Locations</li>
+            <li><a href="/registrants2013">Foreign Agents</a></li>
+        	<li>Clients</li>
+            <li class="last"><a href="/">About</a></li>
+        </ul>
+    </nav>
 
-</nav>
-
-
-
-
-{% block main_content %}{% endblock %}
+    {% block main_content %}{% endblock %}
 
 {% endblock %}
 
