@@ -120,7 +120,7 @@ def form_profile(request, form_id):
 
 	client_list = []
 	count = 1
-	if data.has_key('clients') or data.has_key('terminated_clients'):
+	if data.has_key('clients'):
 		for client in data['clients']:
 			client_dict = {}
 			# I like the look of the chart this way
@@ -142,7 +142,34 @@ def form_profile(request, form_id):
 			if client.has_key("disbursement"):
 				client_dict["disbursement"] = int(client["disbursement"])
 
-			client_list.append(client_dict)	
+			client_list.append(client_dict)
+	if data.has_key('terminated_clients'):
+		terminated_list = []
+		for client in data['terminated_clients']:
+			client_dict = {}
+			# I like the look of the chart this way
+			if count % 2 != 0:
+				row = "even"
+			else:
+				row = "odd"	
+			count = count + 1
+			client_id = client["client_id"]
+			client_name = client["client_name"]
+
+
+			client_dict = {"client_id": client_id, 
+							"client_name": client_name, 
+							"row": row, 
+							"location": client["location"], 
+							"location_id": client["location_id"],
+			}
+			if client.has_key("payment"):
+				client_dict["payment"] = int(client["payment"])
+			if client.has_key("contact"):
+				client_dict["contact"] = int(client["contact"])
+			if client.has_key("disbursement"):
+				client_dict["disbursement"] = int(client["disbursement"])
+			terminated_list.append(client_dict)	
 
 	download = 'http://fara.sunlightfoundation.com.s3.amazonaws.com/spreadsheets/forms/form_' + form_id + '.zip'
 	r = requests.head(download)
@@ -158,6 +185,7 @@ def form_profile(request, form_id):
 			"registrant": registrant,
 			"view_doc_url": view_doc_url,
 			"clients": client_list,
+			"terminated_clients": terminated_list,
 			"processed": processed,
 			"download": download,
 			"reg_id": reg_id,
@@ -212,7 +240,6 @@ def reg_profile(request, reg_id):
 	results = {}
 	results['reg_id'] = reg_id
 	
-	print data['registrant']
 	if data['registrant'].has_key('name'):
 		results['reg_name'] = data['registrant']['name']
 	
@@ -580,3 +607,11 @@ def http_link(link):
 	link = "http://fara.sunlightfoundation.com.s3.amazonaws.com/html/" + link[25:-4] + "/index.html"
 	return link
 
+def locations(request):
+	url = "/".join([FARA_ENDPOINT, "locations"])
+	query_params = {}
+	query_params['key'] = API_PASSWORD
+	response = requests.get(url, params=query_params)
+	data = response.json()
+
+	return render(request, 'foreign/location_list.html', {"data":data['results']})

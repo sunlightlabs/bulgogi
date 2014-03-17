@@ -1,0 +1,43 @@
+{% extends "foreign/foreign_base.html" %}
+{% load humanize %}
+{% load static %}
+
+{% block js %}
+<script src="{% static "dryrub/js/jquery.tablesorter.min.js" %}"></script>
+{% endblock %}
+
+{% block main_content %}
+<div class="module withNav">
+
+<h3>
+	Locations
+</h3>
+
+<div class="clear"></div>
+
+<table class="tablesorter" "mainPageTable">
+	<thead class="header">
+		<th class="sort">Client</th>
+		<th class="sort">Location</th>
+	</thead>
+	<tbody>
+		{% for d in data %}
+			<tr > 
+				<td><a href="/client-profile/{{ d.client_id }}">{{ d.client_name }}</a></td>
+				<td><a href="/location-profile/{{ d.location_id }}">{{ d.location_name }}</td>
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>
+
+
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function() { 
+        $("table").tablesorter({ 
+        sortList: [[0,0]] 
+    }); 
+});
+</script>
+{% endblock %}
