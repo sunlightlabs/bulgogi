@@ -47,19 +47,19 @@
 	{% endif %}
 	
 	{% if c.total_payment %}
-		<p>${{ c.total_payment|floatformat:2|intcomma }} in payments on behalf of the client.</p>
+		<p><a href="/payment-table?client_id={{ c.id }}">${{ c.total_payment|floatformat:2|intcomma }} in payments on behalf of {{ c.client_name }}.</a></p>
 	{% endif %}
 
 	{% if c.total_disbursement %}
-		<p>${{ c.total_disbursements|floatformat:2|intcomma }} in disbursements on behalf of the client.</p>
+		<p><a href="/disbursement-table?client_id={{ c.id }}">${{ c.total_disbursements|floatformat:2|intcomma }} in disbursements on behalf of {{ c.client_name }}.</a></p>
 	{% endif %}
 
 	{% if c.contacts %}
-		<p><a href="/contact-table?client_id={{ c.id }}">{{ c.contacts }} contacts on behalf of the client.</a></p>
+		<p><a href="/contact-table?client_id={{ c.id }}">{{ c.contacts }} contacts on behalf of {{ c.client_name }}.</a></p>
 	{% endif %}
 
 	{% if c.active_reg %}
-		<p><b>Registrants that represent the client</b></p>
+		<p><b>Foreign Agents that represent the client</b></p>
 		<blockquote>
 		{% for active in c.active_reg %}
 			<p><a href="/reg-profile/{{ active.reg_id }}">{{ active.name }}</a><p> 
@@ -68,7 +68,7 @@
 	{% endif %}
 
 	{% if c.terminated_reg %}
-		<p><b>Registrants that formerly represented the client</b></p>
+		<p><b>Foreign Agents that formerly represented the client</b></p>
 		<blockquote>
 		{% for terminated in c.terminated_reg %}
 			<p><a href="/reg-profile/{{ terminated.reg_id }}">{{ terminated.name }}</a><p> 
