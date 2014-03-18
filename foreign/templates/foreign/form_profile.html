@@ -108,7 +108,7 @@
 					{% for c in terminated_clients %}
 							<tr class="{{ c.row }}">
 							<td >
-								<a href="/client-profile/{{ c.client_id }}/{{ c.client_name }}">{{ c.client_name }}</a>
+								<a href="/client-profile/{{ c.client_id }}/{{ c.client_name }}">{{ c.client_name }} *</a>
 							</td>
 							<td>
 								<a href="/location-profile/{{ c.location_id }}/{{ c.location }}">{{ c.location }}</a>
@@ -158,7 +158,7 @@
 				</tbody>
 			</table>
 
-			{% if terminated_client %}
+			{% if terminated_clients %}
 				<p>* terminated client</p>
 			{% endif %}
 		{% endif %}
