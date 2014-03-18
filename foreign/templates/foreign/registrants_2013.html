@@ -26,7 +26,7 @@
 	<tbody>
 		{% for d in data %}
 			<tr > 
-				<td><a href="/registrant-profile/{{ d.reg_id }}">{{ d.reg_name }}</a></td>
+				<td><a href="/reg-profile/{{ d.reg_id }}">{{ d.reg_name }}</a></td>
 				<td>{{ d.payments2013|floatformat:2|intcomma }}</td>
 				<td>{{ d.complete_records13 }}</td>
 				<td>{{ d.federal_lobbying }}</td>
