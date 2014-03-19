@@ -19,4 +19,18 @@
 	</tbody>
 </table>
 
-<p>{% if table_info.0.page.previous >= 0 %}<a href="?p={{ table_info.0.page.previous }}">Previous Page</a> /{% endif %} Page {{ table_info.0.page.this }} / <a href="?p={{ table_info.0.page.next }}">Next Page</a>
+{% if page %}
+<div id="pagination_container">
+	<p>
+	{% if page.previous > 0 %}
+		<a href="?{{ page.query_params }}p={{ page.previous }}">Previous Page</a> /
+	{% endif %} 
+	Page {{ page.this }} 
+	{% if  page.total > 1 %}
+		(of <a href="?{{ page.query_params }}p={{ page.total }}">{{ page.total }} pages</a>) 
+	{% endif %}
+	{% if page.total > 1 %}
+		/ <a href="?{{ page.query_params }}p={{ page.next }}">Next Page</a>
+	{% endif %}
+</div>
+{% endif %}

@@ -76,20 +76,24 @@ def arms_profile(request, doc_id):
 
 	return render(request, 'foreign/arms_profile.html', results)
 
-# rewrite for new endpoint
+
 def incoming_fara(request):
 	if request.GET.get('p'):
-		page = int(request.GET.get('p'))
+		p = int(request.GET.get('p'))
 	else:
-		page = 1
+		p = 1
 	url = "/".join([FARA_ENDPOINT, "docs"])
-	response = requests.get(url, params={"p":page,"key":API_PASSWORD})
+	response = requests.get(url, params={"p":p,"key":API_PASSWORD})
 	data = response.json()
-	page = int(page)
+	page = {}
+	page['this'] = p
+	page['previous'] = p - 1
+	page['next'] = p + 1
+	page['total'] = data['page']['num_pages']
 
-	table_info = make_doc_table(data, page)
+	table_info = make_doc_table(data, p)
 
-	return render(request, 'foreign/incoming_fara.html', {"table_info":table_info})
+	return render(request, 'foreign/incoming_fara.html', {"table_info":table_info, 'page':page})
 
 def form_profile(request, form_id):
 	url = "/".join([FARA_ENDPOINT, "doc-profile", form_id])
@@ -205,6 +209,8 @@ def client_profile(request, client_id):
 	results['location'] = data['location']
 	results['location_id'] = data['location_id']
 
+	if data.has_key('running_total_13'):
+		results['running_total_13'] = data['running_total_13']
 	if data.has_key('total_payment'):
 		results['total_payment'] = data['total_payment']
 	if data.has_key('contacts'):
@@ -310,17 +316,22 @@ def reg_profile(request, reg_id):
 
 	#document table
 	if request.GET.get('p'):
-		page = int(request.GET.get('p'))
+		p = int(request.GET.get('p'))
 	else:
-		page = 1
+		p = 1
 	url = "/".join([FARA_ENDPOINT, "docs"])
-	response = requests.get(url, params={"p":page,"key":API_PASSWORD,"reg_id":reg_id, "doc_type":"all"})
+	response = requests.get(url, params={"p":p,"key":API_PASSWORD,"reg_id":reg_id, "doc_type":"all"})
 	data = response.json()
-	page = int(page)
 
-	table_info = make_doc_table(data, page)
+	table_info = make_doc_table(data, p)
 
-	return render(request, 'foreign/reg_profile.html', {"results":results, "table_info":table_info})
+	page = {}
+	page['this'] = p
+	page['previous'] = p - 1
+	page['next'] = p + 1
+	page['total'] = data['page']['num_pages']
+
+	return render(request, 'foreign/reg_profile.html', {"results":results, "table_info":table_info, 'page':page})
 
 def location_profile(request, location_id):
 	url = "/".join([FARA_ENDPOINT, "place-profile", location_id])
