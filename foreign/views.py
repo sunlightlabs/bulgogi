@@ -348,7 +348,7 @@ def location_profile(request, location_id):
 	url = "/".join([FARA_ENDPOINT, "proposed-arms", location_id])
 	response = requests.get(url, params={"key":API_PASSWORD})
 	data = response.json()
-	results['proposed_sales']
+	results['proposed_sales'] = data['results']['proposed_sales']
 	return render(request, 'foreign/location_profile.html', {"results":results})
 
 def recipient_profile(request, recip_id):
