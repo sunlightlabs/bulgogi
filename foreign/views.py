@@ -14,38 +14,34 @@ def about(request):
 
 def incoming_arms(request):
 	if request.GET.get('p'):
-		page = int(request.GET.get('p'))
+		p = int(request.GET.get('p'))
 	else:
-		page = 1
+		p = 1
 	url = "/".join([FARA_ENDPOINT, "proposed-arms"])
-	response = requests.get(url, auth=(API_USER, API_PASSWORD), params={"p":page})
+	response = requests.get(url, params={"p":p, "key":API_PASSWORD})
 	data = response.json()
+	data = data['results']
 	docs = []
 	
-	page = int(page)
-	if page != 	1:
-		page = {"previous":page-1, "this":page, "next":page+1,}
-	else:
-		page = {"this":page, "next":page+1}
+	page ={}
+	page['this'] = p
+	page['previous'] = p - 1
+	page['next'] = p + 1
+	page['total'] = data['page']['num_pages']
 
 	count = 1
-
 	results = []
-	for d in data['results']:
+	for d in data['proposed_sales']:
 		if count % 2 != 0:
 			row = "even"
 		else:
 			row = "odd"
 		date = d["date"]
-		date = date.split('-')
-		date = date[1] + '/' + date[2] + '/' + date[0]
-
 		info ={
 			"date": date,
 			"id": d["id"],
 			"title": d["title"],
 			"row": row,
-			"pdf_url": d["pdf_url"],
 		}
 		results.append(info)
 		count += 1
@@ -55,19 +51,15 @@ def incoming_arms(request):
 def arms_profile(request, doc_id):
 	# need to build this
 	url = "/".join([FARA_ENDPOINT, "proposed-arms"])
-	response = requests.get(url, auth=(API_USER, API_PASSWORD), params={"doc_id":doc_id})
+	## problem
+	response = requests.get(url, params={"doc_id":doc_id, "key":API_PASSWORD})
 	data = response.json()
-
-	date = data["date"]
-	date = date.split('-')
-	date = date[1] + '/' + date[2] + '/' + date[0]
 
 	results={
 		'doc_id': doc_id,
 		'title': data['title'], 
-		'date': date, 
+		'date': data["date"], 
 		'location': data['location'], 
-		'text': data['text'], 
 		'pdf_url': data['pdf_url'],
 	}
 
@@ -75,6 +67,7 @@ def arms_profile(request, doc_id):
 		results['location_id'] = data['location_id']
 
 	return render(request, 'foreign/arms_profile.html', results)
+
 
 
 def incoming_fara(request):
@@ -351,6 +344,11 @@ def location_profile(request, location_id):
 	if data.has_key('clients'):
 		results['clients'] = data['clients']
 
+		location_id
+	url = "/".join([FARA_ENDPOINT, "proposed-arms", location_id])
+	response = requests.get(url, params={"key":API_PASSWORD})
+	data = response.json()
+	results['proposed_sales']
 	return render(request, 'foreign/location_profile.html', {"results":results})
 
 def recipient_profile(request, recip_id):

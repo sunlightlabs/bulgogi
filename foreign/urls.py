@@ -7,6 +7,7 @@ from django.conf.urls import patterns, include, url
 urlpatterns = patterns('',
 	url(r'^$', 'foreign.views.about', name='about'),
     url(r'^incoming-fara', 'foreign.views.incoming_fara', name='incoming-fara'),
+    # proposed arms form
     url(r'^form-profile/(\d+)', 'foreign.views.form_profile', name='form-profile'),
     url(r'^incoming-arms', 'foreign.views.incoming_arms', name='incoming-arms'),
     url(r'^arms-profile/(\d+)', 'foreign.views.arms_profile', name='arms-profile'),

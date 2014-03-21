@@ -29,7 +29,7 @@
 	{% if  page.total > 1 %}
 		(of <a href="?{{ page.query_params }}p={{ page.total }}">{{ page.total }} pages</a>) 
 	{% endif %}
-	{% if page.total > 1 %}
+	{% if page.total > 1 and page.this != page.total %}
 		/ <a href="?{{ page.query_params }}p={{ page.next }}">Next Page</a>
 	{% endif %}
 </div>

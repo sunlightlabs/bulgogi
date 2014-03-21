@@ -54,10 +54,11 @@ table .even, li.even, div.even{
    font-weight: normal;
 }
 
-/* doesn't seem to do much */
-.pagination_container {
+
+#pagination_container {
     padding-top:0px;
     padding-bottom:0px;
+    float: right;
     }
 
 /* added this so the foreign stays highlighted*/
