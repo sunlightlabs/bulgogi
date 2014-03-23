@@ -24,6 +24,32 @@
 <br>
 <div class="withNav">
 	<h2  class="insideBar">{{ results.location }}</h2> 
+	<br>
+	{% if results.location_contacts or results.location_payments or results.location_disbursements %}
+		<h4>
+			View {{ results.location }} records:
+		</h4>
+	{% endif %}
+	{% if results.location_contacts %}
+		<h4>
+			<a href="/contact-table?location_id={{ results.location_id }}">Contacts</a> 
+		</h4>
+	{% endif %}
+	{% if results.location_payments %}
+		<h4>
+			<a href="/payment-table?location_id={{ results.location_id }}">Payments</a>
+		</h4>
+
+		{% if results.running_total_13 %}
+			<p> {{ results.running_total_13 }} since 2013</p>
+		{% endif %}
+	{% endif %}
+	{% if results.location_disbursements %}
+		<h4>
+			<a href="/disbursement-table?location_id={{ results.location_id }}">Disbursements</a>
+		</h4>
+	{% endif %}
+
 </div>
 
 <a class="sectionLink" name="client_section"></a>
@@ -37,8 +63,9 @@
 	{% for c in results.clients %}
 
 	<h5><a href="/client-profile/{{ c.id }}"> {{ c.client_name }}</a></h5>
+	
 	{% if c.client_type %}
-		<p>{{ c.client_type }}</p>
+		<p>Client type: {{ c.client_type }}</p>
 	{% endif %}
 
 
@@ -46,8 +73,14 @@
 		<p>{{ c.description }}</p>
 	{% endif %}
 	
-	{% if c.total_payment %}
-		<p><a href="/payment-table?client_id={{ c.id }}">${{ c.total_payment|floatformat:2|intcomma }} in payments on behalf of {{ c.client_name }}.</a></p>
+	{% if c.running_total_13 %}
+		<p>${{ c.running_total_13 }} in payments since 2013.</p>
+	{% endif %}
+
+	{% if c.total_pay %}
+		<p>
+			<a href="/payment-table?client_id={{ c.id }}">See all payments on behalf of {{ c.client_name }}.</a>
+		</p>
 	{% endif %}
 
 	{% if c.total_disbursement %}
@@ -75,7 +108,7 @@
 		{% endfor %}
 		</blockquote>
 	{% endif %}
-
+	<br>
 	<br>
 
 	{% endfor %}

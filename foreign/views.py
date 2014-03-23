@@ -313,7 +313,7 @@ def reg_profile(request, reg_id):
 	else:
 		p = 1
 	url = "/".join([FARA_ENDPOINT, "docs"])
-	response = requests.get(url, params={"p":p,"key":API_PASSWORD,"reg_id":reg_id, "doc_type":"all"})
+	response = requests.get(url, params={"p":p,"key":API_PASSWORD,"reg_id":reg_id, "doc_type":"all", "all_records":"True"})
 	data = response.json()
 
 	table_info = make_doc_table(data, p)
@@ -332,23 +332,24 @@ def location_profile(request, location_id):
 	data = response.json()
 	data = data['results']
 	results = {}
-	
 	results['location'] = data['location_name']
 	results['location_id'] = location_id
-
-	if data.has_key('proposed_sales'):
-		results['proposed_sales'] = data['proposed_sales']
-	else:
-		results['proposed_sales'] = None
+	if data.has_key('location_contacts'):
+		results['location_contacts'] = data['location_contacts']
+	if data.has_key('location_payments'):
+		results['location_payments'] = data['location_payments']
+	if data.has_key('location_disbursements'):
+		results['location_disbursements'] = data['location_disbursements']
 
 	if data.has_key('clients'):
 		results['clients'] = data['clients']
 
 		location_id
-	url = "/".join([FARA_ENDPOINT, "proposed-arms", location_id])
-	response = requests.get(url, params={"key":API_PASSWORD})
+	url = "/".join([FARA_ENDPOINT, "proposed-arms"])
+	response = requests.get(url, params={"key":API_PASSWORD, 'location_id':location_id})
 	data = response.json()
 	results['proposed_sales'] = data['results']['proposed_sales']
+
 	return render(request, 'foreign/location_profile.html', {"results":results})
 
 def recipient_profile(request, recip_id):
@@ -413,7 +414,6 @@ def make_doc_table(data, page):
 			reg_name = d["reg_name"]
 		else:
 			reg_name = ''
-
 		if count % 2 != 0:
 			place = "even"
 		else:
@@ -473,7 +473,7 @@ def contact_table(request):
 			url_param = url_param + query
 	page['query_params'] = url_param
 
-	return render(request, 'foreign/contact_table.html', {"title":data['title'], "page":page, "contacts":data['results']})
+	return render(request, 'foreign/contact_table.html', {"title":data['title'], "page":page, "contacts":data['results'], "buttons":data['buttons']})
 
 def payment_table(request):
 	url = "/".join([FARA_ENDPOINT, "payment-table"])
@@ -511,7 +511,7 @@ def payment_table(request):
 			url_param = url_param + query
 	page['query_params'] = url_param
 
-	return render(request, 'foreign/payment_table.html', {"title":data['title'], "page":page, "payments":data['results']})
+	return render(request, 'foreign/payment_table.html', {"title":data['title'], "page":page, "buttons":data['buttons'], "payments":data['results']})
 
 def disbursement_table(request):
 	url = "/".join([FARA_ENDPOINT, "disbursement-table"])
@@ -549,7 +549,7 @@ def disbursement_table(request):
 			url_param = url_param + query
 	page['query_params'] = url_param
 
-	return render(request, 'foreign/disbursement_table.html', {"title":data['title'], "page":page, "disbursements":data['results']})
+	return render(request, 'foreign/disbursement_table.html', {"title":data['title'], "page":page, "buttons":data['buttons'], "disbursements":data['results']})
 
 
 def contribution_table(request):
@@ -600,7 +600,7 @@ def contribution_table(request):
 			url_param = url_param + query
 	page['query_params'] = url_param
 
-	return render(request, 'foreign/contribution_table.html', {"title":data['title'], "page":page, "contributions":data['results']})
+	return render(request, 'foreign/contribution_table.html', {"title":data['title'], "page":page,"buttons":data['buttons'], "contributions":data['results']})
 
 def reg_totals13(request):
 	url = "/".join([FARA_ENDPOINT, "reg-2013"])

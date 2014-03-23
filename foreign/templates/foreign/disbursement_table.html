@@ -1,4 +1,5 @@
 {% extends "foreign/foreign_base.html" %}
+{% load staticfiles %}
 {% load humanize %}
 {% block main_content %}
 <div class="module withNav">
@@ -13,6 +14,21 @@
 
 </h3>
 
+{% if buttons %}
+<div style="float:right">
+	<h4>See related records:</h4>
+	{% if buttons.contribution %} 
+		<h4><a href="contribution-table?{{ page.query_params }}">Contributions</a></h4>
+	{% endif %}
+	{% if buttons.contact %} 
+		<h4><a href="contact-table?{{ page.query_params }}">Contacts</a></h4>
+	{% endif %}
+	{% if buttons.payment %} 
+		<h4><a href="payment-table?{{ page.query_params }}">Payments</a></h4>
+	{% endif %}
+</div>
+{% endif %}
+
 <table>
 	<thead class="header">
 		<th>Date</th>
@@ -21,12 +37,13 @@
 		<th>Registrant</th>
 		<th>Purpose</th>
 		<th>To Subcontractor</th>
-			</thead>
+		<th>Filing</th>
+	</thead>
 	<tbody>
 		{% for d in disbursements %}
 			<tr class="{{ d.row }}">
 				<td>
-					<a href="/form-profile/{{ d.doc_id }}">{{ d.date }}</a>
+					{{ d.date }}
 				</td>
 				<td>
 					${{ d.amount|floatformat:2|intcomma }}
@@ -43,6 +60,7 @@
 				<td>
 					<a href="/reg-profile/{{ d.subcontractor_id }}">{{ d.subcontractor }}</a>
 				</td>
+				<td><a href="/form-profile/{{ d.doc_id }}"><img src="{% static "dryrub/images/doc_text_image.png" %}"></td>
 			</tr>
 		{% endfor %}
 	</tbody>

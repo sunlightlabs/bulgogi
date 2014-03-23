@@ -1,4 +1,5 @@
 {% extends "foreign/foreign_base.html" %}
+{% load staticfiles %}
 {% load humanize %}
 {% block main_content %}
 <div class="module withNav">
@@ -13,6 +14,21 @@
 
 </h3>
 
+{% if buttons %}
+<div style="float:right">
+	<h4>See related records:</h4>
+	{% if buttons.contribution %} 
+		<h4><a href="contribution-table?{{ page.query_params }}">Contributions</a></h4>
+	{% endif %}
+	{% if buttons.payment %} 
+		<h4><a href="payment-table?{{ page.query_params }}">Payments</a></h4>
+	{% endif %}
+	{% if buttons.disbursement %} 
+		<h4><a href="disbursement-table?{{ page.query_params }}">Disbursements</a></h4>
+	{% endif %}
+</div>
+{% endif %}
+
 <table>
 	<thead class="header">
 		<th>Date</th>
@@ -21,11 +37,12 @@
 		<th>Registrant</th>
 		<th>Description</th>
 		<th>Employees</th>
+		<th>Filing</th>
 	</thead>
 	<tbody>
 		{% for c in contacts %}
 			<tr class="{{ c.row }}">
-				<td><a href="/form-profile/{{ c.doc_id }}">{{ c.date }}</a></td>
+				<td>{{ c.date }}</a></td>
 				<td>
 					{% for person in c.contact %}
 						{% if person.recipient_id %}<a href="/recipient-profile/{{ person.recipient_id }}">{% endif %}
@@ -37,6 +54,7 @@
 				<td><a href="/reg-profile/{{ c.reg_id }}">{{ c.registrant }}</td>
 				<td>{{ c.description }}</td>
 				<td>{{ c.employees }}</td>
+				<td><a href="/form-profile/{{ c.doc_id }}"><img src="{% static "dryrub/images/doc_text_image.png" %}"></td>
 			</tr>
 		{% endfor %}
 	</tbody>
