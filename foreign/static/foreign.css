@@ -1,12 +1,3 @@
-/* Table styling */
-thead {
-    border-bottom: solid 1px #DADFDB;
-    background: rgba(105,165,159,.17);
-}
-
-table .even, li.even, div.even{ 
-    background-color: #F6F4F0;
-    }
 
 /* Sub navigation bar matching Real Time. Foreign navigation font is bigger but the proportions should stay consistent  */
 
@@ -54,11 +45,11 @@ table .even, li.even, div.even{
    font-weight: normal;
 }
 
-
-#pagination_container {
+/* doesn't seem to do much */
+.pagination_container {
     padding-top:0px;
     padding-bottom:0px;
-    float: right;
+    float:right;
     }
 
 /* added this so the foreign stays highlighted*/
@@ -66,4 +57,27 @@ table .even, li.even, div.even{
     padding-top: 2px;
     background: rgba(90, 157, 141, .14);
     border: 1px solid rgba(108, 98, 98, .14);
+    }
+
+/* tables */
+thead {
+    border-bottom: solid 1px #DADFDB;
+    background: rgba(105,165,159,.17);
+}
+
+table .even, li.even, div.even{ 
+    background-color: #F6F4F0;
+    }
+
+th.sort.header.headerSortUp, th.headerSortDown {
+    background-color:#D1DBDA !important;
+    border: 1px solid #DADFDB !important;
+    }
+
+th.sort.header:hover {
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+        -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+        box-sizing: border-box;         /* Opera/IE 8+ */
+    background-color:#E0EAE9 !important;
+    border: 1px solid #DADFDB !important;
     }
