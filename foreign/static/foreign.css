@@ -43,20 +43,21 @@
 /*removed white hover color*/
 #sub_nav li:hover {
    font-weight: normal;
-}
-
-/* doesn't seem to do much */
-.pagination_container {
-    padding-top:0px;
-    padding-bottom:0px;
-    float:right;
     }
+
 
 /* added this so the foreign stays highlighted*/
 #foreign {
     padding-top: 2px;
     background: rgba(90, 157, 141, .14);
     border: 1px solid rgba(108, 98, 98, .14);
+    }
+
+/* pages */
+.pagination_container {
+    padding-top:0px;
+    padding-bottom:0px;
+    float:right;
     }
 
 /* tables */

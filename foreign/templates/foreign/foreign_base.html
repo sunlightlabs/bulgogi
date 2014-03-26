@@ -54,18 +54,19 @@
    font-weight: normal;
 }
 
-/* doesn't seem to do much */
-.pagination_container {
-    padding-top:0px;
-    padding-bottom:0px;
-    float:right;
-    }
 
 /* added this so the foreign stays highlighted*/
 #foreign {
     padding-top: 2px;
     background: rgba(90, 157, 141, .14);
     border: 1px solid rgba(108, 98, 98, .14);
+    }
+
+/* pages */
+.pagination_container {
+    float:right;
+    padding-top:0px;
+    padding-bottom:0px;
     }
 
 /* tables */
@@ -86,12 +87,12 @@ th.sort.header {
 
 th.sort.header.headerSortUp{
     background-color:#D1DBDA !important;
-    background: url({% static 'dryrub/images/sortArrows_up.png' %}) left center no-repeat;
+    background: url('/static/dryrub/images/sortArrows_up.png') left center no-repeat;
     } 
 
 th.sort.header.headerSortDown {
     background-color:#D1DBDA !important;
-    background: url({% static 'dryrub/images/sortArrows_down.png' %}) left center no-repeat;
+    background: url('/static/dryrub/images/sortArrows_down.png') left center no-repeat;
     }
 
 th.sort.header:hover {
@@ -100,7 +101,6 @@ th.sort.header:hover {
     box-sizing: border-box;         /* Opera/IE 8+ */
     background-color:#E0EAE9 !important;
     }
-
 
 </style>
 {% endblock %}
