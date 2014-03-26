@@ -616,11 +616,11 @@ def http_link(link):
 	link = "http://fara.sunlightfoundation.com.s3.amazonaws.com/html/" + link[25:-4] + "/index.html"
 	return link
 
-def locations(request):
+def clients(request):
 	url = "/".join([FARA_ENDPOINT, "locations"])
 	query_params = {}
 	query_params['key'] = API_PASSWORD
 	response = requests.get(url, params=query_params)
 	data = response.json()
 
-	return render(request, 'foreign/location_list.html', {"data":data['results']})
+	return render(request, 'foreign/client_list.html', {"data":data['results']})
