@@ -63,21 +63,31 @@
 thead {
     border-bottom: solid 1px #DADFDB;
     background: rgba(105,165,159,.17);
-}
+    }
 
 table .even, li.even, div.even{ 
     background-color: #F6F4F0;
     }
 
-th.sort.header.headerSortUp, th.headerSortDown {
-    background-color:#D1DBDA !important;
+th.sort.header {
     border: 1px solid #DADFDB !important;
+    padding-right: 15px;
+    padding-left: 20px;
+    }
+
+th.sort.header.headerSortUp{
+    background-color:#D1DBDA !important;
+    background: url('/static/dryrub/images/sortArrows_down.png') left center no-repeat;
+    } 
+
+th.sort.header.headerSortDown {
+    background-color:#D1DBDA !important;
+    background: url('/static/dryrub/images/sortArrows_down.png') left center no-repeat;
     }
 
 th.sort.header:hover {
     -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
-        -moz-box-sizing: border-box;    /* Firefox, other Gecko */
-        box-sizing: border-box;         /* Opera/IE 8+ */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;         /* Opera/IE 8+ */
     background-color:#E0EAE9 !important;
-    border: 1px solid #DADFDB !important;
     }

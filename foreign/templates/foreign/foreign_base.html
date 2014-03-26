@@ -78,18 +78,20 @@ table .even, li.even, div.even{
     background-color: #F6F4F0;
     }
 
+th.sort.header {
+    border: 1px solid #DADFDB !important;
+    padding-right: 15px;
+    padding-left: 20px;
+}
+
 th.sort.header.headerSortUp{
     background-color:#D1DBDA !important;
-    border: 1px solid #DADFDB !important;
     background: url({% static 'dryrub/images/sortArrows_up.png' %}) left center no-repeat;
-    padding-right: 15px;
     } 
 
 th.sort.header.headerSortDown {
     background-color:#D1DBDA !important;
-    border: 1px solid #DADFDB !important;
     background: url({% static 'dryrub/images/sortArrows_down.png' %}) left center no-repeat;
-    padding-right: 15px;
     }
 
 th.sort.header:hover {
@@ -97,7 +99,6 @@ th.sort.header:hover {
     -moz-box-sizing: border-box;    /* Firefox, other Gecko */
     box-sizing: border-box;         /* Opera/IE 8+ */
     background-color:#E0EAE9 !important;
-    border: 1px solid #DADFDB !important;
     }
 
 
