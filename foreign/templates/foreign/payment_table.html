@@ -43,7 +43,7 @@
 		{% for p in payments %}
 			<tr class="{{ p.row }}">
 				<td>
-					<a href="/form-profile/{{ p.doc_id }}">{{ p.date }}</a>
+					{{ p.date }}
 				</td>
 				<td>
 					${{ p.amount|floatformat:2|intcomma }}

@@ -12,6 +12,9 @@ from foreign.local_settings import FARA_ENDPOINT, API_USER, API_PASSWORD, CONGRE
 def about(request):
 	return render(request, 'foreign/about_foreign.html',)
 
+def methodology(request):
+	return render(request, 'foreign/methodology.html',)
+
 def incoming_arms(request):
 	if request.GET.get('p'):
 		p = int(request.GET.get('p'))
@@ -386,8 +389,8 @@ def recipient_profile(request, recip_id):
 
 	else:
 		results = data['results'][0]
-		results['recip_id'] = recip_id
-
+	
+	results['recipient_id'] = recip_id
 
 	return render(request, 'foreign/recipient_profile.html', {"results":results})
 
@@ -439,18 +442,25 @@ def contact_table(request):
 	url = "/".join([FARA_ENDPOINT, "contact-table"])
 	query_params = {}
 	query_params['key'] = API_PASSWORD
+	
 	if request.GET.get('reg_id'):
 		query_params['reg_id'] = request.GET.get('reg_id')
+	
 	if request.GET.get('doc_id'):
 		query_params['doc_id'] = request.GET.get('doc_id')
+	
 	if request.GET.get('client_id'):
 		query_params['client_id'] = request.GET.get('client_id')
+	
 	if request.GET.get('recipient_id'):
 		query_params['recipient_id'] = request.GET.get('recipient_id')
+	
 	if request.GET.get('contact_id'):
 		query_params['contact_id'] = request.GET.get('contact_id')
+	
 	if request.GET.get('location_id'):
 		query_params['location_id'] = request.GET.get('location_id')
+	
 	if request.GET.get('p'):
 		page = int(request.GET.get('p'))
 		p = int(request.GET.get('p'))
@@ -479,16 +489,22 @@ def payment_table(request):
 	url = "/".join([FARA_ENDPOINT, "payment-table"])
 	query_params = {}
 	query_params['key'] = API_PASSWORD
+	
 	if request.GET.get('reg_id'):
 		query_params['reg_id'] = request.GET.get('reg_id')
+	
 	if request.GET.get('doc_id'):
 		query_params['doc_id'] = request.GET.get('doc_id')
+	
 	if request.GET.get('client_id'):
 		query_params['client_id'] = request.GET.get('client_id')
+	
 	if request.GET.get('payment_id'):
 		query_params['payment_id'] = request.GET.get('payment_id')
+	
 	if request.GET.get('location_id'):
 		query_params['location_id'] = request.GET.get('location_id')
+	
 	if request.GET.get('p'):
 		page = int(request.GET.get('p'))
 		p = int(request.GET.get('p'))
@@ -517,16 +533,22 @@ def disbursement_table(request):
 	url = "/".join([FARA_ENDPOINT, "disbursement-table"])
 	query_params = {}
 	query_params['key'] = API_PASSWORD
-	if request.GET.get('reg_id'):
-		query_params['reg_id'] = request.GET.get('reg_id')
-	if request.GET.get('doc_id'):
-		query_params['doc_id'] = request.GET.get('doc_id')
-	if request.GET.get('client_id'):
-		query_params['client_id'] = request.GET.get('client_id')
+
 	if request.GET.get('disbursement_id'):
 		query_params['disbursement_id'] = request.GET.get('disbursement_id')
+	
+	if request.GET.get('reg_id'):
+		query_params['reg_id'] = request.GET.get('reg_id')
+	
+	if request.GET.get('doc_id'):
+		query_params['doc_id'] = request.GET.get('doc_id')
+	
+	if request.GET.get('client_id'):
+		query_params['client_id'] = request.GET.get('client_id')
+	
 	if request.GET.get('location_id'):
 		query_params['location_id'] = request.GET.get('location_id')
+	
 	if request.GET.get('p'):
 		page = int(request.GET.get('p'))
 		p = int(request.GET.get('p'))
@@ -556,6 +578,9 @@ def contribution_table(request):
 	url = "/".join([FARA_ENDPOINT, "contribution-table"])
 	query_params = {}
 	query_params['key'] = API_PASSWORD
+	if request.GET.get('contribution_id'):
+		query_params['contribution_id'] = request.GET.get('contribution_id')
+
 	if request.GET.get('reg_id'):
 		query_params['reg_id'] = request.GET.get('reg_id')
 	
@@ -624,3 +649,68 @@ def clients(request):
 	data = response.json()
 
 	return render(request, 'foreign/client_list.html', {"data":data['results']})
+
+def search(request):
+	url = "/".join([FARA_ENDPOINT, "search"])
+	# url = "/".join([FARA_ENDPOINT, "search"])
+	query_params = {}
+	if request.GET.get('q'):
+		q = request.GET.get('q')
+		query_params['q'] = q
+
+	else:
+		return render(request, 'foreign/search_results.html', {"results":None})
+	
+	query_params['key'] = API_PASSWORD
+	response = requests.get(url, params=query_params)
+	results = response.json()
+
+	data = {}
+	if results['clients']['hits']['hits']:
+		c = []
+		for r in results['clients']['hits']['hits']:
+			c.append({'id':r['_id'], 'info':r['_source']})
+		data['clients'] = c
+		
+
+	if results['registrants']['hits']['hits']:
+		reg = []
+		for r in results['registrants']['hits']['hits']:
+			reg.append({'id':r['_id'], 'info':r['_source']})
+		data['registrants'] = reg
+		
+	if results['people_org']['hits']['hits']:
+		p = []
+		for r in results['people_org']['hits']['hits']:
+			p.append({'id':r['_id'], 'info':r['_source']})
+		data['people_org'] = p
+
+	if results['arms']['hits']['hits']:
+		a = []
+		for r in results['arms']['hits']['hits']:
+			a.append({'id':r['_id'], 'info':r['_source']})
+		data['arms'] = a
+		
+	if results['interactions']['hits']['hits']:
+		i = []
+		for r in results['interactions']['hits']['hits']:
+			i.append({'id':r['_id'], 'info':r['_source']})
+		data['interactions'] = i
+		
+
+	if results['locations']['hits']['hits']:
+		l = []
+		for r in results['locations']['hits']['hits']:
+			l.append({'id':r['_id'], 'info':r['_source']})
+		data['locations'] = l
+		
+	if results['docs']['hits']['hits']:
+		d = []
+		for r in results['docs']['hits']['hits']:
+			d.append({'id':r['_id'], 'info':r['_source']})
+		data['docs'] = d
+
+	return render(request, 'foreign/search_results.html', {"results":data, 'q':q})
+
+
+

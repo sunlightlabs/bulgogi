@@ -1,0 +1,165 @@
+{% extends "foreign/foreign_base.html" %}
+{% block main_content %}
+
+{% if results.locations or results.clients or results.registrants or results.people_org or results.arms or results.interactions or results.docs %}
+<div id="floatingNavWrapper">
+<div id="floatingNav">        
+   
+    <div class="withNav" id="changeDates">
+    	<h3 class="insideBar withNav">Search Results- {{ q }}</h3>
+    </div>
+
+    <div id="miniNavWrapper">
+        <div id="miniNav">
+            <ul>
+            	{% if results.locations %}
+                	<li><a href="#locations">Locations</a></li>
+                {% endif %}
+                {% if results.clients %}
+                	<li><a href="#clients">Clients</a></li>
+                {% endif %}
+                {% if results.registrants %}
+                	<li><a href="#registrants">Foreign Agents</a></li>
+                {% endif %}
+                {% if results.people_org %}
+                	<li><a href="#people_org">People and Organizations</a></li>
+                {% endif %}
+                {% if results.arms %}
+                	<li><a href="#arms">Proposed Arms Sales</a></li>
+                {% endif %}
+                {% if results.interactions %}
+                	<li><a href="#interactions">Interactions</a></li>
+                {% endif %}
+                {% if results.docs %}
+                	<li><a href="#documents">Documents</a></li>
+                {% endif %}
+                
+            </ul>
+        </div>
+    </div>
+</div>
+</div>
+{% else %}
+	<div class="withNav withTip">
+		<h3 class="insideBar">No results found for, "{{ q }}"</h3>
+	</div>
+{% endif %}
+
+
+
+{% if results.locations %}
+	<a class="sectionLink" name="locations"></a>
+	<div class="overviewBar withNav withTip">
+		<h3 class="insideBar">Locations</h3>
+	</div>
+	<div class="module withNav">
+	{% for l in results.locations %}
+	  <a href="/location-profile/{{ l.id }}">{{ l.info.location }}, {{ l.info.region }}</a><br><br>
+	{% endfor %}
+	</div>
+{% endif %}
+
+{% if results.clients %}
+	<a class="sectionLink" name="clients"></a>
+	<div class="overviewBar withNav withTip">
+		<h3 class="insideBar">Clients</h3>
+	</div>
+	<div class="module withNav">
+	{% for c in results.clients %}
+  		<a href="/client-profile/{{ c.id }}">{{ c.info.name }}, {{ c.info.location }}</a><br><br>
+	{% endfor %}
+	</div>
+{% endif %}
+
+{% if results.registrants %}
+	<a class="sectionLink" name="registrants"></a>
+	<div class="overviewBar withNav withTip">
+		<h3 class="insideBar">Foreign Agents</h3>
+	</div>
+	<div class="module withNav">
+	{% for r in results.registrants %}
+	 	<a href="/reg-profile/{{ r.id }}">{{ r.info.name }}</a><br><br>
+	{% endfor %}
+	</div>
+{% endif %}
+
+
+{% if results.people_org %}
+	<a class="sectionLink" name="people_org"></a>
+	<div class="overviewBar withNav withTip">
+		<h3 class="insideBar">People and Organizations</h3>
+	</div>
+
+	<div class="module withNav">
+		{% for p in results.people_org %}
+			<a href="/recipient-profile/{{ p.id }}">{{ p.info.name }} {{ p.info.agency }} {{ p.info.office }}</a><br><br>
+		{% endfor %}
+	</div>
+{% endif %}
+
+
+{% if results.arms %}
+<a class="sectionLink" name="arms"></a>
+<div class="overviewBar withNav withTip">
+	<h3 class="insideBar">Proposed Arms Sales</h3>
+</div>
+<div class="module withNav">
+	{% for p in results.arms %}
+		<a href="/arms-profile/{{ p.id }}">{{ p.info.title }}</a><br><br>
+	{% endfor %}
+</div>
+
+{% endif %}
+
+{% if results.interactions %}
+	<a class="sectionLink" name="interactions"></a>
+	<div class="overviewBar withNav withTip">
+		<h3 class="insideBar">Interactions</h3>
+	</div>
+	<div class="module withNav">
+		{% for r in results.interactions %}
+			<a href="/{{ r.info.type }}-table?{{ r.info.type }}_id={{ r.id}}">
+				 <h4>{{ r.info.type }} {{ r.info.date|date:"%d/%m/%y" }}</h4>
+				 <p>Client: {{ r.info.client }}</p>
+				 <p>Foreign Agent:	{{ r.info.registrant }}</p>
+				 {% if r.info.amount %}
+				 	<p>Amount: {{ r.info.amount }}</p>
+				 {% endif %}
+				 {% if r.info.recipient %}
+				 	<p>{{ r.info.recipient }}</p>
+				 {% endif %}
+				 {% if r.info.contributor %}
+				 	<p>{{ r.info.contributor }}</p>
+				 {% endif %}
+				 {% if r.info.description %}
+				 	<p>Description: {{ r.info.description }}</p>
+				 {% endif %}
+				 {% if r.info.purpose %}
+				 	<p>Purpose: {{ r.info.purpose }}</p>
+				 {% endif %}
+				 {% if r.info.subcontractor %}
+				 	<p>Subcontractor: {{ r.info.subcontractor }}</p>
+				 {% endif %}
+				 <br><br>
+
+		{% endfor %}
+	</div>
+{% endif %}
+
+{% if results.docs %}
+	<a class="sectionLink" name="documents"></a>
+	<div class="overviewBar withNav withTip">
+		<h3 class="insideBar">Documents</h3>
+	</div>
+
+	<div class="module withNav">
+		{% for r in results.docs %}
+			<a href="/form-profile/{{ r.id}}">
+			<p><b>{{ r.info.type }}</b> {{ r.info.registrant }} {{ r.info.date }}</p>
+			</a>
+		{% endfor %}
+	</div>
+{% endif %}
+
+	
+{% endblock %}

@@ -1,5 +1,6 @@
 {% extends "foreign/foreign_base.html" %}
 {% block main_content %}
+
 <div id="floatingNavWrapper">
     <div id="floatingNav">
         
@@ -17,139 +18,67 @@
  	</div>
 </div>	
 
-	<div class="module withNav">
-		<p>
-			Foreign Influence Explorer documents some of the ways foreign entities influence policy and opinions in the United States. The foreign influence data housed here comes from a robust set of documents collected by the Department of Justice. This information is collected according to the <a href="http://www.fara.gov/">Foreign Agent Registrant Act Records</a>.   View information about <a href="#fara_section">Foreign Agent Feed</a> and <a href="#arms_section">Proposed Arms Sales</a> below.
-		</p>	
-	</div>
-
-
-
-	<a class="sectionLink" name="fara_section"></a>
-	<div class="overviewBar withNav withTip">
-		<h3 class="insideBar"><a href="/incoming-fara">Foreign Agent Feed</a></h3>
-	</div>
-
-	<div class="module withNav">
-		<h4>Overview:</h4>
-		<p>
-			Documents in the <a href="/incoming-fara">Foreign Agent Feed</a> come from the Department of Justice's <a href="http://www.fara.gov/">Foreign Agent Registrant Act Records</a>. 
-		</p>
-		<p>
-			The DOJ describes FARA as, "a disclosure statute that requires persons acting as agents of foreign principals in a political or quasi-political capacity to make periodic public disclosure of their relationship with the foreign principal, as well as activities, receipts and disbursements in support of those activities." 
-		</p>
-		<p>
-			The data is made up of records that report a variety of types of interactions between foreign actors and the U.S. government. For example, some of the records report cases of lobbyists advocating for foreign governments. Others might detail public relations campaigns for travel and trade associations or what appears to be more mundane occurences such as individuals seeking visas.  
-		</p>
-		<p>
-			Clicking on a form in the <a href="/incoming-fara">Foreign Agent Feed</a> takes you to a document profile that lists all of the clients that a registrant represents. Registrants are generally the entities that represent the foreign interests and they are responsible for filing the forms with the DOJ. Sometimes registrants represent themselves. This list is according to the most recently processed form in the system. As new forms are processed, client lists can change.		</p>
-		<p>
-			If a form has been processed, and the form deals with the information Sunlight tracks, a downloadable file will be created. The zip file will contain spreadsheets with any information dealing with who the registrant contacts in the United States, the registrant's political contributions, payments made to the registrant and disbursements made on behalf of the client.
-		</p>
-        <a class="sectionLink" name="arms_section"></a>
-        <div class="overviewBar withNav withTip">
-            <h3 class="insideBar"><a href="/incoming-arms">Proposed Arms Sales</a></h3>
-        </div>
-        <div class="module withNav">
-            
-            <p>
-			Documents in the <a href="/incoming-arms">Proposed Arms Sales Feed</a> are press releases from <a href="http://www.dsca.mil/major-arms-sales/">The Defense Security Cooperation Agency</a>. It's important to note that the sales mentioned in this feed are only proposed sales and may not happen.
-            </p>
-            <p>
-			This resource is particularly useful to reporters and informed citizens. People can discover issues that are up for negotiation and reference FARA records to see what kind of influence may be a factor in these decisions.
-            </p>
-            <p>
-			Clicking on a title will take you to a preview of a press release and a link to download the original document from the DSCA.
-            </p>
-            <p>
-			The <a href="http://www.dsca.mil/programs/fms">Foreign Military Sales program</a> according to the DSCA:
-            </p>
-            <blockquote>
-                <p>
-                The Foreign Military Sales (FMS) program is a form of security assistance authorized by the Arms Export Control Act (AECA) and a fundamental tool of U.S. foreign policy.
-                </p>
-                <p>
-                Under Section 3, of the AECA, the U.S. may sell defense articles and services to foreign countries and international organizations when the president formally finds that to do so will strengthen the security of the U.S. and promote world peace.
-                </p>
-                <p>
-                Under the FMS the US Government and a foreign government enter into a government-to-government sales agreement. The international agreement is called a Letter of Offer and Acceptance (LOA).
-                </p>	
-            </blockquote>	
-            <br>	
-            
-        </div> 
-
-		<p>
-			Please refer to the documentation in the download for a full explanation of the information in the spreadsheets. 
-		</p>
-		<br>
-		<h4>
-			Document types:
-		</h4>
-		
-		<p>
-			<b>Supplemental-</b> This document provides the type of public relations or lobbying a firm engages in on behalf of a foreign entity. For instance, a lobbying firm can lobby on the state or federal level and a public relations firm might do media outreach or put together a conference for a foreign client. This document helps peple figure out what exact type of activity a registrant partakes in for its clients. "Supplemental" forms also contain key information such as who registrants have contacted in the United States, payments to registrants from clients, political contributions and disbursements that are used to pay for expenses and acitivities. These forms are filed every six months.
-		</p>
-		<p>
-        <b>Registration-</b> This document is the form filed by a new registrant. It includes much of the same key information that the "Supplemental" forms do: payments to registrants, political contributions and disbursements for expenses and activities. "Registration" forms are filed every six months.
-		</p>
-		<p>
-			<b>AB-</b> These are two forms that a registrant must file when it gets a new client to represent. They include information about the client, describe the work that the registrant expects to do and the include a copy of the agreement.
-		</p>
-		<p>
-			<b>Amendment-</b> This document contains corrections or changes to other forms.
-		</p>	
-		
-		<p>
-			Other document types include "Short Form Registrations" for individuals representing foreign agents, "Fundraising Forms" and "Articles of Incorporation". Sunlight does not provide this list of form types for downloadable, but they are available on the <a href="http://www.fara.gov/search.html">FARA website</a>.
-		</p>
-		<br>
-		<h4>
-			Methodology:
-		</h4>
-		<p>
-			The structured data is created by crawling the Department of Justice's website for documents we are interested in. The data is then structured and standardized by hand followed by a team of sunlight employees, interns and volunteers entering the data into web forms. Each line item contains a link to the original form for easy fact-checking and verification. The end product of this process is a series of spreadsheets describing people and entitues contacted in the United States, political contributions from registrants, payments from clients to registrants and  registrants' disbursements for activities and expenses.
-		</p>
-		<p>
-			CONTACTS
-		</p>
-		<p>	 
-			This data contains descriptions of people and entities contacted by lobbyists in the data, press releases on behalf of foreign clients, meetings between foreign actors and people in the United States, conferences, speeches and other activity reported in the FARA forms.
-		</p>
-		<p>	
-			This information is among the most valuable information that can be obtained via the FARA documents because unlike lobbyists who represent domestic clients, representatives of foreign interests must name lawmakers, staff members and even journalists whom they meet with on behalf of their clients.
-		</p>
-		<p>
-			POLITICAL CONTRIBUTIONS
-		</p>
-		<p>
-			Though foreign donations are barred from federal elections, U.S. citizens and organizations that represent foreign interests in the U.S. may still contribute to candidates and campaigns. However, entities with foreign clients must report any campaign contributions they make to the Justice Department under FARA.
-		</p>
-		<p>
-			 Note: Contribution amounts will likely NOT match records available at the Federal Election Commission, or those housed by the Sunlight Foundation's Influence Explorer and on OpenSecrets.org. The reason for this is that these contributions are self-reported by the registrant, while contribution records made available via the FEC are reported by political campaigns.  Because of the different reporting requirements, contribution dates are also not likely to match.		</p>
-		<p>
-			Nonetheless, FARA political donation information is valuable because it bypasses the painstaking name-matching process required when fusing campaign finance records and lobbying records for individuals and organizations that represent domestic clients and causes. The FARA records allow users to easily and reliably determine when someone from a lobbying or public relations organization is making campaign contribution to the same political offices that they are contacting on behalf of a foreign client&mdash;a common practice highlighted by this data.)
-		</p>
-		<p>
-
-			PAYMENTS
-		</p>
-		<p>
-			These numbers tell you how much a foreign government, company or other entity is paying the firms or individuals representing it in the United States. The client field represents a payment on behalf of the client. (In rare cases, other entities foot the bill for services.) 
-		</p>
-		<p>
-			DISBURSEMENTS
-		</p>
-		<p>
-			These are expenses that the individual or organization incurs while representing a foreign government or entity. 
-		</p>
-
-		<br/>
-
-		
-	</div>			
-
-
-    
+<div class="module withNav">
+	<p>
+		Foreign Influence Explorer documents some of the ways foreign entities influence policy and opinions in the United States. The foreign influence data housed here comes from a robust set of documents collected by the Department of Justice. This information is collected according to the <a href="http://www.fara.gov/">Foreign Agent Registrant Act Records</a>.   View information about <a href="#fara_section">Foreign Agent Feed</a> and <a href="#arms_section">Proposed Arms Sales</a> below.
+	</p>	
 </div>
+
+
+<a class="sectionLink" name="fara_section"></a>
+<div class="overviewBar withNav withTip">
+	<h3 class="insideBar"><a href="/incoming-fara">Foreign Agent Feed</a></h3>
+</div>
+
+<div class="module withNav">
+	<h4>Overview:</h4>
+	<p>
+		Documents in the <a href="/incoming-fara">Foreign Agent Feed</a> come from the Department of Justice's <a href="http://www.fara.gov/">Foreign Agent Registrant Act Records</a>. 
+	</p>
+	<p>
+		The DOJ describes FARA as, "a disclosure statute that requires persons acting as agents of foreign principals in a political or quasi-political capacity to make periodic public disclosure of their relationship with the foreign principal, as well as activities, receipts and disbursements in support of those activities." 
+	</p>
+	<p>
+		The data is made up of records that report a variety of types of interactions between foreign actors and the U.S. government. For example, some of the records report cases of lobbyists advocating for foreign governments. Others might detail public relations campaigns for travel and trade associations or what appears to be more mundane occurences such as individuals seeking visas.  
+	</p>
+	<p>
+		Clicking on a form in the <a href="/incoming-fara">Foreign Agent Feed</a> takes you to a document profile that lists all of the clients that a registrant represents. Registrants are generally the entities that represent the foreign interests and they are responsible for filing the forms with the DOJ. Sometimes registrants represent themselves. This list is according to the most recently processed form in the system. As new forms are processed, client lists can change.		</p>
+	<p>
+		If a form has been processed, and the form deals with the information Sunlight tracks, a downloadable file will be created. The zip file will contain spreadsheets with any information dealing with who the registrant contacts in the United States, the registrant's political contributions, payments made to the registrant and disbursements made on behalf of the client.
+	</p>
+
+</div>
+
+<a class="sectionLink" name="arms_section"></a>
+<div class="overviewBar withNav withTip">
+    <h3 class="insideBar"><a href="/incoming-arms">Proposed Arms Sales</a></h3>
+</div>
+
+<div class="module withNav">       
+    <p>
+	Documents in the <a href="/incoming-arms">Proposed Arms Sales Feed</a> are press releases from <a href="http://www.dsca.mil/major-arms-sales/">The Defense Security Cooperation Agency</a>. It's important to note that the sales mentioned in this feed are only proposed sales and may not happen.
+    </p>
+    <p>
+	This resource is particularly useful to reporters and informed citizens. People can discover issues that are up for negotiation and reference FARA records to see what kind of influence may be a factor in these decisions.
+    </p>
+    <p>
+	Clicking on a title will take you to a preview of a press release and a link to download the original document from the DSCA.
+    </p>
+    <p>
+	The <a href="http://www.dsca.mil/programs/fms">Foreign Military Sales program</a> according to the DSCA:
+    </p>
+    <blockquote>
+        <p>
+        The Foreign Military Sales (FMS) program is a form of security assistance authorized by the Arms Export Control Act (AECA) and a fundamental tool of U.S. foreign policy.
+        </p>
+        <p>
+        Under Section 3, of the AECA, the U.S. may sell defense articles and services to foreign countries and international organizations when the president formally finds that to do so will strengthen the security of the U.S. and promote world peace.
+        </p>
+        <p>
+        Under the FMS the US Government and a foreign government enter into a government-to-government sales agreement. The international agreement is called a Letter of Offer and Acceptance (LOA).
+        </p>	
+    </blockquote>	
+    <br>	    
+</div>		  
+
 {% endblock %}

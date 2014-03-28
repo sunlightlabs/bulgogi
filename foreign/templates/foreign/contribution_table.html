@@ -41,7 +41,7 @@
 		{% for c in contributions %}
 			<tr class="{{ c.row }}">
 				<td>
-					<a href="/form-profile/{{ c.doc_id }}">{{ c.date }}</a>
+					{{ c.date }}
 				</td>
 				<td>
 					${{ c.amount|floatformat:2|intcomma }}

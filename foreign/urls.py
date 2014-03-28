@@ -6,6 +6,7 @@ from django.conf.urls import patterns, include, url
 
 urlpatterns = patterns('',
 	url(r'^$', 'foreign.views.about', name='about'),
+    url(r'^methodology', 'foreign.views.methodology', name='methodology'),
     url(r'^incoming-fara', 'foreign.views.incoming_fara', name='incoming-fara'),
     # proposed arms form
     url(r'^form-profile/(\d+)', 'foreign.views.form_profile', name='form-profile'),
@@ -21,6 +22,8 @@ urlpatterns = patterns('',
     url(r'^contribution-table', 'foreign.views.contribution_table', name='contribution-table'),
     url(r'^registrants2013', 'foreign.views.reg_totals13', name='registrants2013'),
     url(r'^clients', 'foreign.views.clients', name='clients'),
+    # url(r'^search-results', 'foreign.views.search_results', name='search-results')
+    url(r'^search', 'foreign.views.search', name='search')
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     # Uncomment the next line to enable the admin:
