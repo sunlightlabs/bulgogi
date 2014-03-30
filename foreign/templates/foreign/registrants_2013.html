@@ -14,7 +14,7 @@
 </h3>
 
 <div class="clear"></div>
-
+data
 <table class="tablesorter" "mainPageTable">
 	<thead class="header">
 		<th class="sort">Foreign Agent</th>
@@ -23,6 +23,7 @@
 		<th class="sort">Federal lobbying</th>
 		<th class="sort">State Dept. contacts</th>
 		<th class="sort">Media contacts</th>
+		<th class="sort">Political Donations</th>
 	</thead>
 	<tbody>
 		{% for d in data %}
@@ -33,6 +34,7 @@
 				<td>{{ d.federal_lobbying }}</td>
 				<td>{{ d.state_dept_lobbying }}</td>
 				<td>{{ d.pr }}</td>
+				<td>{{ d.contribution }}</td>
 			</tr>
 		{% endfor %}
 	</tbody>
