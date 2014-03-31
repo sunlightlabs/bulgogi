@@ -188,12 +188,16 @@
 		<h3 class="insideBar">Document</h3>
 	</div>
 	<div class="module withNav">
-		<iframe width="85%" height="700px" src="{{ view_doc_url }}"></iframe>
-
-		<hr/>	
-		<p>
-			Download this PDF from the Department of Justice <a href="{{ source_url }}">here</a>.
-		</p>
+		
+		{% if view_doc_url %}
+			<iframe width="85%" height="700px" src="{{ view_doc_url }}"></iframe>
+			<hr/>
+		{% endif %}
+		
+		<br>	
+		<h3>
+			Download this PDF from the Department of Justice <a href="{{ source_url }}"><button class="downloadButton linkBtn">Download spreadsheet</button></a>
+		</h3>
 
 		<br/>
 		

@@ -194,6 +194,13 @@ def form_profile(request, form_id):
 	else:
 		download = None
 
+	r = requests.head(view_doc_url)
+	print r.status_code
+	if r.status_code == requests.codes.ok:
+		view_doc_url = download
+	else:
+		view_doc_url = None
+
 	return render(request, 'foreign/form_profile.html', {
 			"source_url": source_url,
 			"stamp_date": stamp_date,
