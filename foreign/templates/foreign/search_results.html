@@ -56,6 +56,8 @@
 	{% for l in results.locations %}
 	  <a href="/location-profile/{{ l.id }}">{{ l.info.location }}, {{ l.info.region }}</a><br><br>
 	{% endfor %}
+	
+
 	</div>
 {% endif %}
 
@@ -68,6 +70,8 @@
 	{% for c in results.clients %}
   		<a href="/client-profile/{{ c.id }}">{{ c.info.name }}, {{ c.info.location }}</a><br><br>
 	{% endfor %}
+	
+
 	</div>
 {% endif %}
 
@@ -80,6 +84,8 @@
 	{% for r in results.registrants %}
 	 	<a href="/reg-profile/{{ r.id }}">{{ r.info.name }}</a><br><br>
 	{% endfor %}
+	
+
 	</div>
 {% endif %}
 
@@ -94,6 +100,8 @@
 		{% for p in results.people_org %}
 			<a href="/recipient-profile/{{ p.id }}">{{ p.info.name }} {{ p.info.agency }} {{ p.info.office }}</a><br><br>
 		{% endfor %}
+	
+
 	</div>
 {% endif %}
 
@@ -107,6 +115,8 @@
 	{% for p in results.arms %}
 		<a href="/arms-profile/{{ p.id }}">{{ p.info.title }}</a><br><br>
 	{% endfor %}
+
+
 </div>
 
 {% endif %}
@@ -143,6 +153,8 @@
 				 <br><br>
 
 		{% endfor %}
+	
+
 	</div>
 {% endif %}
 
@@ -158,6 +170,8 @@
 			<p><b>{{ r.info.type }}</b> {{ r.info.registrant }} {{ r.info.date }}</p>
 			</a>
 		{% endfor %}
+	
+
 	</div>
 {% endif %}
 

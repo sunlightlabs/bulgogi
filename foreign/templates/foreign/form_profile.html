@@ -50,6 +50,12 @@
 			</p>
 
 		<p>Date Received: {{ stamp_date }}</p>
+
+
+		{% if amended = True %}
+		<h3>This form has been amended</h3>
+		{% endif %}
+
 		{% if totals.total_contribution %}
 			<table>	
 				<thead>

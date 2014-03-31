@@ -39,13 +39,22 @@ def incoming_arms(request):
 			row = "even"
 		else:
 			row = "odd"
-		date = d["date"]
+		
+		if d.has_key("date"):
+			date = d["date"]
+		else:
+			print d, "Has no date"
+			date =  None
+		
+
 		info ={
 			"date": date,
 			"id": d["id"],
 			"title": d["title"],
 			"row": row,
 		}
+
+
 		results.append(info)
 		count += 1
 
@@ -57,11 +66,14 @@ def arms_profile(request, doc_id):
 	## problem
 	response = requests.get(url, params={"doc_id":doc_id, "key":API_PASSWORD})
 	data = response.json()
-
+	if data.has_key('date'):
+		date = data['date']
+	else:
+		date = None
 	results={
 		'doc_id': doc_id,
 		'title': data['title'], 
-		'date': data["date"], 
+		'date': date, 
 		'location': data['location'], 
 		'pdf_url': data['pdf_url'],
 	}
@@ -117,6 +129,10 @@ def form_profile(request, form_id):
 		totals['total_payment'] = data['total_payment']
 	if data.has_key('total_disbursement'):
 		totals['total_disbursement'] = data['total_disbursement']
+	if data.has_key('amended'):
+		amended = True
+	else:
+		amended = False
 
 	client_list = []
 	count = 1
@@ -191,6 +207,7 @@ def form_profile(request, form_id):
 			"reg_id": reg_id,
 			"doc_id": form_id,
 			"totals": totals,
+			"amended": amended,
 		})
 
 def client_profile(request, client_id):
