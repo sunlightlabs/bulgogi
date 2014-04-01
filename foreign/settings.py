@@ -1,5 +1,6 @@
 # Django settings for foreign project.
 import os
+import dj_database_url
 
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
@@ -9,16 +10,12 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
+# Had to add dj_database_url because something something Heroku?
+# If DATABASE_URL is not set, fall back to a local sqlite database,
+# which should never be used.
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '',                      # Or path to database file if using sqlite3.
-        # The following settings are not used with sqlite3:
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '',                      # Set to empty string for default.
-    }
+    'default': dj_database_url.config(default='sqlite:///%s' % os.path.join(PROJECT_ROOT, 'dev.db'))
 }
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
