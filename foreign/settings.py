@@ -1,7 +1,7 @@
 # Django settings for foreign project.
 import os
 
-
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -128,6 +128,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
+    'herokal',
     'foreign',
     'compressor',
     'gunicorn',
@@ -171,7 +172,4 @@ LOGGING = {
     }
 }
 
-try:
-    from local_settings import *
-except:
-    pass
+from herokal.settings import *
