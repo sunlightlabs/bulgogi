@@ -11,3 +11,4 @@ git+https://github.com/sunlightlabs/dryrub.git#egg=dryrub
 herokal-settings==0.0.1
 whitenoise==0.13
 dj-database-url
+psycopg2
