@@ -132,10 +132,12 @@ INSTALLED_APPS = (
     'compressor',
     'gunicorn',
     'dryrub',
+    'raven.contrib.django.raven_compat',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
