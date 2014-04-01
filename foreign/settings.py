@@ -1,7 +1,7 @@
 # Django settings for foreign project.
 import os
 
-DEBUG = True
+
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
