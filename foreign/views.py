@@ -25,7 +25,7 @@ def incoming_arms(request):
 	data = response.json()
 	data = data['results']
 	docs = []
-	
+
 	page ={}
 	page['this'] = p
 	page['previous'] = p - 1
@@ -39,13 +39,13 @@ def incoming_arms(request):
 			row = "even"
 		else:
 			row = "odd"
-		
+
 		if d.has_key("date"):
 			date = d["date"]
 		else:
 			print d, "Has no date"
 			date =  None
-		
+
 
 		info ={
 			"date": date,
@@ -72,9 +72,9 @@ def arms_profile(request, doc_id):
 		date = None
 	results={
 		'doc_id': doc_id,
-		'title': data['title'], 
-		'date': date, 
-		'location': data['location'], 
+		'title': data['title'],
+		'date': date,
+		'location': data['location'],
 		'pdf_url': data['pdf_url'],
 	}
 
@@ -143,12 +143,12 @@ def form_profile(request, form_id):
 			if count % 2 != 0:
 				row = "even"
 			else:
-				row = "odd"	
+				row = "odd"
 			count = count + 1
-			client_dict = {"client_id": client["client_id"], 
-							"client_name": client["client_name"], 
-							"row": row, 
-							"location": client["location"], 
+			client_dict = {"client_id": client["client_id"],
+							"client_name": client["client_name"],
+							"row": row,
+							"location": client["location"],
 							"location_id": client["location_id"],
 			}
 			if client.has_key("payment"):
@@ -167,16 +167,16 @@ def form_profile(request, form_id):
 			if count % 2 != 0:
 				row = "even"
 			else:
-				row = "odd"	
+				row = "odd"
 			count = count + 1
 			client_id = client["client_id"]
 			client_name = client["client_name"]
 
 
-			client_dict = {"client_id": client_id, 
-							"client_name": client_name, 
-							"row": row, 
-							"location": client["location"], 
+			client_dict = {"client_id": client_id,
+							"client_name": client_name,
+							"row": row,
+							"location": client["location"],
 							"location_id": client["location_id"],
 			}
 			if client.has_key("payment"):
@@ -185,7 +185,7 @@ def form_profile(request, form_id):
 				client_dict["contact"] = int(client["contact"])
 			if client.has_key("disbursement"):
 				client_dict["disbursement"] = int(client["disbursement"])
-			terminated_list.append(client_dict)	
+			terminated_list.append(client_dict)
 
 	download = 'http://fara.sunlightfoundation.com.s3.amazonaws.com/spreadsheets/forms/form_' + form_id + '.zip'
 	r = requests.head(download)
@@ -222,7 +222,7 @@ def client_profile(request, client_id):
 	response = requests.get(url, params={"key":API_PASSWORD})
 	data = response.json()
 	data = data['results']
-	
+
 	results = {}
 	results['client'] = data['client_name']
 	results['client_id'] = client_id
@@ -265,13 +265,13 @@ def reg_profile(request, reg_id):
 	data = data['results']
 	results = {}
 	results['reg_id'] = reg_id
-	
+
 	if data['registrant'].has_key('name'):
 		results['reg_name'] = data['registrant']['name']
-	
+
 	if data['registrant'].has_key('total_contributions'):
 		results['total_contributions'] = data['registrant']['total_contributions']
-	
+
 	if data['registrant'].has_key('total_payments'):
 		results['total_payments'] = data['registrant']['total_payments']
 
@@ -298,7 +298,7 @@ def reg_profile(request, reg_id):
 				client['payment'] = c['payment']
 			if c.has_key('disbursement'):
 				client['disbursement'] = c['disbursement']
-			
+
 			clients.append(client)
 		for c in data['terminated_clients']:
 			if c.has_key('contact') or c.has_key('payment') or c.has_key('disbursement'):
@@ -315,7 +315,7 @@ def reg_profile(request, reg_id):
 					client['disbursement'] = c['disbursement']
 
 		results['clients'] = clients
-	
+
 	if data.has_key('terminated_clients'):
 		terminated_clients = []
 		for c in data['terminated_clients']:
@@ -330,7 +330,7 @@ def reg_profile(request, reg_id):
 				client['payment'] = c['payment']
 			if c.has_key('disbursement'):
 				client['disbursement'] = c['disbursement']
-			
+
 			terminated_clients.append(client)
 		results['terminated_clients'] = terminated_clients
 
@@ -382,7 +382,7 @@ def location_profile(request, location_id):
 def recipient_profile(request, recip_id):
 	url = "/".join([FARA_ENDPOINT, "recipient-profile", recip_id])
 	response = requests.get(url, params={"key":API_PASSWORD})
-	data = response.json() 
+	data = response.json()
 	r = data['results']
 
 	# Congressional results include staff and leadership PACs
@@ -398,8 +398,8 @@ def recipient_profile(request, recip_id):
 				results['name'] = entity['name']
 				results['title'] = entity['title']
 		results['records'] = records
-		
-		url = "/".join(["http://congress.api.sunlightfoundation.com", "committees"])
+
+		url = "/".join(["https://congress.api.sunlightfoundation.com", "committees"])
 		response = requests.get(url, params={"apikey":CONGRESS_PASSWORD, "member_ids":bioguide_id})
 		committee_data = response.json()
 		#### still need to do some check for multiple pages of results?
@@ -413,7 +413,7 @@ def recipient_profile(request, recip_id):
 
 	else:
 		results = data['results'][0]
-	
+
 	results['recipient_id'] = recip_id
 
 	return render(request, 'foreign/recipient_profile.html', {"results":results})
@@ -444,7 +444,7 @@ def make_doc_table(data, page):
 		if count % 2 != 0:
 			place = "even"
 		else:
-			place = "odd"	
+			place = "odd"
 		count = count + 1
 
 		docs.append({
@@ -456,7 +456,7 @@ def make_doc_table(data, page):
 			"profile_url": profile_url,
 			"place": place,
 		})
-		
+
 	info = [{"page": page}, docs]
 	return info
 
@@ -466,25 +466,25 @@ def contact_table(request):
 	url = "/".join([FARA_ENDPOINT, "contact-table"])
 	query_params = {}
 	query_params['key'] = API_PASSWORD
-	
+
 	if request.GET.get('reg_id'):
 		query_params['reg_id'] = request.GET.get('reg_id')
-	
+
 	if request.GET.get('doc_id'):
 		query_params['doc_id'] = request.GET.get('doc_id')
-	
+
 	if request.GET.get('client_id'):
 		query_params['client_id'] = request.GET.get('client_id')
-	
+
 	if request.GET.get('recipient_id'):
 		query_params['recipient_id'] = request.GET.get('recipient_id')
-	
+
 	if request.GET.get('contact_id'):
 		query_params['contact_id'] = request.GET.get('contact_id')
-	
+
 	if request.GET.get('location_id'):
 		query_params['location_id'] = request.GET.get('location_id')
-	
+
 	if request.GET.get('p'):
 		page = int(request.GET.get('p'))
 		p = int(request.GET.get('p'))
@@ -513,22 +513,22 @@ def payment_table(request):
 	url = "/".join([FARA_ENDPOINT, "payment-table"])
 	query_params = {}
 	query_params['key'] = API_PASSWORD
-	
+
 	if request.GET.get('reg_id'):
 		query_params['reg_id'] = request.GET.get('reg_id')
-	
+
 	if request.GET.get('doc_id'):
 		query_params['doc_id'] = request.GET.get('doc_id')
-	
+
 	if request.GET.get('client_id'):
 		query_params['client_id'] = request.GET.get('client_id')
-	
+
 	if request.GET.get('payment_id'):
 		query_params['payment_id'] = request.GET.get('payment_id')
-	
+
 	if request.GET.get('location_id'):
 		query_params['location_id'] = request.GET.get('location_id')
-	
+
 	if request.GET.get('p'):
 		page = int(request.GET.get('p'))
 		p = int(request.GET.get('p'))
@@ -560,19 +560,19 @@ def disbursement_table(request):
 
 	if request.GET.get('disbursement_id'):
 		query_params['disbursement_id'] = request.GET.get('disbursement_id')
-	
+
 	if request.GET.get('reg_id'):
 		query_params['reg_id'] = request.GET.get('reg_id')
-	
+
 	if request.GET.get('doc_id'):
 		query_params['doc_id'] = request.GET.get('doc_id')
-	
+
 	if request.GET.get('client_id'):
 		query_params['client_id'] = request.GET.get('client_id')
-	
+
 	if request.GET.get('location_id'):
 		query_params['location_id'] = request.GET.get('location_id')
-	
+
 	if request.GET.get('p'):
 		page = int(request.GET.get('p'))
 		p = int(request.GET.get('p'))
@@ -607,16 +607,16 @@ def contribution_table(request):
 
 	if request.GET.get('reg_id'):
 		query_params['reg_id'] = request.GET.get('reg_id')
-	
+
 	if request.GET.get('doc_id'):
 		query_params['doc_id'] = request.GET.get('doc_id')
-	
+
 	if request.GET.get('recipient_id'):
 		query_params['recipient_id'] = request.GET.get('recipient_id')
-	
+
 	if request.GET.get('recipient'):
 		query_params['recipient'] = request.GET.get('recipient')
-	
+
 	if request.GET.get('date'):
 		query_params['date'] = request.GET.get('date')
 
@@ -641,7 +641,7 @@ def contribution_table(request):
 	page['previous'] = p - 1
 	page['next'] = p + 1
 	page['total'] = data['page']['num_pages']
-	
+
 	url_param = ''
 	for key in query_params.keys():
 		if key != "key" and key != "p":
@@ -684,7 +684,7 @@ def search(request):
 
 	else:
 		return render(request, 'foreign/search_results.html', {"results":None})
-	
+
 	query_params['key'] = API_PASSWORD
 	response = requests.get(url, params=query_params)
 	try:
@@ -698,14 +698,14 @@ def search(request):
 		for r in results['clients']['hits']['hits']:
 			c.append({'id':r['_id'], 'info':r['_source']})
 		data['clients'] = c
-		
+
 
 	if results['registrants']['hits']['hits']:
 		reg = []
 		for r in results['registrants']['hits']['hits']:
 			reg.append({'id':r['_id'], 'info':r['_source']})
 		data['registrants'] = reg
-		
+
 	if results['people_org']['hits']['hits']:
 		p = []
 		for r in results['people_org']['hits']['hits']:
@@ -717,20 +717,20 @@ def search(request):
 		for r in results['arms']['hits']['hits']:
 			a.append({'id':r['_id'], 'info':r['_source']})
 		data['arms'] = a
-		
+
 	if results['interactions']['hits']['hits']:
 		i = []
 		for r in results['interactions']['hits']['hits']:
 			i.append({'id':r['_id'], 'info':r['_source']})
 		data['interactions'] = i
-		
+
 
 	if results['locations']['hits']['hits']:
 		l = []
 		for r in results['locations']['hits']['hits']:
 			l.append({'id':r['_id'], 'info':r['_source']})
 		data['locations'] = l
-		
+
 	if results['docs']['hits']['hits']:
 		d = []
 		for r in results['docs']['hits']['hits']:
