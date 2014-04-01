@@ -3,3 +3,5 @@
 *.pot
 *.pyc
 *_settings.py
+
+static_root/
