@@ -78,7 +78,7 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'compressor.finders.CompressorFinder',
+    # 'compressor.finders.CompressorFinder',
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
@@ -125,7 +125,7 @@ INSTALLED_APPS = (
     'django.contrib.humanize',
     'herokal',
     'foreign',
-    'compressor',
+    # 'compressor',
     'gunicorn',
     'dryrub',
     'raven.contrib.django.raven_compat',
