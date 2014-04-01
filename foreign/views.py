@@ -687,7 +687,10 @@ def search(request):
 	
 	query_params['key'] = API_PASSWORD
 	response = requests.get(url, params=query_params)
-	results = response.json()
+	try:
+		results = response.json()
+	except:
+		return render(request, 'foreign/search_results.html', {"results":None})
 
 	data = {}
 	if results['clients']['hits']['hits']:
