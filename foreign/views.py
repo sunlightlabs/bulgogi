@@ -71,12 +71,14 @@ def arms_profile(request, doc_id):
 		date = data['date']
 	else:
 		date = None
+
 	results={
 		'doc_id': doc_id,
 		'title': data['title'],
 		'date': date,
 		'location': data['location'],
 		'pdf_url': data['pdf_url'],
+		'dsca_url': data['dsca_url'],
 	}
 
 	if data.has_key('location_id'):

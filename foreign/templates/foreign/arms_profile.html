@@ -53,11 +53,19 @@
 		<h3 class="insideBar">Document</h3>
 	</div>
 	<div class="module withNav">
+	
+	{% if pdf_url %}
 		<iframe width="85%" height="700px" src="http://fara.sunlightfoundation.com.s3.amazonaws.com/arms_html/{{ doc_id }}/index.html"></iframe>
-
-
-
-	<hr/>
+		<hr/>
+		<h3 class="insideBar">
+			Download this Press Release from the DSCA <a href="{{ pdf_url }}"><button class="downloadButton linkBtn"></button></a>
+		</h3>
+	{% else %}
+		<br>
+		<h3 class="insideBar">
+			See this Press Release from the DSCA <a href="{{ dsca_url }}"><button class="downloadButton linkBtn"></button></a>
+		</h3>
+	{% endif %}
 
 	<p>
 		Document from the <a href="http://www.dsca.mil/major-arms-sales/">The Defense Security Cooperation Agency</a> press releases.
