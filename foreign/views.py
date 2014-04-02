@@ -114,7 +114,7 @@ def form_profile(request, form_id):
 	stamp_date = data["stamp_date"]
 	doc_type = data["doc_type"]
 	processed = data["processed"]
-	view_doc_url= http_link(source_url)
+	html_version = http_link(source_url)
 
 	if data.has_key('reg_name'):
 		registrant = data["reg_name"]
@@ -195,18 +195,18 @@ def form_profile(request, form_id):
 	else:
 		download = None
 
-	r = requests.head(source_url)
+	r = requests.head(html_version)
 	if r.status_code == requests.codes.ok:
-		source_url = download
+		html_version = html_version
 	else:
-		source_url = None
+		html_version = None
 
 	return render(request, 'foreign/form_profile.html', {
 			"source_url": source_url,
 			"stamp_date": stamp_date,
 			"doc_type": doc_type,
 			"registrant": registrant,
-			"view_doc_url": view_doc_url,
+			"html_version": html_version,
 			"clients": client_list,
 			"terminated_clients": terminated_list,
 			"processed": processed,
@@ -399,7 +399,7 @@ def recipient_profile(request, recip_id):
 				results['title'] = entity['title']
 		results['records'] = records
 
-		url = "/".join(["http://congress.api.sunlightfoundation.com", "committees"])
+		url = "/".join(["https://congress.api.sunlightfoundation.com", "committees"])
 		response = requests.get(url, params={"apikey":settings.CONGRESS_PASSWORD, "member_ids":bioguide_id})
 		committee_data = response.json()
 		#### still need to do some check for multiple pages of results?

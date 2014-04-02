@@ -1,6 +1,11 @@
 
 /* Sub navigation bar matching Real Time. Foreign navigation font is bigger but the proportions should stay consistent  */
 
+/* I need more space in the content header because I have a search box */
+#contentHeader { 
+    padding-bottom:20px;
+    }
+
 #sub_nav {
     height: 10px;
     background: rgba(105,165,159,.17);

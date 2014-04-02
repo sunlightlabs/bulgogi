@@ -30,11 +30,40 @@
 			<tr > 
 				<td><a href="/reg-profile/{{ d.reg_id }}">{{ d.reg_name }}</a></td>
 				<td>{{ d.payments2013|floatformat:2|intcomma }}</td>
-				<td>{{ d.complete_records13 }}</td>
-				<td>{{ d.federal_lobbying }}</td>
-				<td>{{ d.state_dept_lobbying }}</td>
-				<td>{{ d.pr }}</td>
-				<td>{{ d.contribution }}</td>
+				<td>{% if d.complete_records13 == True %}
+						Yes
+					{% else %}
+						No
+					{% endif %}
+				</td>
+				<td>{% if d.federal_lobbying == True %}
+						Yes
+					{% else %}
+						No
+					{% endif %}
+
+				</td>
+				<td>
+					{% if d.state_dept_lobbying == True %}
+						Yes
+					{% else %}
+						No
+					{% endif %}
+				</td>
+				<td>
+					{% if d.pr == True %}
+						Yes
+					{% else %}
+						No
+					{% endif %}
+				</td>
+				<td>
+					{% if d.contribution == True %}
+						Yes
+					{% else %}
+						No
+					{% endif %}
+				</td>
 			</tr>
 		{% endfor %}
 	</tbody>
