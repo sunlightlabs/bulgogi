@@ -39,10 +39,6 @@
 		<h4>
 			<a href="/payment-table?location_id={{ results.location_id }}">Payments</a>
 		</h4>
-
-		{% if results.running_total_13 %}
-			<p> {{ results.running_total_13 }} since 2013</p>
-		{% endif %}
 	{% endif %}
 	{% if results.location_disbursements %}
 		<h4>
@@ -74,22 +70,36 @@
 	{% endif %}
 	
 	{% if c.running_total_13 %}
-		<p>${{ c.running_total_13 }} in payments since 2013.</p>
+		<p>Running total of processed payments since 2013:<p>
+		<span class="amount">${{ c.running_total_13|floatformat:2|intcomma }}</span>
+		<div class="interiorMethodology">
+			<a class="descriptor" title="More Information" href="#runningPaymentDescriptor{{ c.id }}">Information</a>
+			<div class="clear">
+			</div>
+			<div class="descriptorText" id="runningPaymentDescriptor{{ c.id }}" style"display: none;">
+				<p>The running total adds all payments reported for the client from January 1, 2013 to the present. This total is updated as new payments are added to the database.</p>
+			</div>
+		</div>
+		<div class="clear"></div>
+		<br>
 	{% endif %}
 
 	{% if c.total_pay %}
 		<p>
-			<a href="/payment-table?client_id={{ c.id }}">See all payments on behalf of {{ c.client_name }}.</a>
+			See all <a href="/payment-table?client_id={{ c.id }}">payment records</a> on behalf of {{ c.client_name }}.
 		</p>
 	{% endif %}
 
 	{% if c.total_disbursement %}
-		<p><a href="/disbursement-table?client_id={{ c.id }}">${{ c.total_disbursements|floatformat:2|intcomma }} in disbursements on behalf of {{ c.client_name }}.</a></p>
+		<p>
+			See all <a href="/disbursement-table?client_id={{ c.id }}">disbursement records</a> on behalf of {{ c.client_name }}.</p>
 	{% endif %}
 
 	{% if c.contacts %}
-		<p><a href="/contact-table?client_id={{ c.id }}">{{ c.contacts }} contacts on behalf of {{ c.client_name }}.</a></p>
+		<p>
+			See all <a href="/contact-table?client_id={{ c.id }}">contact records</a> on behalf of {{ c.client_name }}.</p>
 	{% endif %}
+
 
 	{% if c.active_reg %}
 		<p><b>Foreign Agents that represent the client</b></p>
@@ -101,7 +111,7 @@
 	{% endif %}
 
 	{% if c.terminated_reg %}
-		<p><b>Foreign Agents that formerly represented the client</b></p>
+		<p><b>Foreign Agents that represented the client in the past</b></p>
 		<blockquote>
 		{% for terminated in c.terminated_reg %}
 			<p><a href="/reg-profile/{{ terminated.reg_id }}">{{ terminated.name }}</a><p> 

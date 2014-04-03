@@ -46,62 +46,72 @@
 		<br>
 
 		{% if results.contributions13 %}
-			<p>
-				${{ results.contributions13|floatformat:2|intcomma }} Contributions by the registrant's employees and or PAC in 2013.
-			</p>
-		{% endif %}
-		{% if results.contributions14 %}
-			<p><b>${{ results.contributions14|floatformat:2|intcomma }}</b> 
-			{% if results.complete_records14 %}
-				Contributions by the registrant's employees and or PAC for 2014.
-			{% else %}
-				Contributions by the registrant's employees and or PAC for 2014, so far.
-			{% endif %}
-			</p>
+			<h4>Contributions by the registrant's employees and or PAC in 2013:</h4>	
+			<span class="amount">${{ results.contributions13|floatformat:2|intcomma }}</span> 
+		
+		<div class="interiorMethodology">
+			<a class="descriptor" title="More Information" href="#runningTotalDescriptor">Information</a>
+			<div class="clear">
+			</div>
+			<div class="descriptorText" id="runningTotalDescriptor" style"display: none;">
+				<p>The 2013 total adds the amounts reported in filings during the 2013 calendar year. This may include activities from 2012.</p>
+			</div>
+		</div>
+		<div class="clear"></div>
+		<br>
 		{% endif %}
 
 		{% if results.total_contributions %}
-			<p>
+			<h4>
 				See all FARA <a href="/contribution-table?reg_id={{ results.reg_id }}">political contribution records</a> from the registrant
-			</p>
+			</h4>
 		{% endif %}
 
 
 		{% if results.payments2013 %}
-		<p>
-			<b>${{ results.payments2013|floatformat:2|intcomma }} Payments to the Registrant in 2013.</b>
-		</p>
+			<h4>Payments to the Registrant in 2013:</h4>
+			<span class="amount">${{ results.payments2013|floatformat:2|intcomma }}</span>
+			<div class="interiorMethodology">
+				<a class="descriptor" title="More Information" href="#runningTotalDescriptor">Information</a>
+				<div class="clear">
+				</div>
+				<div class="descriptorText" id="runningTotalDescriptor" style"display: none;">
+					<p>The 2013 total adds the amounts reported filings during the 2013 calendar year. This may include activities from 2012.</p>
+				</div>
+			</div>
+			<div class="clear"></div>
+			<br>
 		{% endif %}
-		{% if results.payments2014 %}
-		<p>
-			<b>${{ results.payments2014|floatformat:2|intcomma }}</b>
-			{% if results.complete_records14 %}
-				Payments by the registrant's employees and or PAC for 2014.
-			{% else %}
-				Payments by the registrant's employees and or PAC for 2014, so far.
-			{% endif %}
-		</p>
-		{% endif %}
+		
 		{% if results.total_payments %}
-			<p>
+			<h4>
 				See all <a href="/payment-table?reg_id={{ results.reg_id }}">payment records</a> to the registrant
-			</p>
+			</h4>
 		{% endif %}
 		{% if results.disbursements2013 %}
-		<p>
-			<b>Payments recived in 2013: ${{ results.disbursements2013|floatformat:2|intcomma }}</b>
-		</p>
+			<h4>Payments recived in 2013:<h4> 
+			<span class="amount">${{ results.disbursements2013|floatformat:2|intcomma }}</span>
+			<div class="interiorMethodology">
+			<a class="descriptor" title="More Information" href="#runningTotalDescriptor">Information</a>
+			<div class="clear">
+			</div>
+			<div class="descriptorText" id="runningTotalDescriptor" style"display: none;">
+				<p>The 2013 total adds the amounts reported filings during the 2013 calendar year. This may include activities from 2012.</p>
+			</div>
+			</div>
+			<div class="clear"></div>
+			<br>
 		{% endif %}
 		{% if results.total_disbursements %}
-			<p>
+			<h4>
 				See all <a href="/disbursement-table?reg_id={{ results.reg_id }}">disbursement records</a> to the registrant
-			</p>
+			</h4>
 		{% endif %}
 
 		{% if results.total_contacts %}
-			<p>
-				<a href="/contact-table?reg_id={{ results.reg_id }}">{{ results.total_contacts }} contacts</a> by the registrant 
-			</p>
+			<h4>
+				See all <a href="/contact-table?reg_id={{ results.reg_id }}">contact records</a> by the registrant 
+			</h4>
 		{% endif %}
 
 	

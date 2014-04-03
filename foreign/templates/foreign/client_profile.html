@@ -37,19 +37,38 @@
 	<h4 class="insideBar">Location: <a href="/location-profile/{{ results.location_id }}/{{ results.location }}">{{ results.location }}</a></h4>
 
 	{% if results.running_total_13 %}
-		<h4>Running total of processed payments since 2013:<br> <b>${{ results.running_total_13|floatformat:2|intcomma }}</b></h4>
+		<h4>Running total of processed payments since 2013:</h4>
+		<span class="amount">
+			${{ results.running_total_13|floatformat:2|intcomma }}
+		</span>
+		<div class="interiorMethodology">
+			<a class="descriptor" title="More Information" href="#runningTotalDescriptor">Information</a>
+			<div class="clear">
+			</div>
+			<div class="descriptorText" id="runningTotalDescriptor" style"display: none;">
+				<p>The running total adds all payments reported for the client from January 1, 2013 to the present. This total is updated as new payments are added to the database.</p>
+			</div>
+		</div>
+		<div class="clear"></div>
+		<br>
 	{% endif %}
 
 	{% if results.total_payment %}
-		<h4 class="insideBar">See all <a href="/payment-table?client_id={{ results.client_id }}">payment records</a></h4>
+		<h4 class="insideBar">
+			See all <a href="/payment-table?client_id={{ results.client_id }}">payment records</a>
+		</h4>
 	{% endif %}
 
 	{% if results.contacts %}
-		<h4 class="insideBar"><a href="/contact-table?client_id={{ results.client_id }}"> {{ results.contacts }} Contacts</a></h4>
+		<h4 class="insideBar">
+			See all <a href="/contact-table?client_id={{ results.client_id }}">contact records</a>
+		</h4>
 	{% endif %}
 
 	{% if results.total_disbursement %}
-		<h4 class="insideBar">See all <a href="/disbursement-table?client_id={{ results.client_id }}"> disbursements records</a></h4>
+		<h4 class="insideBar">
+			See all <a href="/disbursement-table?client_id={{ results.client_id }}"> disbursements records</a>
+		</h4>
 	{% endif %}
 
 </div>	
