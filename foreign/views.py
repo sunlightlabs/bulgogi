@@ -20,6 +20,10 @@ def about(request):
 def methodology(request):
 	return render(request, 'foreign/methodology.html',)
 
+def test(request):
+	results = json.dumps({"working":True}, separators=(',',':'))
+	return HttpResponse(results, mimetype="application/json")
+
 # def map(request):
 # 	return render(request, 'foreign/map.html',)
 
