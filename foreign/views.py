@@ -9,12 +9,19 @@ from django.http import HttpResponse
 
 from django.conf import settings
 
+# Converts the original url to the sunlight url
+def http_link(link):
+	link = "http://fara.sunlightfoundation.com.s3.amazonaws.com/html/" + link[25:-4] + "/index.html"
+	return link
 
 def about(request):
 	return render(request, 'foreign/about_foreign.html',)
 
 def methodology(request):
 	return render(request, 'foreign/methodology.html',)
+
+# def map(request):
+# 	return render(request, 'foreign/map.html',)
 
 def incoming_arms(request):
 	if request.GET.get('p'):
@@ -468,24 +475,32 @@ def contact_table(request):
 	url = "/".join([settings.FARA_ENDPOINT, "contact-table"])
 	query_params = {}
 	query_params['key'] = settings.API_PASSWORD
+	# to IE api for download
+	ie_url = "http://transparencydata.com/api/1.0/fara/contact.xls?apikey=%s" % (settings.CONGRESS_PASSWORD) 
 
 	if request.GET.get('reg_id'):
 		query_params['reg_id'] = request.GET.get('reg_id')
+		ie_url = '%s&registrant_id=%s' % (ie_url, request.GET.get('reg_id'))
 
 	if request.GET.get('doc_id'):
 		query_params['doc_id'] = request.GET.get('doc_id')
+		ie_url = '%s&document_id=%s' % (ie_url, request.GET.get('doc_id'))
 
 	if request.GET.get('client_id'):
 		query_params['client_id'] = request.GET.get('client_id')
+		ie_url = '%s&client_id=%s' % (ie_url, request.GET.get('client_id'))
 
 	if request.GET.get('recipient_id'):
 		query_params['recipient_id'] = request.GET.get('recipient_id')
+		ie_url = '%s&recipient_id=%s' % (ie_url, request.GET.get('recipient_id'))
 
 	if request.GET.get('contact_id'):
 		query_params['contact_id'] = request.GET.get('contact_id')
+		ie_url = '%s&record_id=%s' % (ie_url, request.GET.get('contact_id'))
 
 	if request.GET.get('location_id'):
 		query_params['location_id'] = request.GET.get('location_id')
+		ie_url = '%s&location_id=%s' % (ie_url, request.GET.get('location_id'))
 
 	if request.GET.get('p'):
 		page = int(request.GET.get('p'))
@@ -507,29 +522,39 @@ def contact_table(request):
 		if key != "key" and key != "p":
 			query = str(key) + "=" + str(query_params[key]) + "&"
 			url_param = url_param + query
+
 	page['query_params'] = url_param
 
-	return render(request, 'foreign/contact_table.html', {"title":data['title'], "page":page, "contacts":data['results'], "buttons":data['buttons']})
+	return render(request, 'foreign/contact_table.html', {"title":data['title'], "page":page, "contacts":data['results'], "buttons":data['buttons'], "ie_url":ie_url})
 
 def payment_table(request):
 	url = "/".join([settings.FARA_ENDPOINT, "payment-table"])
 	query_params = {}
 	query_params['key'] = settings.API_PASSWORD
 
+	# to IE api for download
+	ie_url = "http://transparencydata.com/api/1.0/fara/payment.xls?apikey=%s" % (settings.CONGRESS_PASSWORD)
+
 	if request.GET.get('reg_id'):
 		query_params['reg_id'] = request.GET.get('reg_id')
+		ie_url = '%s&registrant_id=%s' % (ie_url, request.GET.get('reg_id'))
 
 	if request.GET.get('doc_id'):
 		query_params['doc_id'] = request.GET.get('doc_id')
+		ie_url = '%s&document_id=%s' % (ie_url, request.GET.get('doc_id'))
 
 	if request.GET.get('client_id'):
 		query_params['client_id'] = request.GET.get('client_id')
+		ie_url = '%s&client_id=%s' % (ie_url, request.GET.get('client_id'))
 
 	if request.GET.get('payment_id'):
 		query_params['payment_id'] = request.GET.get('payment_id')
+		ie_url = '%s&record_id=%s' % (ie_url, request.GET.get('payment_id'))
 
 	if request.GET.get('location_id'):
 		query_params['location_id'] = request.GET.get('location_id')
+		ie_url = '%s&location_id=%s' % (ie_url, request.GET.get('location_id'))
+
 
 	if request.GET.get('p'):
 		page = int(request.GET.get('p'))
@@ -546,6 +571,7 @@ def payment_table(request):
 	page['previous'] = p - 1
 	page['next'] = p + 1
 	page['total'] = data['page']['num_pages']
+	
 	url_param = ''
 	for key in query_params.keys():
 		if key != "key" and key != "p":
@@ -553,27 +579,37 @@ def payment_table(request):
 			url_param = url_param + query
 	page['query_params'] = url_param
 
-	return render(request, 'foreign/payment_table.html', {"title":data['title'], "page":page, "buttons":data['buttons'], "payments":data['results']})
+	print ie_url
+
+	return render(request, 'foreign/payment_table.html', {"title":data['title'], "page":page, "buttons":data['buttons'], "payments":data['results'], 'ie_url':ie_url})
 
 def disbursement_table(request):
 	url = "/".join([settings.FARA_ENDPOINT, "disbursement-table"])
 	query_params = {}
 	query_params['key'] = settings.API_PASSWORD
 
+	# to IE api for download
+	ie_url = "http://transparencydata.com/api/1.0/fara/disbursement.xls?apikey=%s" % (settings.CONGRESS_PASSWORD)
+
 	if request.GET.get('disbursement_id'):
 		query_params['disbursement_id'] = request.GET.get('disbursement_id')
+		ie_url = '%s&record_id=%s' % (ie_url, request.GET.get('disbursement_id'))
 
 	if request.GET.get('reg_id'):
 		query_params['reg_id'] = request.GET.get('reg_id')
+		ie_url = '%s&registrant_id=%s' % (ie_url, request.GET.get('reg_id'))
 
 	if request.GET.get('doc_id'):
 		query_params['doc_id'] = request.GET.get('doc_id')
+		ie_url = '%s&document_id=%s' % (ie_url, request.GET.get('doc_id'))
 
 	if request.GET.get('client_id'):
 		query_params['client_id'] = request.GET.get('client_id')
+		ie_url = '%s&client_id=%s' % (ie_url, request.GET.get('client_id'))
 
 	if request.GET.get('location_id'):
 		query_params['location_id'] = request.GET.get('location_id')
+		ie_url = '%s&location_id=%s' % (ie_url, request.GET.get('location_id'))
 
 	if request.GET.get('p'):
 		page = int(request.GET.get('p'))
@@ -597,36 +633,47 @@ def disbursement_table(request):
 			url_param = url_param + query
 	page['query_params'] = url_param
 
-	return render(request, 'foreign/disbursement_table.html', {"title":data['title'], "page":page, "buttons":data['buttons'], "disbursements":data['results']})
+	return render(request, 'foreign/disbursement_table.html', {"title":data['title'], "page":page, "buttons":data['buttons'], "disbursements":data['results'], 'ie_url':ie_url})
 
 
 def contribution_table(request):
 	url = "/".join([settings.FARA_ENDPOINT, "contribution-table"])
 	query_params = {}
 	query_params['key'] = settings.API_PASSWORD
+
+	# to IE api for download
+	ie_url = "http://transparencydata.com/api/1.0/fara/contribution.xls?apikey=%s" % (settings.CONGRESS_PASSWORD)
+
 	if request.GET.get('contribution_id'):
 		query_params['contribution_id'] = request.GET.get('contribution_id')
+		ie_url = '%s&record_id=%s' % (ie_url, request.GET.get('contribution_id'))
 
 	if request.GET.get('reg_id'):
 		query_params['reg_id'] = request.GET.get('reg_id')
+		ie_url = '%s&registrant_id=%s' % (ie_url, request.GET.get('reg_id'))
 
 	if request.GET.get('doc_id'):
 		query_params['doc_id'] = request.GET.get('doc_id')
+		ie_url = '%s&document_id=%s' % (ie_url, request.GET.get('doc_id'))
 
 	if request.GET.get('recipient_id'):
 		query_params['recipient_id'] = request.GET.get('recipient_id')
-
-	if request.GET.get('recipient'):
-		query_params['recipient'] = request.GET.get('recipient')
-
-	if request.GET.get('date'):
-		query_params['date'] = request.GET.get('date')
-
-	if request.GET.get('amount'):
-		query_params['amount'] = request.GET.get('amount')
+		ie_url = '%s&recipient_id=%s' % (ie_url, request.GET.get('recipient_id'))
 
 	if request.GET.get('registrant'):
 		query_params['registrant'] = request.GET.get('registrant')
+		ie_url = '%s&registrant_id=%s' % (ie_url, request.GET.get('registrant_id'))
+
+	### Not supported yet
+	# if request.GET.get('recipient'):
+	# 	query_params['recipient'] = request.GET.get('recipient')
+
+	# if request.GET.get('date'):
+	# 	query_params['date'] = request.GET.get('date')
+
+	# if request.GET.get('amount'):
+	# 	query_params['amount'] = request.GET.get('amount')
+
 
 	if request.GET.get('p'):
 		page = int(request.GET.get('p'))
@@ -651,7 +698,7 @@ def contribution_table(request):
 			url_param = url_param + query
 	page['query_params'] = url_param
 
-	return render(request, 'foreign/contribution_table.html', {"title":data['title'], "page":page,"buttons":data['buttons'], "contributions":data['results']})
+	return render(request, 'foreign/contribution_table.html', {"title":data['title'], "page":page,"buttons":data['buttons'], "contributions":data['results'], 'ie_url':ie_url})
 
 def reg_totals13(request):
 	url = "/".join([settings.FARA_ENDPOINT, "reg-2013"])
@@ -661,11 +708,6 @@ def reg_totals13(request):
 	data = response.json()
 
 	return render(request, 'foreign/registrants_2013.html', {"data":data['results']})
-
-# Converts the original url to the sunlight url
-def http_link(link):
-	link = "http://fara.sunlightfoundation.com.s3.amazonaws.com/html/" + link[25:-4] + "/index.html"
-	return link
 
 def clients(request):
 	url = "/".join([settings.FARA_ENDPOINT, "locations"])
@@ -701,7 +743,6 @@ def search(request):
 			c.append({'id':r['_id'], 'info':r['_source']})
 		data['clients'] = c
 
-
 	if results['registrants']['hits']['hits']:
 		reg = []
 		for r in results['registrants']['hits']['hits']:
@@ -725,7 +766,6 @@ def search(request):
 		for r in results['interactions']['hits']['hits']:
 			i.append({'id':r['_id'], 'info':r['_source']})
 		data['interactions'] = i
-
 
 	if results['locations']['hits']['hits']:
 		l = []
