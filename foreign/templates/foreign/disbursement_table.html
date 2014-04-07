@@ -56,7 +56,7 @@
 					<a href="/client-profile/{{ d.client_id }}">{{ d.client }}</a>
 				</td>
 				<td>
-					<a href="/reg-profile/{{ d.reg_id }}">{{ d.reg_name }}
+					<a href="/reg-profile/{{ d.reg_id }}">{{ d.registrant }}
 					</td>
 				<td>
 					{{ d.purpose }}
@@ -88,7 +88,7 @@
 {% endif %}
 
 <div class="clear"></div>
-<a href="{{ ie_url }}"><button class="downloadButton linkBtn">Download spreadsheet</button>
+<a href="{{ ie_url }}"><button class="downloadButton linkBtn enabled">Download spreadsheet</button>
 </a>
 <div class="clear"></div>
 
