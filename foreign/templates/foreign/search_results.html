@@ -122,40 +122,7 @@
 {% endif %}
 
 {% if results.interactions %}
-	<a class="sectionLink" name="interactions"></a>
-	<div class="overviewBar withNav withTip">
-		<h3 class="insideBar">Interactions</h3>
-	</div>
-	<div class="module withNav">
-		{% for r in results.interactions %}
-			<a href="/{{ r.info.type }}-table?{{ r.info.type }}_id={{ r.id}}">
-				 <h4>{{ r.info.type }} {{ r.info.date|date:"%d/%m/%y" }}</h4>
-				 <p>Client: {{ r.info.client }}</p>
-				 <p>Foreign Agent:	{{ r.info.registrant }}</p>
-				 {% if r.info.amount %}
-				 	<p>Amount: {{ r.info.amount }}</p>
-				 {% endif %}
-				 {% if r.info.recipient %}
-				 	<p>{{ r.info.recipient }}</p>
-				 {% endif %}
-				 {% if r.info.contributor %}
-				 	<p>{{ r.info.contributor }}</p>
-				 {% endif %}
-				 {% if r.info.description %}
-				 	<p>Description: {{ r.info.description }}</p>
-				 {% endif %}
-				 {% if r.info.purpose %}
-				 	<p>Purpose: {{ r.info.purpose }}</p>
-				 {% endif %}
-				 {% if r.info.subcontractor %}
-				 	<p>Subcontractor: {{ r.info.subcontractor }}</p>
-				 {% endif %}
-				 <br><br>
 
-		{% endfor %}
-	
-
-	</div>
 {% endif %}
 
 {% if results.docs %}
