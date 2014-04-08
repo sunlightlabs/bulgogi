@@ -24,6 +24,12 @@ def test(request):
 	results = json.dumps({"working":True}, separators=(',',':'))
 	return HttpResponse(results, mimetype="application/json")
 
+def not_found(request):
+	return render(request, 'foreign/404.html',)
+
+def error(request):
+	return render(request, 'foreign/404.html')
+
 # def map(request):
 # 	return render(request, 'foreign/map.html',)
 
@@ -96,7 +102,7 @@ def arms_profile(request, doc_id):
 	r = requests.head(html_url)
 	if r.status_code == requests.codes.ok:
 		results['html_view'] = html_url
-		
+
 	if data.has_key('location_id'):
 		results['location_id'] = data['location_id']
 
