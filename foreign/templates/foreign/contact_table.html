@@ -50,7 +50,7 @@
 					{% for person in c.contact %}
 						{% if person.recipient_id %}<a href="/recipient-profile/{{ person.recipient_id }}">{% endif %}
 							{{ person.name }}<br>
-						{% if person.recipient_id %}</a>{% endif %}; 
+						{% if person.recipient_id %}</a>;{% endif %}
 					{% endfor %}
 				</td>
 				<td><a href="/client-profile/{{ c.client_id }}">{{ c.client }}</a></td>
