@@ -248,7 +248,11 @@ def client_profile(request, client_id):
 	data = data['results']
 
 	results = {}
+	client_name = data['client_name']
 	results['client'] = data['client_name']
+	if len(client_name) > 65:
+		results['title'] = "%s..." % (client_name[:65])
+
 	results['client_id'] = client_id
 	results['location'] = data['location']
 	results['location_id'] = data['location_id']

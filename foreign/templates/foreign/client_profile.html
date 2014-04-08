@@ -4,10 +4,15 @@
 
 <div id="floatingNavWrapper">
 	<div id="floatingNav">        
-	    
+	    {% if results.title %}
 	    <div class="withNav" id="changeDates">
-	    	<h4>Client Profile {{ results.client }}</h4>
+	    	<h4>Client Profile: {{ results.title }}</h4>
 	    </div>
+	    {% else %}
+	    <div class="withNav" id="changeDates">
+	    	<h4>Client Profile: {{ results.client }}</h4>
+	    </div>
+	    {% endif %}
 	    
 	    <div id="miniNavWrapper">
 	        <div id="miniNav">
