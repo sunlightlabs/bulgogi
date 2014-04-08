@@ -31,3 +31,6 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
 )
+
+handler404 = 'foreign.views.not_found'
+handler500 = 'foreign.views.error'
