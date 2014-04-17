@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="{% static "foreign/css/foreign.css" %}" />
 {% endblock %}
 <!-- I it can't find the other image address, overwriting it here-->
-<meta name="og:image" content="{% static "dryrub/brisket/images/projects_icon_influencexplorer.png" %}">
+<meta name="og:image" content="{% static "dryrub/images/projects_icon_influencexplorer.png" %}">
 
 {% block search %}
 <!-- blocking full site search  -->
@@ -55,6 +55,9 @@
   ga('create', 'UA-22821126-44', 'influenceexplorer.com');
   ga('send', 'pageview');
   ga('set', 'anonymizeIp', true);
+  
+  ga('create', 'UA-48789618-1', 'influenceexplorer.com', {'name': 'global'});
+  ga('global.send', 'pageview');
 
 </script>
 
