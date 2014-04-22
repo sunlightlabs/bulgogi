@@ -4,8 +4,17 @@
 {% block sitecss %}
 <link rel="stylesheet" href="{% static "foreign/css/foreign.css" %}" />
 {% endblock %}
-<!-- I it can't find the other image address, overwriting it here-->
-<meta name="og:image" content="{% static "dryrub/images/projects_icon_influencexplorer.png" %}">
+
+{% block og %}
+  <meta name="og:title" content="Influence Explorer">
+  <meta name="og:description" content="How are foreign groups influencing US politics? Find out via @Sunfoundation's #foreigninfluence database">
+  <meta name="og:type" content="cause">
+  <meta name="og:image" content="http://s3.amazonaws.com/assets.sunlightfoundation.com/brisket/1.0/images/projects_icon_influencexplorer.png">
+  <meta name="og:url" content="http://{{ OG_DOMAIN }}{{ request.path }}">
+  <meta name="og:site_name" content="Foreign Influence Explorer">
+  <meta name="fb:admins" content="7812952"> 
+  <!-- removed 5308565 -->
+{% endblock %}
 
 {% block search %}
 <!-- blocking full site search  -->
