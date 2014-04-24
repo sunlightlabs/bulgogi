@@ -22,6 +22,8 @@ urlpatterns = patterns('',
     url(r'^contribution-table', 'foreign.views.contribution_table', name='contribution-table'),
     url(r'^registrants2013', 'foreign.views.reg_totals13', name='registrants2013'),
     url(r'^clients', 'foreign.views.clients', name='clients'),
+    url(r'^lobby-clients2013','foreign.views.lobby_clients', name='lobby-clients2013' ),
+    url(r'^lobby-location2013', 'foreign.views.location13', name='location2013'),
     url(r'^search', 'foreign.views.search', name='search'),
     # to check status
     url(r'^test', 'foreign.views.test', name='test'),

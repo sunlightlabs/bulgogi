@@ -28,7 +28,7 @@ def not_found(request):
 	return render(request, 'foreign/404.html',)
 
 def error(request):
-	return render(request, 'foreign/404.html')
+	return render(request, 'foreign/500.html')
 
 # def map(request):
 # 	return render(request, 'foreign/map.html',)
@@ -380,6 +380,43 @@ def reg_profile(request, reg_id):
 	page['total'] = data['page']['num_pages']
 
 	return render(request, 'foreign/reg_profile.html', {"results":results, "table_info":table_info, 'page':page})
+
+def lobby_clients(request):
+	url = "/".join([settings.FARA_ENDPOINT, "lobbying-2013"])
+	response = requests.get(url, params={"key":settings.API_PASSWORD})
+	data = response.json()
+	clients = []
+	for client_id in data.keys():
+		info = data[client_id]
+		print info
+		for reg in info['registrants'].keys():
+			print reg
+			client ={}
+			client_total = 0
+			client['id'] = client_id
+			client['name'] = info['client_name']
+			client['location'] = info['client_location']
+			client['location_id'] = info['location_id']
+			client['total'] = info['total']
+			client['registrant'] = info['registrants'][reg]['reg_name']
+			client['reg_id'] = info['registrants'][reg]['reg_id']
+			client['reg_total'] = info['registrants'][reg]['reg_total']
+			if info['registrants'][reg].has_key('subcontractor'):
+				client['subcontractor'] = info['registrants'][reg]['subcontractor']
+				client['subcontractor_id'] = info['registrants'][reg]['subcontractor_id']
+			clients.append(client)
+
+	return render(request, 'foreign/client_lobby13.html', {'clients':clients})
+
+def location13(request):
+	url = "/".join([settings.FARA_ENDPOINT, "location-2013"])
+	response = requests.get(url, params={"key":settings.API_PASSWORD})
+	data = response.json()
+	locations = []
+	for key in data.keys():
+		locations.append(data[key])
+
+	return render(request, 'foreign/location_lobby13.html', {'locations':locations})	
 
 def location_profile(request, location_id):
 	url = "/".join([settings.FARA_ENDPOINT, "place-profile", location_id])

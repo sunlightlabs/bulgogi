@@ -1,0 +1,54 @@
+{% extends "foreign/foreign_base.html" %}
+{% load humanize %}
+{% load static %}
+
+{% block js %}
+<script src="{% static "dryrub/js/jquery.tablesorter.min.js" %}"></script>
+{% endblock %}
+
+{% block main_content %}
+<div class="module withNav">
+
+<h3>
+	2013 Location lobbying totals
+</h3>
+<p>The amount given to registrants who contact government officials</p>
+
+<div class="clear"></div>
+
+<table class="tablesorter" "mainPageTable">
+	<thead class="header">
+		<th class="sort">Location</th>
+		<th class="sort">Total</th>
+
+	</thead>
+	<tbody>
+		{% for c in locations %}
+			<tr > 
+				<td>
+					<span hidden>{{ c.name }}</span><a href="/location-profile/{{ c.id }}">{{ c.name }}</a>
+				</td>
+				<td>
+					${{ c.total|floatformat:2|intcomma }}
+				</td>
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>
+
+</div>
+
+<script type="text/javascript">
+
+// - See more at: http://www.christianmontoya.com/2008/11/14/extending-jquery-tablesorter-to-support-comma-delimited-numbers/#sthash.md10swBV.dpuf
+
+$(document).ready(function() { 
+    jQuery.tablesorter.addParser({ id: "fancyNumber", is: function(s) { return /^[0-9]?[0-9,\.]*$/.test(s); }, format: function(s) { return jQuery.tablesorter.formatFloat( s.replace(/,/g,'') ); }, type: "numeric" }); 
+
+    $("table").tablesorter({ 
+        sortList: [[0,0]], 
+        widgets: ['zebra']
+    }); 
+});
+</script>
+{% endblock %}
