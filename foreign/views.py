@@ -820,7 +820,15 @@ def search(request):
 	if results['interactions']['hits']['hits']:
 		i = []
 		for r in results['interactions']['hits']['hits']:
-			i.append({'id':r['_id'], 'info':r['_source']})
+			es_id = r['_id']
+			es_id = es_id.replace('contact', '')
+			es_id = es_id.replace('contribution', '')
+			es_id = es_id.replace('payment', '')
+			es_id = es_id.replace('disbursement', '')
+			es_id = es_id.replace('gifts', '')
+			fara_id = es_id
+
+			i.append({'id':fara_id, 'info':r['_source']})
 		data['interactions'] = i
 
 	if results['locations']['hits']['hits']:

@@ -27,9 +27,9 @@
                 {% if results.arms %}
                 	<li><a href="#arms">Proposed Arms Sales</a></li>
                 {% endif %}
-<!--                 {% if results.interactions %}
+                {% if results.interactions %}
                 	<li><a href="#interactions">Interactions</a></li>
-                {% endif %} -->
+                {% endif %}
                 {% if results.docs %}
                 	<li><a href="#documents">Documents</a></li>
                 {% endif %}
@@ -121,7 +121,7 @@
 
 {% endif %}
 
-<!-- {% if results.interactions %}
+{% if results.interactions %}
 	<a class="sectionLink" name="interactions"></a>
 	<div class="overviewBar withNav withTip">
 		<h3 class="insideBar">Interactions</h3>
@@ -151,13 +151,13 @@
 				 	<p>Subcontractor: {{ r.info.subcontractor }}</p>
 				 {% endif %}
 				 <br><br>
-
+			</a>
 		{% endfor %}
 	
 
 	</div>
 {% endif %}
- -->
+
 {% if results.docs %}
 	<a class="sectionLink" name="documents"></a>
 	<div class="overviewBar withNav withTip">
@@ -170,7 +170,6 @@
 			<p><b>{{ r.info.type }}</b> {{ r.info.registrant }} {{ r.info.date }}</p>
 			</a>
 		{% endfor %}
-	
 
 	</div>
 {% endif %}
