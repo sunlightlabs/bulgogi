@@ -46,19 +46,34 @@
 {% endif %}
 
 
-
 {% if results.locations %}
 	<a class="sectionLink" name="locations"></a>
 	<div class="overviewBar withNav withTip">
 		<h3 class="insideBar">Locations</h3>
 	</div>
 	<div class="module withNav">
-	{% for l in results.locations %}
-	  <a href="/location-profile/{{ l.id }}">{{ l.info.location }}</a><br><br>
-	{% endfor %}
-	
+		{% for l in results.locations %}
+		  <a href="/location-profile/{{ l.id }}">{{ l.info.location }}</a><br><br>
+		{% endfor %}
+		
+		<div class="pagination_container">
+			{% if results.previous_location > 0 %}
+				<a href="/more-search?q={{ q }}&locationpage={{ results.previous_location }}">Previous Page</a> /
+			{% endif %}
+			{% if results.this_location %}
+				Page {{ results.this_location }}
+			{% endif %}
+			{% if results.total_location %}
+				(of <a href="/more-search?q={{ q }}&locationpage={{ results.total_location }}">{{ results.total_location }} pages</a>)
+			{% endif %}
+			{% if results.next_location %}
+				<a href="/more-search?q={{ q }}&locationpage={{ results.next_location }}">Next Page</a>
+			{% endif %}	
+		</div>
 
 	</div>
+
+
 {% endif %}
 
 {% if results.clients %}
@@ -71,6 +86,20 @@
   		<a href="/client-profile/{{ c.id }}">{{ c.info.name }}, {{ c.info.location }}</a><br><br>
 	{% endfor %}
 	
+	<div class="pagination_container">
+		{% if results.previous_client > 0 %}
+			<a href="/more-search?q={{ q }}&clientpage={{ results.previous_client }}">Previous Page</a> /
+		{% endif %}
+		{% if results.this_client %}
+			Page {{ results.this_client }}
+		{% endif %}
+		{% if results.total_client %}
+			(of <a href="/more-search?q={{ q }}&clientpage={{ results.total_client }}">{{ results.total_client }} client pages</a>)
+		{% endif %}
+		{% if results.next_client %}
+			/ <a href="/more-search?q={{ q }}&clientpage={{ results.next_client }}">Next Page</a>
+		{% endif %}	
+	</div>
 
 	</div>
 {% endif %}
@@ -85,6 +114,21 @@
 	 	<a href="/reg-profile/{{ r.id }}">{{ r.info.name }}</a><br><br>
 	{% endfor %}
 	
+	<div class="pagination_container">
+		{% if results.previous_reg > 0 %}
+			<a href="/more-search?q={{ q }}&regpage={{ results.previous_reg }}">Previous Page</a> /
+		{% endif %}
+		{% if results.this_reg %}
+			Page {{ results.this_reg }}
+		{% endif %}
+		{% if results.total_reg %}
+			(of <a href="/more-search?q={{ q }}&regpage={{ results.total_reg }}">{{ results.total_reg }} foreign agent pages</a>)
+		{% endif %}
+		{% if results.next_reg %}
+			/ <a href="/more-search?q={{ q }}&regpage={{ results.next_reg }}">Next Page</a>
+		{% endif %}	
+	</div>
+
 
 	</div>
 {% endif %}
@@ -101,6 +145,20 @@
 			<a href="/recipient-profile/{{ p.id }}">{{ p.info.name }} {{ p.info.agency }} {{ p.info.office }}</a><br><br>
 		{% endfor %}
 	
+	<div class="pagination_container">
+		{% if results.previous_people > 0 %}
+			<a href="/more-search?q={{ q }}&peoplepage={{ results.previous_people }}">Previous Page</a> /
+		{% endif %}
+		{% if results.this_people %}
+			Page {{ results.this_people }}
+		{% endif %}
+		{% if results.total_arms %}
+			(of <a href="/more-search?q={{ q }}&peoplepage={{ results.total_people }}">{{ results.total_arms }} people and organization pages</a>)
+		{% endif %}
+		{% if results.next_arms %}
+			/ <a href="/more-search?q={{ q }}&peoplepage={{ results.next_people }}">Next Page</a>
+		{% endif %}	
+	</div>
 
 	</div>
 {% endif %}
@@ -115,6 +173,21 @@
 	{% for p in results.arms %}
 		<a href="/arms-profile/{{ p.id }}">{{ p.info.title }}</a><br><br>
 	{% endfor %}
+
+	<div class="pagination_container">
+		{% if results.previous_arms > 0 %}
+			<a href="/more-search?q={{ q }}&armspage={{ results.previous_arms }}">Previous Page</a> /
+		{% endif %}
+		{% if results.this_arms %}
+			Page {{ results.this_arms }}
+		{% endif %}
+		{% if results.total_arms %}
+			(of <a href="/more-search?q={{ q }}&armspage={{ results.total_arms }}">{{ results.total_arms }} arms pages</a>)
+		{% endif %}
+		{% if results.next_arms %}
+			/ <a href="/more-search?q={{ q }}&armspage={{ results.next_arms }}">Next Page</a>
+		{% endif %}	
+	</div>
 
 
 </div>
@@ -153,7 +226,21 @@
 				 <br><br>
 			</a>
 		{% endfor %}
-	
+		
+		<div class="pagination_container">
+			{% if results.previous_interaction > 0 %}
+				<a href="/more-search?q={{ q }}&interactionspage={{ results.previous_interaction }}">Previous Page</a> /
+			{% endif %}
+			{% if results.this_interaction %}
+				Page {{ results.this_interaction }}
+			{% endif %}
+			{% if results.total_interaction %}
+				(of <a href="/more-search?q={{ q }}&interactionspage={{ results.total_interaction }}">{{ results.total_interaction }} interactions pages</a>)
+			{% endif %}
+			{% if results.next_interaction %}
+				<a href="/more-search?q={{ q }}&interactionspage={{ results.next_interaction }}">/ Next Page</a>
+			{% endif %}	
+		</div>
 
 	</div>
 {% endif %}
@@ -170,6 +257,21 @@
 			<p><b>{{ r.info.type }}</b> {{ r.info.registrant }} {{ r.info.date }}</p>
 			</a>
 		{% endfor %}
+
+		<div class="pagination_container">
+			{% if results.previous_docs > 0 %}
+				<a href="/more-search?q={{ q }}&docpage={{ results.previous_docs }}">Previous Page</a> /
+			{% endif %}
+			{% if results.this_docs %}
+				Page {{ results.this_docs }}
+			{% endif %}
+			{% if results.total_docs %}
+				(of <a href="/more-search?q={{ q }}&docpage={{ results.total_docs }}">{{ results.total_docs }} document pages</a>)
+			{% endif %}
+			{% if results.next_docs %}
+				/ <a href="/more-search?q={{ q }}&docpage={{ results.next_docs }}">Next Page</a>
+			{% endif %}	
+		</div>
 
 	</div>
 {% endif %}

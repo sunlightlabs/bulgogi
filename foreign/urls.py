@@ -25,6 +25,7 @@ urlpatterns = patterns('',
     url(r'^lobby-clients2013','foreign.views.lobby_clients', name='lobby-clients2013' ),
     url(r'^lobby-location2013', 'foreign.views.location13', name='location2013'),
     url(r'^search', 'foreign.views.search', name='search'),
+    url(r'^more-search', 'foreign.views.search_more', name='more-search'),
     # to check status
     url(r'^test', 'foreign.views.test', name='test'),
     # url(r'^map', 'foreign.views.map', name='map'),

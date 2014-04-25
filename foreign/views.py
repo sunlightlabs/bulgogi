@@ -780,6 +780,7 @@ def search(request):
 	query_params = {}
 	if request.GET.get('q'):
 		q = request.GET.get('q')
+		print q
 		query_params['q'] = q
 
 	else:
@@ -799,11 +800,31 @@ def search(request):
 			c.append({'id':r['_id'], 'info':r['_source']})
 		data['clients'] = c
 
+		# page logic
+		total_hits = int(results['clients']['hits']['total'])
+		total = total_hits/5 
+		if total_hits % 5 != 0:
+			total = total + 1
+		data['total_client'] = total
+		data['this_client'] = 1
+		if total > 1:
+			data['next_client'] = 2
+
 	if results['registrants']['hits']['hits']:
 		reg = []
 		for r in results['registrants']['hits']['hits']:
 			reg.append({'id':r['_id'], 'info':r['_source']})
 		data['registrants'] = reg
+
+		# page logic
+		total_hits = int(results['registrants']['hits']['total'])
+		total = total_hits/5 
+		if total_hits % 5 != 0:
+			total = total + 1
+		data['total_reg'] = total
+		data['this_reg'] = 1
+		if total > 1:
+			data['next_reg'] = 2
 
 	if results['people_org']['hits']['hits']:
 		p = []
@@ -816,6 +837,16 @@ def search(request):
 		for r in results['arms']['hits']['hits']:
 			a.append({'id':r['_id'], 'info':r['_source']})
 		data['arms'] = a
+
+		# page logic
+		total_hits = int(results['arms']['hits']['total'])
+		total = total_hits/10 
+		if total_hits % 10 != 0:
+			total = total + 1
+		data['total_arms'] = total
+		data['this_arms'] = 1
+		if total > 1:
+			data['next_arms'] = 2
 
 	if results['interactions']['hits']['hits']:
 		i = []
@@ -831,11 +862,31 @@ def search(request):
 			i.append({'id':fara_id, 'info':r['_source']})
 		data['interactions'] = i
 
+		# page logic
+		total_hits = int(results['interactions']['hits']['total'])
+		total = total_hits/20 
+		if total_hits % 20 != 0:
+			total = total + 1
+		data['total_interaction'] = total
+		data['this_interaction'] = 1
+		if total > 1:
+			data['next_interaction'] = 2
+
 	if results['locations']['hits']['hits']:
 		l = []
 		for r in results['locations']['hits']['hits']:
 			l.append({'id':r['_id'], 'info':r['_source']})
 		data['locations'] = l
+		
+		# page logic
+		total_hits = int(results['locations']['hits']['total'])
+		total = total_hits/20 
+		if total_hits % 20 != 0:
+			total = total + 1
+		data['total_location'] = total
+		data['this_location'] = 1
+		if total > 1:
+			data['next_location'] = 2
 
 	if results['docs']['hits']['hits']:
 		d = []
@@ -843,7 +894,199 @@ def search(request):
 			d.append({'id':r['_id'], 'info':r['_source']})
 		data['docs'] = d
 
+		# page logic
+		total_hits = int(results['docs']['hits']['total'])
+		total = total_hits/20 
+		if total_hits % 20 != 0:
+			total = total + 1
+		data['total_docs'] = total
+		data['this_docs'] = 1
+		if total > 1:
+			data['next_docs'] = 2
+
+	return render(request, 'foreign/search_results.html', {"results":data, 'q':q,})
+
+
+def search_more(request):
+	url = "/".join([settings.FARA_ENDPOINT, "more-search"])
+	query_params = {}
+	query_params['key'] = settings.API_PASSWORD
+	if request.GET.get('q'):
+		q = request.GET.get('q')
+		query_params['q'] = q
+	else:
+		return render(request, 'foreign/search_results.html', {"results":None})
+
+	# find page
+	if request.GET.get('clientpage'):
+		clientpage = int(request.GET.get('clientpage'))
+		query_params['clientpage'] = clientpage
+
+	if request.GET.get('regpage'):
+		regpage = int(request.GET.get('regpage'))
+		query_params['regpage'] = regpage
+
+	if request.GET.get('peoplepage'):
+		peoplepage = int(request.GET.get('peoplepage'))
+		query_params['peoplepage'] = peoplepage
+	
+	if request.GET.get('armspage'):
+		armspage = int(request.GET.get('armspage'))
+		query_params['armspage'] = armspage
+	
+	if request.GET.get('interactionspage'):
+		interactionspage = int(request.GET.get('interactionspage'))
+		query_params['interactionspage'] = interactionspage
+	
+	if request.GET.get('locationpage'):
+		locationpage = int(request.GET.get('locationpage'))
+		query_params['locationpage'] = locationpage
+
+	if request.GET.get('docpage'):
+		docpage = int(request.GET.get('docpage'))
+		query_params['docpage'] = docpage
+
+	response = requests.get(url, params=query_params)
+	try:
+		results = response.json()
+	except:
+		return render(request, 'foreign/search_results.html', {"results":None})
+
+	data = {}
+	if results.has_key('clients') and results['clients']['hits']['hits']:
+		c = []
+		for r in results['clients']['hits']['hits']:
+			c.append({'id':r['_id'], 'info':r['_source']})
+		data['clients'] = c
+
+		# page logic
+		total_hits = int(results['clients']['hits']['total'])
+		total = total_hits/5 
+		if total_hits % 5 != 0:
+			total = total + 1
+			data['total_client'] = total
+		if total > 1:
+			data['this_client'] = clientpage
+			data['previous_client'] = clientpage - 1	
+		if total > 1 and clientpage < total:
+			data['next_client'] = clientpage + 1
+
+	if results.has_key('registrants') and results['registrants']['hits']['hits']:
+		reg = []
+		for r in results['registrants']['hits']['hits']:
+			reg.append({'id':r['_id'], 'info':r['_source']})
+		data['registrants'] = reg
+
+		# page logic
+		total_hits = int(results['registrants']['hits']['total'])
+		total = total_hits/5 
+		if total_hits % 5 != 0:
+			total = total + 1
+			data['total_reg'] = total
+		if total > 1:
+			data['this_reg'] = regpage
+			data['previous_reg'] = regpage - 1	
+		if total > 1 and regpage < total:
+			data['next_reg'] = regpage + 1
+
+	if results.has_key('people_org') and results['people_org']['hits']['hits']:
+		p = []
+		for r in results['people_org']['hits']['hits']:
+			p.append({'id':r['_id'], 'info':r['_source']})
+		data['people_org'] = p
+
+		# page logic
+		total_hits = int(results['people_org']['hits']['total'])
+		total = total_hits/10 
+		if total_hits % 10 != 0:
+			total = total + 1
+			data['total_people'] = total
+		if total > 1:
+			data['this_people'] = peoplepage
+			data['previous_people'] = peoplepage - 1	
+		if total > 1 and peoplepage < total:
+			data['next_people'] = peoplepage + 1
+
+
+	if results.has_key('arms') and results['arms']['hits']['hits']:
+		a = []
+		for r in results['arms']['hits']['hits']:
+			a.append({'id':r['_id'], 'info':r['_source']})
+		data['arms'] = a
+
+		# page logic
+		total_hits = int(results['arms']['hits']['total'])
+		total = total_hits/10 
+		if total_hits % 10 != 0:
+			total = total + 1
+			data['total_arms'] = total
+		if total > 1:
+			data['this_arms'] = armspage
+			data['previous_arms'] = armspage - 1	
+		if total > 1 and armspage < total:
+			data['next_arms'] = armspage + 1
+
+	if results.has_key('interactions') and results['interactions']['hits']['hits']:
+		i = []
+		for r in results['interactions']['hits']['hits']:
+			es_id = r['_id']
+			es_id = es_id.replace('contact', '')
+			es_id = es_id.replace('contribution', '')
+			es_id = es_id.replace('payment', '')
+			es_id = es_id.replace('disbursement', '')
+			es_id = es_id.replace('gifts', '')
+			fara_id = es_id
+
+			i.append({'id':fara_id, 'info':r['_source']})
+		data['interactions'] = i
+
+		# page logic
+		total_hits = int(results['interactions']['hits']['total'])
+		total = total_hits/20 
+		if total_hits % 20 != 0:
+			total = total + 1
+			data['total_interaction'] = total
+		if total > 1:
+			data['this_interaction'] = interactionspage
+			data['previous_interaction'] = interactionspage - 1	
+		if total > 1 and interactionspage < total:
+			data['next_interaction'] = interactionspage + 1
+
+	if results.has_key('locations') and results['locations']['hits']['hits']:
+		l = []
+		for r in results['locations']['hits']['hits']:
+			l.append({'id':r['_id'], 'info':r['_source']})
+		data['locations'] = l
+
+		# page logic
+		total_hits = int(results['locations']['hits']['total'])
+		total = total_hits/20 
+		if total_hits % 20 != 0:
+			total = total + 1
+			data['total_location'] = total
+		if total > 1:
+			data['this_location'] = locationpage
+			data['previous_location'] = locationpage - 1	
+		if total > 1 and locationpage < total:
+			data['next_location'] = locationpage + 1
+
+	if results.has_key('docs') and results['docs']['hits']['hits']:
+		d = []
+		for r in results['docs']['hits']['hits']:
+			d.append({'id':r['_id'], 'info':r['_source']})
+		data['docs'] = d
+
+		# page logic
+		total_hits = int(results['docs']['hits']['total'])
+		total = total_hits/20 
+		if total_hits % 20 != 0:
+			total = total + 1
+			data['total_docs'] = total
+		if total > 1:
+			data['this_docs'] = docpage
+			data['previous_docs'] = docpage - 1	
+		if total > 1 and docpage < total:
+			data['next_docs'] = docpage + 1
+
 	return render(request, 'foreign/search_results.html', {"results":data, 'q':q})
-
-
 
