@@ -27,7 +27,7 @@ urlpatterns = patterns('',
     url(r'^search', 'foreign.views.search', name='search'),
     # to check status
     url(r'^test', 'foreign.views.test', name='test'),
-    # url(r'^map', 'foreign.views.map', name='map'),
+    url(r'^map', 'foreign.views.map', name='map'),
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     # Uncomment the next line to enable the admin:

@@ -30,8 +30,8 @@ def not_found(request):
 def error(request):
 	return render(request, 'foreign/500.html')
 
-# def map(request):
-# 	return render(request, 'foreign/map.html',)
+def map(request):
+ 	return render(request, 'foreign/map.html',)
 
 def incoming_arms(request):
 	if request.GET.get('p'):
