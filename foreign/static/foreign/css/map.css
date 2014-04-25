@@ -1,0 +1,30 @@
+body {
+  font-family: sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.bar {
+  fill: steelblue;
+}
+
+.x.axis path {
+  display: none;
+}
+
+.fara-region-fill {
+    opacity: 0.7;
+}
+
+.fara-region-fill path {
+    stroke: none;
+}
+
+.datamaps-subunit text {
+    fill: #E5E2E0;
+}
