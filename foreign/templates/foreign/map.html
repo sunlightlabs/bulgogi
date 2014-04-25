@@ -6,9 +6,24 @@
 </div>
 <div class="module withNav">
 <p> Click on the map below to find pages about the country or location.<p>
+    <div id="infoBox" style="position: relative;">
+        <div id="infoBoxTitle">
+        </div>
+        <div id="infoBoxDetails">
+        </div>
+    </div>
+    <div id="fara_map" style="position: relative; width: 800px; height: 400px;">
+    </div>
 </div>
 
 
 
 
+{% endblock %}
+
+{% block mapjs %}
+<script src="static/foreign/js/d3.v3.min.js"></script>
+<script src="static/foreign/js/topojson.v1.min.js"></script>
+<script src="static/foreign/js/datamaps.world.js"></script>
+<script src="static/foreign/js/fara_map.js"></script>
 {% endblock %}
