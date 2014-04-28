@@ -1831,6 +1831,14 @@
       "sub-region-code" : "014"
    },
    {
+      "unrecognized": true,
+      "region-code" : "002",
+      "country-code" : "-99",
+      "alpha-3" : "SOL",
+      "name" : "Somaliland",
+      "sub-region-code" : "014"
+   },
+   {
       "iso_3166-2" : "ISO 3166-2:ZA",
       "region-code" : "002",
       "country-code" : "710",

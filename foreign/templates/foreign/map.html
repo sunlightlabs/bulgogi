@@ -1,17 +1,18 @@
 {% extends "foreign/foreign_base.html" %}
 {% block main_content %}
 
-<div class="overviewBar withNav withTip">
-	<h3 class="insideBar"><a href="/incoming-fara">Map</a></h3>
-</div>
-<div class="module withNav">
-<p> Click on the map below to find pages about the country or location.<p>
+<div class="module">
+	<p class="intro">
+	Foreign Influence Explorer documents some of the ways foreign entities influence policy and opinions in the United States. The foreign influence data housed here comes from documents collected by the Department of Justice as required by the <a href="http://www.fara.gov/">Foreign Agents Registration Act</a>.   View information about <a href="#fara_section">Foreign Agent Feed</a> and <a href="#arms_section">Proposed Arms Sales</a> below.
+	</p>
+	<span class="tip">Click on the map below to find pages about the country or location.</span>
     <div id="fara_map" style="float:left; width: 600px; height: 300px;">
     </div>
     <div id="infoBox" style="margin-left: 602px;">
-        <div id="infoBoxTitle">
+        <div id="infoBoxTitle"><h3>THE WORLD</h3>
         </div>
         <div id="infoBoxDetails">
+                <span class="tip">Click on the map to find foreign influence information about the country or location.</span>
         </div>
     </div>
 </div>

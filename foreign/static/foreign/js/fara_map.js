@@ -4,7 +4,7 @@ var testvar1,
 
 var country_data = {};
 var sub_regions = {};
-var centered;
+var centeredRegion;
 var focusedCountry;
 var info;
 
@@ -13,6 +13,17 @@ var target_domain = 'http://foreign.influenceexplorer.com'
 
 //TODO: dispatch for zoom events
 
+var colors = {
+        "country": {
+            "default" : "rgb(238, 212, 117)",
+            "highlighted" : "rgb(227, 186, 34)",
+            },
+        "ocean": "rgba(105,165,159,.17)",
+        "subRegion" : {
+            "default" : "rgba(207, 207, 202, 1)",
+            "highlighted" : "rgba(168, 168, 160, 1)",
+            }
+}
 
 var dispatch = d3.dispatch(     "clickSubRegion", 
                                 "clickCountry", 
@@ -25,9 +36,8 @@ var dispatch = d3.dispatch(     "clickSubRegion",
 function initializeMap() {
 
     var color_map = {
-                        'ONE': "#5C8100",
-                        'MORE': "#0C4E00",
-                        'defaultFill': "#E5E2E0"
+                        "unrecognized": colors.subRegion.default,
+                        "defaultFill": colors.country.default
                     };
 
     _.each(_.keys(country_data), function(k) {
@@ -42,15 +52,18 @@ function initializeMap() {
         }
     });
 
+    country_data['-99'] = {'fillKey': 'unrecognized'};
+
     var faraMap = new Datamap({
         element: document.getElementById('fara_map'),
         scope: 'world',
         projection: 'equirectangular',
         geographyConfig: {
-            highlightBorderColor: '#000000',
+            highlightBorderColor: '#FFFFFF',
             popupOnHover: false,
             highlightOnHover: true,
-            highlightFillColor: function(d) { return d3.select(this).style('fill'); },
+            //highlightFillColor: function(d) { return d3.select(this).style('fill'); },
+            highlightFillColor: colors.country.highlighted,
             /*
              popupTemplate: function(geography, data) {
                 // TODO: make sure this isn't clashing with IE css
@@ -78,6 +91,7 @@ function initializeMap() {
         fills: color_map,
         data: country_data,
         done: function(datamap) {
+            datamap.svg.style("background-color", "rgba(105,165,159,.17)");
             map_height = datamap.options.element.clientHeight;
             map_width = datamap.options.element.clientWidth;
             //datamap.svg.selectAll('.datamaps-subunit')
@@ -90,11 +104,14 @@ function initializeMap() {
             var meta_layer = datamap.addLayer( "meta-layer", null, false);
             var map_layer = d3.select('.datamaps-subunits');
                 
-            d3.select("g.datamaps-subunits").style("pointer-events","none"); 
+            d3.select("g.datamaps-subunits")
+                .style("pointer-events","none")
+                .style("cursor","pointer"); 
 
             var resetZoomButton = meta_layer.append('g')
                                         .attr('id','resetZoomButton')
                                         .style('visibility','hidden')
+                                        .style('cursor','pointer')
                                         .on("click", function(d){ dispatch.resetZoom();});
 
             resetZoomButton.append('rect')
@@ -102,31 +119,38 @@ function initializeMap() {
                 .attr('y',10)
                 .attr('rx',5)
                 .attr('ry',5)
-                .style('fill', '#E5E2E0')
+                .style('fill', '#0a6e92')
                 .style('padding', '5px')
                 .attr('height',40)
-                .attr('width',100);
+                .attr('width',40);
 
-            resetZoomButton.append('text')
-                .style('fill','#8E8883')
-                .style('text-transform','uppercase')
-                .attr('x',17)
-                .attr('y',35)
-                .text('zoom out');
+            function showCountryLabel(d) {
+                if (d) {
+                   d3.select('text.'+d.id).style("visibility","visible");
+                }
+            }
+                   
+            function hideCountryLabel(d) {
+                if (d) {
+                   d3.select('text.'+d.id).style("visibility","hidden");
+                }
+            }
 
             dispatch.on("mouseoverCountry", function(d){
                 //d3.select('.datamaps-subunit.'+d.id)
                 //  .style('stroke', 'black');
                 //console.log('called');
-
-                d3.select('text.'+d.id).style("visibility","visible");
+                if (d && d !== focusedCountry){
+                    showCountryLabel(d);
+                }
             });
             
             dispatch.on("mouseoutCountry", function(d){
                 //d3.select('.datamaps-subunit.'+d.id)
                 //  .style('stroke', 'white');
-                
-                d3.select('text.'+d.id).style("visibility","hidden");
+                if (d && d !== focusedCountry){
+                    hideCountryLabel(d);
+                }
             }); 
                 
 
@@ -159,7 +183,7 @@ function initializeMap() {
                 x = map_width / 2;
                 y = map_height / 2;
                 k = 1;
-                centered = null; 
+                centeredRegion = null; 
 
                 d3.select("g.datamaps-subunits").transition()
                   .duration(750)
@@ -176,11 +200,11 @@ function initializeMap() {
             function clickZoom(d) {
               var x, y, k;
 
-              if (centered) {
-                d3.select('#fara-region-fill path[data-subregion-id="'+centered.id+'"]').style("visibility", "visible");
+              if (centeredRegion) {
+                d3.select('#fara-region-fill path[data-subregion-id="'+centeredRegion.id+'"]').style("visibility", "visible");
               }
 
-              if (d && centered !== d) {
+              if (d && centeredRegion !== d) {
                 d3.select('#fara-region-fill path[data-subregion-id="'+d.id+'"]').style("visibility", "hidden");
                 d3.select("g.datamaps-subunits").style("pointer-events","auto"); 
                 testvar2 = d;
@@ -189,13 +213,13 @@ function initializeMap() {
                 x = centroid[0];
                 y = centroid[1];
                 k = optimizeZoom(bounds, centroid, map_height, map_width);
-                centered = d;
+                centeredRegion = d;
               } else {
                 d3.select("g.datamaps-subunits").style("pointer-events","none"); 
                 x = map_width / 2;
                 y = map_height / 2;
                 k = 1;
-                centered = null;
+                centeredRegion = null;
               }
 
 
@@ -221,17 +245,17 @@ function initializeMap() {
               datamap.svg.selectAll('.datamaps-subunit').style('stroke-width', 1 / k);
             };
 
-            function showInfo(d) {
-                fallbackName = d.properties.name;
-                infoBox = d3.select("#infoBox");
-                info = _.has(country_data, d.id) ? country_data[d.id] : null;
-                if (info && info.locations) {
+            function setInfoBoxTitle(string){
                     infoBoxTitle = d3.select('#infoBoxTitle');
                     infoBoxTitle.html('');
                     infoBoxTitle.append('h3')
-                        .text(info.name);
-                    infoBoxDetails = d3.select('#infoBoxDetails');
-                    infoBoxDetails.html('');
+                        .text(string);
+            }
+                    
+            function setInfoBoxDetails(info){
+                infoBoxDetails = d3.select('#infoBoxDetails');
+                infoBoxDetails.html('');
+                if (info && info.locations) {
                     infoBoxDetails.append("ul")
                         .selectAll("li")
                         .data(info.locations)
@@ -240,41 +264,115 @@ function initializeMap() {
                             .attr("href", function(l) { return "location-profile/"+l.id;})
                             .text(function(l){ return l.name;});
                 } else {
-                    infoBoxTitle = d3.select('#infoBoxTitle');
-                    infoBoxTitle.html('');
-                    infoBoxTitle.append("h3")
-                        .text(fallbackName);
-                    infoBoxDetails = d3.select('#infoBoxDetails');
-                    infoBoxDetails.html('');
+                    infoBoxDetails.append("p")
+                        .text("No filings exist for this selection.") 
                 }
             }
 
-            function toggleInfo(d) {
-                if (d && d !== focusedCountry) {
-                    //populateInfo(d);
-                    showInfo(d);
-                    focusedCountry = d;
+            function showCountryInfo(d) {
+                fallbackName = d.properties.name;
+                infoBox = d3.select("#infoBox");
+                info = _.has(country_data, d.id) ? country_data[d.id] : null;
+                if (info) {
+                    setInfoBoxTitle(info.name);
+                    setInfoBoxDetails(info);
                 } else {
-                    hideInfo(d);
-                    focusedCountry = null;
+                    setInfoBoxTitle(fallbackName);
+                    setInfoBoxDetails(info);
                 }
             }
 
-            dispatch.on("clickSubRegion", function(d){ clickZoom(d); resetZoomButton.style('visibility','visible'); });
-            dispatch.on("clickCountry", function(d){ toggleInfo(d);});
-            dispatch.on("resetZoom", function(){ clickZoom(null); resetZoomButton.style('visibility','hidden');});
+            function showRegionInfo(d){
+                if (d && d === centeredRegion) {
+                   setInfoBoxTitle(d.name)
+                }
+            }
+
+            function defaultInfo(d) {
+                setInfoBoxTitle('The World')
+                infoBoxDetails = d3.select('#infoBoxDetails');
+                infoBoxDetails.html('');
+            }
+                
+
+            function changeInfo(d) {
+                if (d && d === focusedCountry) {
+                    //populateInfo(d);
+                    showCountryInfo(d);
+                } else if (d && d === centeredRegion) {
+                    showRegionInfo(d);
+                } else {
+                    defaultInfo(d);
+                }
+            }
+
+            function dehighlightCountry(d) {
+                if (d) {
+                    c = d3.select('.datamaps-subunit.'+d.id);
+                    c.style('fill', colors.country.default);
+                }
+            }
+
+            function highlightCountry(d) {
+                c = d3.select('.datamaps-subunit.'+d.id);
+                c.style('fill', colors.country.highlighted);
+            }
+
+            function dehighlightSubRegion(d) {
+                if (d) {
+                    d3.select('#fara-region-fill path[data-subregion-id="'+d.id+'"]')
+                      .style('fill',colors.subRegion.default)
+                }
+            }
+
+            function highlightSubRegion(d) {
+                if (d) {
+                    d3.select('#fara-region-fill path[data-subregion-id="'+d.id+'"]')
+                      .style('fill',colors.subRegion.highlighted)
+                }
+            }
+
+            function changeFocusedCountry(d) {
+                // unfocus last focused country
+                dehighlightCountry(focusedCountry);
+                hideCountryLabel(focusedCountry);
+                if (d && d !== focusedCountry) {
+                    // focus new focused country
+                    highlightCountry(d);
+                    showCountryLabel(d);
+                    focusedCountry = d;
+                    changeInfo(d);
+                } else {
+                    focusedCountry = null;
+                    changeInfo(d);
+                }
+            }
+
+            dispatch.on("clickSubRegion", function(d){ clickZoom(d); changeInfo(d); resetZoomButton.style('visibility','visible'); });
+            dispatch.on("clickCountry", function(d){ changeFocusedCountry(d);});
+            dispatch.on("resetZoom", function(){ clickZoom(null); resetZoomButton.style('visibility','hidden'); changeFocusedCountry(null)});
+            
+            dispatch.on("mouseoverSubRegion", function(d){ 
+                highlightSubRegion(d);
+            })
+            dispatch.on("mouseoutSubRegion", function(d){ 
+                dehighlightSubRegion(d); 
+            })
 
             testvar1 = datamap;
             datamap.svg.selectAll('.datamaps-subunit').on('click', function(d) { dispatch.clickCountry(d); });
             
-            var region_colors = d3.scale.category20().domain(_.keys(_.pluck(sub_regions, 'id')));
+            //var region_colors = d3.scale.category20().domain(_.keys(_.pluck(sub_regions, 'id')));
 
             var country_featureset = topojson.feature(datamap.worldTopo, datamap.worldTopo.objects.world);
             _.each(sub_regions, function(sub_region){
                 var filtered_features;
 
                 filtered_features = country_featureset.features.filter(
-                    function(d) { return _.indexOf(_.pluck(sub_region.countries, 'alpha-3'), d.id) >= 0; });
+                    function(d) { 
+                        three_letter_codes = _.pluck(sub_region.countries, 'alpha-3');
+                        return _.indexOf(three_letter_codes, d.id) >= 0; 
+                    });
 
                 var selection = {  type: "FeatureCollection",
                                     features: filtered_features};
@@ -285,11 +383,15 @@ function initializeMap() {
             region_fill.selectAll("path")
                 .data(sub_regions)
                 .enter().append("path")
-                .style("fill", function(d){ return region_colors(d.name); })
+                .classed('subregion',true)
+                .style("fill", colors.subRegion.default)
                 .style("stroke", "none")
                 .style("stroke-width", "0px")
+                .style("cursor", "pointer")
                 .attr("d", function(d){ return datamap.path(d.selection);})
                 .attr("data-subregion-id", function(d) { return d.id; })
+                .on("mouseover", function(d){ dispatch.mouseoverSubRegion(d);})
+                .on("mouseout", function(d){ dispatch.mouseoutSubRegion(d);})
                 .on("click", function(d){ dispatch.clickSubRegion(d);});
         
             datamap.labels({'fontSize':'1em'})

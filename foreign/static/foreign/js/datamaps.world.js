@@ -143,7 +143,7 @@
         .on('mouseover', function(d) {
           var $this = d3.select(this);
 
-          if ( options.highlightOnHover ) {
+          if ( options.highlightOnHover && d !== focusedCountry ) {
             var previousAttributes = {
               'fill':  $this.style('fill'),
               'stroke': $this.style('stroke'),
@@ -167,12 +167,14 @@
           if ( options.popupOnHover ) {
             self.updatePopup($this, d, options, svg);
           }
-          dispatch.mouseoverCountry(d);
+          if (d.id !== -99){
+             dispatch.mouseoverCountry(d);
+          };
         })
         .on('mouseout', function(d) {
           var $this = d3.select(this);
 
-          if (options.highlightOnHover) {
+          if (options.highlightOnHover && d !== focusedCountry) {
             //reapply previous attributes
             var previousAttributes = JSON.parse( $this.attr('data-previousAttributes') );
             for ( var attr in previousAttributes ) {
