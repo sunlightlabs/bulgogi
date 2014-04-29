@@ -434,7 +434,7 @@ function initializeMap() {
                 var alpha_codes = _.keys(country_data);
 
                 filtered_codes = _.filter(_.keys(fara_data), function(country_code){ 
-                            return _.indexOf(alpha_codes, country_code) > 0;
+                            return _.indexOf(alpha_codes, country_code) >= 0;
                         })
                 //console.log(filtered_codes);
                 _.each(filtered_codes, function(country_code) {
