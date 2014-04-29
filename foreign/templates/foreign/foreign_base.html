@@ -6,14 +6,21 @@
 {% endblock %}
 
 {% block og %}
-  <meta name="og:title" content="Influence Explorer">
-  <meta name="og:description" content="How are foreign groups influencing US politics? Find out via @Sunfoundation's #foreigninfluence database">
-  <meta name="og:type" content="cause">
-  <meta name="og:image" content="http://s3.amazonaws.com/assets.sunlightfoundation.com/brisket/1.0/images/projects_icon_influencexplorer.png">
-  <meta name="og:url" content="http://{{ OG_DOMAIN }}{{ request.path }}">
-  <meta name="og:site_name" content="Foreign Influence Explorer">
-  <meta name="fb:admins" content="7812952"> 
+  <meta property="og:title" content="Influence Explorer">
+  <meta property="og:description" content="How are foreign groups influencing US politics? Find out via @Sunfoundation's #foreigninfluence database">
+  <meta property="og:type" content="cause">
+  <meta property="og:image" content="http://s3.amazonaws.com/assets.sunlightfoundation.com/brisket/1.0/images/projects_icon_influencexplorer.png">
+  <meta property="og:url" content="http://{{ OG_DOMAIN }}{{ request.path }}">
+  <meta property="og:site_name" content="Foreign Influence Explorer">
+  <meta property="fb:admins" content="7812952"> 
   <!-- removed 5308565 -->
+{% endblock %}
+
+{% block sitesocial %}
+  <div id="share-buttons" class="clear">
+    <a class="socialite facebook-share" href="http://facebook.com/sharer/sharer.php?" data-text="How are foreign groups influencing US politics? Find out via Sunlight Foundation's #foreigninfluence database">Facebook</a>
+    <a class="socialite twitter-simple" href="http://twitter.com/share" data-text="How are foreign groups influencing US politics? Find out via @Sunfoundation's #foreigninfluence database">Twitter</a>
+  </div>
 {% endblock %}
 
 {% block search %}
