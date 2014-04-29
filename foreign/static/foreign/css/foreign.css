@@ -97,3 +97,23 @@ th.sort.header:hover {
     box-sizing: border-box;         /* Opera/IE 8+ */
     background-color:#E0EAE9 !important;
     }
+
+.fara-region-fill path {
+    stroke: none;
+}
+
+.datamaps-subunit text {
+    fill: #E5E2E0;
+}
+
+#infoBox {
+	    margin-left: 600px;
+		background-color: #f5f4f4;
+		min-height: 280px;
+		padding: 20px 20px 20px 30px;
+		margin-top: -10px;
+	}
+
+#infoBox h3 {
+	border-bottom: 1px dashed #DCDCD8;
+}

@@ -1,0 +1,67 @@
+{ 
+   "world":
+    { 
+      "id": "001",     
+      "name": "World",
+      "regions": 
+        [
+            { 
+                "id": "002",     
+                "name": "Africa",
+                "subregions":
+                        [
+                            { "id": "014",     "name": "Eastern Africa" },
+                            { "id": "017",     "name": "Middle Africa" },
+                            { "id": "015",     "name": "Northern Africa" },
+                            { "id": "018",     "name": "Southern Africa" },
+                            { "id": "011",     "name": "Western Africa" }
+                        ]
+            },
+            { 
+                "id": "019",     
+                "name": "Americas",
+                "subregions": 
+                        [
+                            { "id": "029",     "name": "Caribbean" },
+                            { "id": "013",     "name": "Central America" },
+                            { "id": "005",     "name": "South America" },
+                            { "id": "021",     "name": "Northern America"}
+                        ]
+            },
+            { 
+                "id": "142",     
+                "name": "Asia",
+                "subregions": 
+                        [
+                            { "id": "143",     "name": "Central Asia" },
+                            { "id": "030",     "name": "Eastern Asia" },
+                            { "id": "034",     "name": "Southern Asia" },
+                            { "id": "035",     "name": "South-Eastern Asia" },
+                            { "id": "145",     "name": "Western Asia" }
+                        ]
+            },
+            { 
+                "id": "150",
+                "name": "Europe",
+                "subregions":
+                        [
+                            { "id": "151",     "name": "Eastern Europe" },
+                            { "id": "154",     "name": "Northern Europe" },
+                            { "id": "039",     "name": "Southern Europe" },
+                            { "id": "155",     "name": "Western Europe" }
+                        ]
+            },
+            {   
+                "id": "009",
+                "name": "Oceania",
+                "subregions":
+                        [ 
+                            { "id": "053",     "name": "Australia and New Zealand" },
+                            { "id": "054",     "name": "Melanesia" },
+                            { "id": "057",     "name": "Micronesia" },
+                            { "id": "061",     "name": "Polynesia" }
+                        ]
+            }
+        ]
+    }
+}
