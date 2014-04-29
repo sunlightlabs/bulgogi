@@ -260,6 +260,9 @@ function initializeMap() {
             function setInfoBoxDetails(info){
                 infoBoxDetails = d3.select('#infoBoxDetails');
                 infoBoxDetails.html('');
+                infoBoxDetails.append('span')
+                        .classed('tip',true)
+                        .text("Filings were found for the following locations:");
                 if (info && info.locations) {
                     infoBoxDetails.append("ul")
                         .selectAll("li")
@@ -289,14 +292,19 @@ function initializeMap() {
 
             function showRegionInfo(d){
                 if (d && d === centeredRegion) {
-                   setInfoBoxTitle(d.name)
+                   setInfoBoxTitle('Select a Country');
+                   infoBoxDetails = d3.select('#infoBoxDetails');
+                   infoBoxDetails.html('');
                 }
             }
 
             function defaultInfo(d) {
-                setInfoBoxTitle('The World')
+                setInfoBoxTitle('Select a Region')
                 infoBoxDetails = d3.select('#infoBoxDetails');
                 infoBoxDetails.html('');
+                infoBoxDetails.append('span')
+                        .classed('tip',true)
+                        .text("Click on the map to find foreign influence information about the country or location.");
             }
                 
 

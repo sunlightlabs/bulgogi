@@ -117,3 +117,9 @@ th.sort.header:hover {
 #infoBox h3 {
 	border-bottom: 1px dashed #DCDCD8;
 }
+
+#infoBox ul li {
+        margin-left: 25px;
+        margin-bottom: 10px;
+        font-size: 18px;
+} 
