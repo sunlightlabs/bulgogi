@@ -6,9 +6,9 @@
 	Foreign Influence Explorer documents some of the ways foreign entities influence policy and opinions in the United States. The foreign influence data housed here comes from documents collected by the Department of Justice as required by the <a href="http://www.fara.gov/">Foreign Agents Registration Act</a>.   View information about <a href="#fara_section">Foreign Agent Feed</a> and <a href="#arms_section">Proposed Arms Sales</a> below.
 	</p>
 	<span class="tip">Click on the map below to find pages about the country or location.</span>
-    <div id="fara_map" style="float:left; width: 600px; height: 300px;">
+    <div id="fara_map" style="float:left; width: 600px; height: 300px">
     </div>
-    <div id="infoBox" style="margin-left: 602px;">
+    <div id="infoBox" style="margin-left: 600px;">
         <div id="infoBoxTitle"><h3>THE WORLD</h3>
         </div>
         <div id="infoBoxDetails">
@@ -24,6 +24,7 @@
 
 {% block mapjs %}
 <script src="static/foreign/js/d3.v3.min.js"></script>
+<script src="http://d3js.org/d3.geo.projection.v0.min.js" charset="utf-8"></script>
 <script src="static/foreign/js/topojson.v1.min.js"></script>
 <script src="static/foreign/js/datamaps.world.js"></script>
 <script src="static/foreign/js/fara_map.js"></script>

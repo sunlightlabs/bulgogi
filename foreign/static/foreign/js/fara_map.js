@@ -124,6 +124,11 @@ function initializeMap() {
                 .attr('height',40)
                 .attr('width',40);
 
+            resetZoomButton.append('path')
+                .attr('d', "m 12.015625,12.015625 8,0 0,8.00001 -8,0 z M 23.95625,32 32,32 l 0,-8.04062 -1.97812,3.04999 -6.00625,-6.99375 0,4 -4,0 6.99374,6.00626 z m 0.05938,-19.98438 5.975,-7.1125 L 32,7.9875 32,0 23.95938,0 27.025,1.97187 l -7.00937,6.04375 4,0 z M 7.9875,0 0,0 0,7.9875 1.95313,4.96562 l 6.0625,7.05 0,-4 4,0 -7.05,-6.0625 z M 0,23.95938 0,32 l 7.98438,0 -3.08125,-2.00937 7.1125,-5.97501 -4,0 0,-4 -6.04375,7.00938 z")
+                .attr('transform','translate(14,14)')
+                .style('fill','#ffffff');
+
             function showCountryLabel(d) {
                 if (d) {
                    d3.select('text.'+d.id).style("visibility","visible");
@@ -349,7 +354,7 @@ function initializeMap() {
             }
 
             dispatch.on("clickSubRegion", function(d){ clickZoom(d); changeInfo(d); resetZoomButton.style('visibility','visible'); });
-            dispatch.on("clickCountry", function(d){ changeFocusedCountry(d);});
+            dispatch.on("clickCountry", function(d){ if (d !== focusedCountry) {changeFocusedCountry(d);}});
             dispatch.on("resetZoom", function(){ clickZoom(null); resetZoomButton.style('visibility','hidden'); changeFocusedCountry(null)});
             
             dispatch.on("mouseoverSubRegion", function(d){ 
