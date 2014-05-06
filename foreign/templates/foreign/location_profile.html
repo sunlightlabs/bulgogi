@@ -1,5 +1,16 @@
 {% extends "foreign/foreign_base.html" %}
 {% load humanize %}
+
+{% block ogsharetxt %}
+	"How are foreign groups influencing US politics? Dig into foreign influence disclosures for {{ results.location }} http://{{ OG_DOMAIN }}{{ request.path }}"
+{% endblock %}
+{% block fbsharetxt %}
+	"How are foreign groups influencing US politics? Dig into foreign influence disclosures for {{ results.location }} http://{{ OG_DOMAIN }}{{ request.path }}"
+{% endblock %}
+{% block twitter %}
+	"How are foreign groups influencing US politics? Dig into foreign influence disclosures for {{ results.location }} #foreigninfluence http://{{ OG_DOMAIN }}{{ request.path }}"
+{% endblock %}
+
 {% block main_content %}
 
 <div id="floatingNavWrapper">

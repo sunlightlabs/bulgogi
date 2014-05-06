@@ -1,4 +1,15 @@
 {% extends "foreign/foreign_base.html" %}
+
+{% block ogsharetxt %}
+	"Where is the US exporting weapons? Dig into the latest federal arms proposals here. A transparency project from the Sunlight Foundation http://{{ OG_DOMAIN }}{{ request.path }}"
+{% endblock %}
+{% block fbsharetxt %}
+	"Where is the US exporting weapons? Dig into the latest federal arms proposals here. A transparency project from the Sunlight Foundation http://{{ OG_DOMAIN }}{{ request.path }}"
+{% endblock %}
+{% block twitter %}
+	"Where is the US exporting weapons? Dig into the latest federal arms proposals here: #foreigninfluence http://{{ OG_DOMAIN }}{{ request.path }}"
+{% endblock %}
+
 {% block main_content %}
 <div id="floatingNavWrapper">
     <div id="floatingNav">
