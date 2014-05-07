@@ -1,5 +1,6 @@
 {% load staticfiles %}
 <table>
+
 	<thead class="header">
 		<th>Document type</th><th>Registrant</th><th>Date received</th><th>Processed</th>
 	</thead>
@@ -7,7 +8,7 @@
 		{% for c in table_info.1 %}
 			<tr class="{{ c.place }}">
 				<td><a href="/{{ c.profile_url }}">{{ c.doc_type }}</a></td>
-				<td>{{ c.reg_name }}</td>
+				<td><a href="/reg-profile/{{ c.reg_id }}">{{ c.reg_name }}</a></td>
 				<td>{{ c.stamp_date }}</td>
 				<td>{% if c.processed = True %}
 						<img src="{% static "dryrub/images/icon_check.png" %}">
@@ -33,4 +34,6 @@
 		/ <a href="?{{ page.query_params }}p={{ page.next }}">Next Page</a>
 	{% endif %}
 </div>
+
+
 {% endif %}

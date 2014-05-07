@@ -19,7 +19,6 @@
 	<thead class="header">
 		<th class="sort">Foreign Agent</th>
 		<th class="sort">Payments</th>
-		<th class="sort">Complete records</th>
 		<th class="sort">Federal lobbying</th>
 		<th class="sort">State Dept. contacts</th>
 		<th class="sort">Media contacts</th>
@@ -30,12 +29,6 @@
 			<tr > 
 				<td><a href="/reg-profile/{{ d.reg_id }}">{{ d.reg_name }}</a></td>
 				<td>{{ d.payments2013|floatformat:2|intcomma }}</td>
-				<td>{% if d.complete_records13 == True %}
-						Yes
-					{% else %}
-						No
-					{% endif %}
-				</td>
 				<td>{% if d.federal_lobbying == True %}
 						Yes
 					{% else %}

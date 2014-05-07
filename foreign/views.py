@@ -118,6 +118,7 @@ def incoming_fara(request):
 	url = "/".join([settings.FARA_ENDPOINT, "docs"])
 	response = requests.get(url, params={"p":p,"key":settings.API_PASSWORD})
 	data = response.json()
+	print data
 	page = {}
 	page['this'] = p
 	page['previous'] = p - 1
@@ -520,6 +521,7 @@ def make_doc_table(data, page):
 			"stamp_date": stamp_date,
 			"profile_url": profile_url,
 			"place": place,
+			"reg_id": reg_id,
 		})
 
 	info = [{"page": page}, docs]
