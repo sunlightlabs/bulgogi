@@ -521,6 +521,15 @@
       "iso_3166-2" : "ISO 3166-2:CY"
    },
    {
+      "unrecognized": true,
+      "region-code" : "142",
+      "sub-region-code" : "145",
+      "name" : "Northern Cyprus",
+      "country-code" : "197",
+      "alpha-3" : "NCY",
+      "iso_3166-2" : "ISO 3166-2:CY"
+   },
+   {
       "iso_3166-2" : "ISO 3166-2:CZ",
       "region-code" : "150",
       "country-code" : "203",
@@ -1759,6 +1768,15 @@
       "alpha-2" : "RS"
    },
    {
+      "unrecognized": true,
+      "iso_3166-2" : "ISO 3166-2:KV",
+      "region-code" : "150",
+      "sub-region-code" : "039",
+      "name" : "Kosovo",
+      "alpha-3" : "KOS",
+      "country-code" : "689"
+   },
+   {
       "name" : "Seychelles",
       "sub-region-code" : "014",
       "alpha-2" : "SC",
@@ -1833,7 +1851,7 @@
    {
       "unrecognized": true,
       "region-code" : "002",
-      "country-code" : "-99",
+      "country-code" : "707",
       "alpha-3" : "SOL",
       "name" : "Somaliland",
       "sub-region-code" : "014"
