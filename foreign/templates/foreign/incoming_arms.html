@@ -1,5 +1,6 @@
 {% extends "foreign/foreign_base.html" %}
 {% load staticfiles %}
+{% block pagetopics %} Proposed Arms {% endblock %}
 
 {% block ogsharetxt %}
 	"Where is the US exporting weapons? Dig into the latest federal arms proposals here. A transparency project from the Sunlight Foundation http://{{ OG_DOMAIN }}{{ request.path }}"
@@ -22,7 +23,7 @@
 		Latest press releases from <a href="http://www.dsca.mil/major-arms-sales/">The Defense Security Cooperation Agency</a>. Keep in mind, the sales mentioned in this feed are only proposed and may not happen. 
 	</p>
 	<p>
-		Click <a href="/#arms_section">here</a> for an explanation of these records.
+		Click <a href="/about#arms_section">here</a> for an explanation of these records.
 	</p>
 	
 </div>

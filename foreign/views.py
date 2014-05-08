@@ -118,7 +118,6 @@ def incoming_fara(request):
 	url = "/".join([settings.FARA_ENDPOINT, "docs"])
 	response = requests.get(url, params={"p":p,"key":settings.API_PASSWORD})
 	data = response.json()
-	print data
 	page = {}
 	page['this'] = p
 	page['previous'] = p - 1
@@ -389,9 +388,7 @@ def lobby_clients(request):
 	clients = []
 	for client_id in data.keys():
 		info = data[client_id]
-		print info
 		for reg in info['registrants'].keys():
-			print reg
 			client ={}
 			client_total = 0
 			client['id'] = client_id
@@ -473,7 +470,6 @@ def recipient_profile(request, recip_id):
 
 		ie_profile = 'http://influenceexplorer.com/bioguide/' + bioguide_id
 		r = requests.head(ie_profile)
-		print r.status_code
 		if r.status_code == 302:
 			results['ie_profile'] = ie_profile
 
@@ -637,8 +633,6 @@ def payment_table(request):
 			url_param = url_param + query
 	page['query_params'] = url_param
 
-	print ie_url
-
 	return render(request, 'foreign/payment_table.html', {"title":data['title'], "page":page, "buttons":data['buttons'], "payments":data['results'], 'ie_url':ie_url})
 
 def disbursement_table(request):
@@ -782,7 +776,6 @@ def search(request):
 	query_params = {}
 	if request.GET.get('q'):
 		q = request.GET.get('q')
-		print q
 		query_params['q'] = q
 
 	else:
