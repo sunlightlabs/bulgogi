@@ -203,7 +203,9 @@
 		{% for r in results.interactions %}
 			<a href="/{{ r.info.type }}-table?{{ r.info.type }}_id={{ r.id}}">
 				 <h4>{{ r.info.type }} {{ r.info.date|date:"%d/%m/%y" }}</h4>
-				 <p>Client: {{ r.info.client }}</p>
+				 {% if r.info.client %}
+				 	<p>Client: {{ r.info.client }}</p>
+				 {% endif %}
 				 <p>Foreign Agent:	{{ r.info.registrant }}</p>
 				 {% if r.info.amount %}
 				 	<p>Amount: {{ r.info.amount }}</p>

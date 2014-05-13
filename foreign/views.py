@@ -259,6 +259,8 @@ def client_profile(request, client_id):
 
 	if data.has_key('running_total_13'):
 		results['running_total_13'] = data['running_total_13']
+	if data.has_key('total_13'):
+		results['total_13'] = data['total_13']
 	if data.has_key('total_payment'):
 		results['total_payment'] = data['total_payment']
 	if data.has_key('contacts'):
