@@ -80,15 +80,15 @@
 		<p>{{ c.description }}</p>
 	{% endif %}
 	
-	{% if c.running_total_13 %}
-		<p>Running total of processed payments since 2013:<p>
-		<span class="amount">${{ c.running_total_13|floatformat:2|intcomma }}</span>
+	{% if c.total_13 %}
+		<p>Total of processed payments reported in 2013:<p>
+		<span class="amount">${{ c.total_13|floatformat:2|intcomma }}</span>
 		<div class="interiorMethodology">
-			<a class="descriptor" title="More Information" href="#runningPaymentDescriptor{{ c.id }}">Information</a>
+			<a class="descriptor" title="More Information" href="#PaymentDescriptor{{ c.id }}">Information</a>
 			<div class="clear">
 			</div>
-			<div class="descriptorText" id="runningPaymentDescriptor{{ c.id }}" style"display: none;">
-				<p>The running total adds all payments reported from this client from January 1, 2013 to the present. This total is updated as new payments are added to the database.</p>
+			<div class="descriptorText" id="PaymentDescriptor{{ c.id }}" style"display: none;">
+				<p>The total adds all payments reported from this client reported by a registrant from January 1, 2013 to December 31, 2013.</p>
 			</div>
 		</div>
 		<div class="clear"></div>
