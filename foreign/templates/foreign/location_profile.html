@@ -88,7 +88,22 @@
 			<div class="clear">
 			</div>
 			<div class="descriptorText" id="PaymentDescriptor{{ c.id }}" style"display: none;">
-				<p>The total adds all payments reported from this client reported by a registrant from January 1, 2013 to December 31, 2013.</p>
+				<p>The total adds all payments reported from this client reported by a registrant from the 2013 calendar year.</p>
+			</div>
+		</div>
+		<div class="clear"></div>
+		<br>
+	{% endif %}
+
+	{% if c.total_14 %}
+		<p>Running total of processed payments reported in 2014:<p>
+		<span class="amount">${{ c.total_14|floatformat:2|intcomma }}</span>
+		<div class="interiorMethodology">
+			<a class="descriptor" title="More Information" href="#PaymentDescriptor14{{ c.id }}">Information</a>
+			<div class="clear">
+			</div>
+			<div class="descriptorText" id="PaymentDescriptor14{{ c.id }}" style"display: none;">
+				<p>The total adds all payments reported from this client reported by a registrant from 2014 calendar year. Some client's totals may be ahead of other clients because different groups report at different times.</p>
 			</div>
 		</div>
 		<div class="clear"></div>

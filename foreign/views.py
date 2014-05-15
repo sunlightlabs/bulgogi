@@ -257,8 +257,8 @@ def client_profile(request, client_id):
 	results['location'] = data['location']
 	results['location_id'] = data['location_id']
 
-	if data.has_key('running_total_13'):
-		results['running_total_13'] = data['running_total_13']
+	if data.has_key('total_14'):
+		results['total_14'] = data['total_14']
 	if data.has_key('total_13'):
 		results['total_13'] = data['total_13']
 	if data.has_key('total_payment'):
@@ -288,6 +288,8 @@ def client_profile(request, client_id):
 
 	return render(request, 'foreign/client_profile.html', {"results":results})
 
+
+## why do I reassign instead of passing-- Lindsay look in to this
 def reg_profile(request, reg_id):
 	url = "/".join([settings.FARA_ENDPOINT, "reg-profile", reg_id])
 	response = requests.get(url, params={"key":settings.API_PASSWORD})
@@ -313,6 +315,9 @@ def reg_profile(request, reg_id):
 
 	if data['registrant'].has_key('payments2013'):
 		results['payments2013'] = data['registrant']['payments2013']
+
+	if data['registrant'].has_key('payments2014'):
+		results['payments2014'] = data['registrant']['payments2014']
 
 	if data.has_key('clients'):
 		clients = []

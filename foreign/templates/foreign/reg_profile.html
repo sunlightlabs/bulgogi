@@ -83,6 +83,23 @@
 			<div class="clear"></div>
 			<br>
 		{% endif %}
+
+		{% if results.payments2014 %}
+			<h4>Payments to the Registrant in 2014:</h4>
+			<span class="amount">${{ results.payments2014|floatformat:2|intcomma }}</span>
+			<div class="interiorMethodology">
+				<a class="descriptor" title="More Information" href="#runningTotalDescriptor14">Information</a>
+				<div class="clear">
+				</div>
+				<div class="descriptorText" id="runningTotalDescriptor14" style"display: none;">
+				<p>
+					The 2014 total represents payments that registered companies or individuals collected from foreign clients and reported to the Department of Justice during the 2012 calendar year. This may include payments form some 2013 activities. This total will be updated as documents are processed.
+				</p>
+				</div>
+			</div>
+			<div class="clear"></div>
+			<br>
+		{% endif %}
 		
 		{% if results.total_payments %}
 			<h4>

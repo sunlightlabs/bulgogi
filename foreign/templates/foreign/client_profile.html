@@ -43,7 +43,7 @@
 	<h4 class="insideBar">Location: <a href="/location-profile/{{ results.location_id }}/{{ results.location }}">{{ results.location }}</a></h4>
 
 	{% if results.total_13 %}
-	<h4>Payments from the client in 2013:</h4>
+		<h4>Payments from the client in 2013:</h4>
 		<span class="amount">
 			${{ results.total_13|floatformat:2|intcomma }}
 		</span>
@@ -58,25 +58,25 @@
 		<div class="clear"></div>
 		<br>
 
-
 	{% endif %}
-<!-- 
-	{% if results.running_total_13 %}
-		<h4>Running total of processed payments since 2013:</h4>
+
+	{% if results.total_14 %}
+		<h4>Payments from the client in 2014:</h4>
 		<span class="amount">
-			${{ results.running_total_13|floatformat:2|intcomma }}
+			${{ results.total_14|floatformat:2|intcomma }}
 		</span>
 		<div class="interiorMethodology">
-			<a class="descriptor" title="More Information" href="#runningTotalDescriptor">Information</a>
+			<a class="descriptor" title="More Information" href="#totalDescriptor14">Information</a>
 			<div class="clear">
 			</div>
-			<div class="descriptorText" id="runningTotalDescriptor" style"display: none;">
-				<p>The running total adds all payments reported from this client dated January 1, 2013 to the present. This total is updated as new payments are added to the database.</p>
+			<div class="descriptorText" id="totalDescriptor14" style"display: none;">
+				<p>The 2014 total adds all payments from this client reported to the Department of Justice during the 2014 calendar year. This may include payments form some 2013 activities. This total will be updated as documents are processed.</p>
 			</div>
 		</div>
 		<div class="clear"></div>
 		<br>
-	{% endif %} -->
+
+	{% endif %}
 
 	{% if results.total_payment %}
 		<h4 class="insideBar">
