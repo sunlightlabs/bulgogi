@@ -8,7 +8,7 @@
 <div id="floatingNav" class="">        
     <div class="withNav" id="changeDates"><h4>Foreign Agent Profile: {{ results.reg_name }}</h4></div>
 
-    
+
     <div id="miniNavWrapper">
         <div id="miniNav">
             <ul>
@@ -29,11 +29,20 @@
 <a class="sectionLink" name="stats_section"></a>
 	<div class="overviewBar withNav withTip">
 		<h3 class="insideBar">Foreign Agent Summary
+
+
         </div>
 	
 	<div class="withNav">
 		<h3 class="insideBar">
 		<h3>{{ results.reg_name }}</h3>
+		<p>
+			{% if ie_url == 'No Results' %}
+    			We found no entity with a similar name registered as a domestic lobbyist.
+    		{% else %}
+    			At least one entity with a similar name has registered as a domestic lobbyist. <a href={{ ie_url }}>Click here to explore</a>.
+    		{% endif %}
+		</p>
 	</div>
 	
 	<div class="module withNav">

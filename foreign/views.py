@@ -386,7 +386,16 @@ def reg_profile(request, reg_id):
 	page['next'] = p + 1
 	page['total'] = data['page']['num_pages']
 
-	return render(request, 'foreign/reg_profile.html', {"results":results, "table_info":table_info, 'page':page})
+	# Run the query to Influence Explorer to look for a results page there
+	search_string = ("+").join(results['reg_name'].split(" "))
+	r = requests.get("http://lobbying.influenceexplorer.com/lobbying/search?q="+search_string)
+	if "No esults" in r.text or "No Results" in r.text:
+		ie_url = "No Results"
+	else:
+		ie_url = "http://lobbying.influenceexplorer.com/lobbying/search?q="+search_string
+
+
+	return render(request, 'foreign/reg_profile.html', {"results":results, "table_info":table_info, 'page':page, 'ie_url':ie_url})
 
 def lobby_clients(request):
 	url = "/".join([settings.FARA_ENDPOINT, "lobbying-2013"])
