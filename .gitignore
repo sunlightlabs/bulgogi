@@ -6,3 +6,4 @@
 *_settings.py
 .DS_store
 static_root/
+venv/
