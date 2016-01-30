@@ -1,5 +1,6 @@
 import requests
 import json
+import re
 
 from requests.auth import HTTPBasicAuth
 
@@ -64,12 +65,21 @@ def incoming_arms(request):
 			print d, "Has no date"
 			date =  None
 
-
+		### Super duct tape version of price scraper  - this actually needs to happen at the database commit level ##
+		try:
+			price_string = requests.get("http://fara.sunlightfoundation.com.s3.amazonaws.com/arms_html/"+str(d["id"])+"/index.html").text.split("$")[1][:100]
+			price = "$"+re.compile(r'<[^>]+>').sub('', price_string).split("lion")[0]+"lion"
+		except:
+			price = "See record"
+		###
+			
 		info ={
 			"date": date,
 			"id": d["id"],
 			"title": d["title"],
 			"row": row,
+			"price": price,
+
 		}
 
 

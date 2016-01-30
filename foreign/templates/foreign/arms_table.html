@@ -1,11 +1,12 @@
 <table>
 	<thead class="header">
-		<th>Title</th><th>Date</th>
-	</thead>
+		<th>Title</th><th>Estimated value</th><th>Date</th>
+	</thead id="arms-title">
 	<tbody>
 		{% for r in results %}
 			<tr class="{{ r.row }}">
 				<td><a href="/arms-profile/{{ r.id }}">{{ r.title }}</a></td>
+				<td>{{ r.price }}</td>
 				<td>{{ r.date }}</td>
 			</tr>
 		{% endfor %}
