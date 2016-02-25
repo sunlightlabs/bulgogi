@@ -51,14 +51,20 @@
     </div>
 
     <nav id="sub_nav">
-        <ul>
-            <li class="first"><a href="/incoming-fara">Foreign Agent Feed</a></li>
-            <li><a href="/incoming-arms">Proposed Arms Feed</a></li>
-            <li><a href="/registrants2013">Foreign Agents</a></li>
-        	<li><a href="/clients">Clients<a></li>
+        <div>
+          <ul>
+              <li class="first"><a href="/incoming-fara" class="bold">Foreign Agent Feed</a></li>
+              <li><a href="/registrants2013">FOREIGN AGENTS</a></li>
+          	  <li><a href="/clients">CLIENTS<a></li>
+              <li><a href="/incoming-arms" class="bold">&nbsp;&nbsp;&nbsp;Proposed Arms Feed</a></li>
+          </ul>
+        </div>
+        <div class="sub_nav_right">
+          <ul>
             <li><a href="/methodology">Methodology</li>
             <li class="last"><a href="/about">About</a></li>
-        </ul>
+          </ul>
+        </div>
     </nav>
 
     {% block main_content %}{% endblock %}

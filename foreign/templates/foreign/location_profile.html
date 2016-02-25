@@ -37,119 +37,31 @@
 	<h2  class="insideBar">{{ results.location }}</h2> 
 	<br>
 	{% if results.location_contacts or results.location_payments or results.location_disbursements %}
-		<h4>
+		<h4 class="inline">
 			View {{ results.location }} records:
 		</h4>
 	{% endif %}
 	{% if results.location_contacts %}
-		<h4>
+		<h4 class="inline">
 			<a href="/contact-table?location_id={{ results.location_id }}">Contacts</a> 
 		</h4>
+		<h4 class="inline">|</h4>
 	{% endif %}
 	{% if results.location_payments %}
-		<h4>
+		<h4 class="inline">
 			<a href="/payment-table?location_id={{ results.location_id }}">Payments</a>
-		</h4>
+		 </h4>
+		 <h4 class="inline">|</h4>
 	{% endif %}
 	{% if results.location_disbursements %}
-		<h4>
+		<h4 class="inline">
 			<a href="/disbursement-table?location_id={{ results.location_id }}">Disbursements</a>
 		</h4>
 	{% endif %}
 
 </div>
 
-<a class="sectionLink" name="client_section"></a>
-<div class="overviewBar withNav withTip">
-	<h3 class="insideBar">Foreign Lobbying Clients</h3>
-</div>
 
-<div class="module withNav">
-
-	<br>
-	{% for c in results.clients %}
-
-	<h5><a href="/client-profile/{{ c.id }}"> {{ c.client_name }}</a></h5>
-	
-	{% if c.client_type %}
-		<p>Client type: {{ c.client_type }}</p>
-	{% endif %}
-
-
-	{% if c.description %}
-		<p>{{ c.description }}</p>
-	{% endif %}
-	
-	{% if c.total_13 %}
-		<p>Total of processed payments reported in 2013:<p>
-		<span class="amount">${{ c.total_13|floatformat:2|intcomma }}</span>
-		<div class="interiorMethodology">
-			<a class="descriptor" title="More Information" href="#PaymentDescriptor{{ c.id }}">Information</a>
-			<div class="clear">
-			</div>
-			<div class="descriptorText" id="PaymentDescriptor{{ c.id }}" style"display: none;">
-				<p>The total adds all payments reported from this client reported by a registrant from the 2013 calendar year.</p>
-			</div>
-		</div>
-		<div class="clear"></div>
-		<br>
-	{% endif %}
-
-	{% if c.total_14 %}
-		<p>Running total of processed payments reported in 2014:<p>
-		<span class="amount">${{ c.total_14|floatformat:2|intcomma }}</span>
-		<div class="interiorMethodology">
-			<a class="descriptor" title="More Information" href="#PaymentDescriptor14{{ c.id }}">Information</a>
-			<div class="clear">
-			</div>
-			<div class="descriptorText" id="PaymentDescriptor14{{ c.id }}" style"display: none;">
-				<p>The total adds all payments reported from this client reported by a registrant from 2014 calendar year. Some client's totals may be ahead of other clients because different groups report at different times.</p>
-			</div>
-		</div>
-		<div class="clear"></div>
-		<br>
-	{% endif %}
-
-	{% if c.total_pay %}
-		<p>
-			See all <a href="/payment-table?client_id={{ c.id }}">payment records</a> on behalf of {{ c.client_name }}.
-		</p>
-	{% endif %}
-
-	{% if c.total_disbursement %}
-		<p>
-			See all <a href="/disbursement-table?client_id={{ c.id }}">disbursement records</a> on behalf of {{ c.client_name }}.</p>
-	{% endif %}
-
-	{% if c.contacts %}
-		<p>
-			See all <a href="/contact-table?client_id={{ c.id }}">contact records</a> on behalf of {{ c.client_name }}.</p>
-	{% endif %}
-
-
-	{% if c.active_reg %}
-		<p><b>Foreign Agents that represent the client</b></p>
-		<blockquote>
-		{% for active in c.active_reg %}
-			<p><a href="/reg-profile/{{ active.reg_id }}">{{ active.name }}</a><p> 
-		{% endfor %}
-		</blockquote>
-	{% endif %}
-
-	{% if c.terminated_reg %}
-		<p><b>Foreign Agents that represented the client in the past</b></p>
-		<blockquote>
-		{% for terminated in c.terminated_reg %}
-			<p><a href="/reg-profile/{{ terminated.reg_id }}">{{ terminated.name }}</a><p> 
-		{% endfor %}
-		</blockquote>
-	{% endif %}
-	<br>
-	<br>
-
-	{% endfor %}
-
-</div>
 
 <a class="sectionLink" class="insideBar" name="arms_section"></a>
 <div class="overviewBar withNav withTip">
@@ -174,6 +86,134 @@
 
 </div>
 
+<a class="sectionLink" name="client_section"></a>
+<div class="overviewBar withNav withTip">
+	<h3 class="insideBar">Foreign Lobbying Clients</h3>
+</div>
 
+<div id="client-list" class="module withNav">
+
+	<br>
+	<table>
+		<tbody>
+			{% for c in results.clients %}
+				<tr>
+					<td class="{% cycle 'flipped-odd' 'flipped-even' %}">
+				<div>
+					<div class="inline two-thirds-screen-width">
+						<h5><a href="/client-profile/{{ c.id }}">{{ c.client_name }}</a></h5>
+						
+						{% if c.client_type %}
+							<p>Client type: {{ c.client_type }}</p>
+						{% endif %}
+
+
+						{% if c.description %}
+							<p>{{ c.description }}</p>
+						{% endif %}
+
+						<b>On behalf of {{ c.client_name}}</b>
+						<span class="inline">
+							{% if c.total_pay %}
+							<span class="inline">
+								<a href="/payment-table?client_id={{ c.id }}">Payments</a></span>
+							{% if c.contacts or c.total_disbursement %}
+								<span class="inline">|</span>
+							{% endif %}
+						{% endif %}
+
+						{% if c.total_disbursement %}
+							<span class="inline">
+								<a href="/disbursement-table?client_id={{ c.id }}">Disbursements</a></span>
+							{% if c.total_disbursement and c.contacts %}
+								<span class="inline">|</span>
+							{% endif %}
+						{% endif %}
+
+						{% if c.contacts %}
+							<span class="inline">
+								<a href="/contact-table?client_id={{ c.id }}">Contacts</a></span>
+						{% endif %}
+						</span>
+					</div>
+					
+					<div class="inline one-third-screen-width">
+						{% if c.total_13 %}
+							
+							<a class="descriptor right" title="More Information" href="#PaymentDescriptor{{ c.id }}"></a><span class="amount amount-right strong-grey">${{ c.total_13|floatformat:2|intcomma }}</span>
+							<div class="interiorMethodology">
+								<div class="clear">
+								</div>
+								<div class="descriptorText" id="PaymentDescriptor{{ c.id }}" style"display: none;">
+									<p>The total adds all payments reported from this client reported by a registrant from the 2013 calendar year.</p>
+								</div>
+							</div>
+							<div class="clear"></div>
+							<p class="right">Total of processed payments reported in 2013</p>
+
+						{% endif %}
+
+						{% if c.total_14 %}
+						
+							<a class="descriptor" title="More Information" href="#PaymentDescriptor14{{ c.id }}"></a><span class="amount amount-right strong-grey">${{ c.total_14|floatformat:2|intcomma }}</span>
+							<div class="interiorMethodology">
+								
+								<div class="clear">
+								</div>
+								<div class="descriptorText" id="PaymentDescriptor14{{ c.id }}" style"display: none;">
+									<p>The total adds all payments reported from this client reported by a registrant from 2014 calendar year. Some client's totals may be ahead of other clients because different groups report at different times.</p>
+								</div>
+							</div>
+
+							<div class="clear"></div>
+							<p class="right">Running total of processed payments reported in 2014</p>
+						{% endif %}
+					</div>
+				</div>
+				<div class="clear"></div>
+				<br>
+
+							<div class="inline half-screen-width">
+								<p><span class="strong-grey">Foreign Agents that represent the client</span></p>
+							</div>
+
+							<div class="inline half-screen-width">
+								<p><span class="strong-grey">Foreign Agents that represented the client in the past</span></p>
+							</div>
+
+
+
+						<div>
+							<div class="inline half-screen-width">
+								{% if c.active_reg %}
+									<blockquote>
+								{% for active in c.active_reg %}
+									<p><a href="/reg-profile/{{ active.reg_id }}">{{ active.name }}</a><p> 
+								{% endfor %}
+								{% endif %}
+								</blockquote>
+							</div>
+
+							<div class="inline half-screen-width">
+								{% if c.terminated_reg %}
+									<blockquote>
+								{% for terminated in c.terminated_reg %}
+									<p><a href="/reg-profile/{{ terminated.reg_id }}">{{ terminated.name }}</a></p> 
+								{% endfor %}
+								{% endif %}
+								</blockquote>
+							</div>
+						</div>
+
+					<br>
+
+				</td></tr>
+
+
+			{% endfor %}
+		</tbody>
+	</table>
+
+</div>
 
 {% endblock %}

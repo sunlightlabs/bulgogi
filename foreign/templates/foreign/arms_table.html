@@ -1,13 +1,13 @@
 <table>
 	<thead class="header">
-		<th>Title</th><th>Estimated value</th><th>Date</th>
+		<th>Date</th><th>Title</th><th>Estimated value</th>
 	</thead id="arms-title">
 	<tbody>
 		{% for r in results %}
 			<tr class="{{ r.row }}">
-				<td><a href="/arms-profile/{{ r.id }}">{{ r.title }}</a></td>
-				<td>{{ r.price }}</td>
 				<td>{{ r.date }}</td>
+				<td><a href="/arms-profile/{{ r.id }}">{{ r.title }}</a></td>
+				<td><b><span class="strong-grey">{{ r.price }}</span></b></td>
 			</tr>
 		{% endfor %}
 	</tbody>
