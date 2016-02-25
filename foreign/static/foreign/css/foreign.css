@@ -2,6 +2,7 @@
 /* Sub navigation bar matching Real Time. Foreign navigation font is bigger but the proportions should stay consistent  */
 
 /* I need more space in the content header because I have a search box */
+
 #contentHeader { 
     padding-bottom:20px;
     }
@@ -17,9 +18,11 @@
     border-bottom: 1px dashed #dcdcd8;
     }
 
-#sub_nav ul {
+.sub_nav_right{
+    float: right;
     margin-right: 25px;
-    }
+}
+
 
 #sub_nav li {
     float:left;
@@ -126,4 +129,48 @@ th.sort.header:hover {
 
 .disclaimer {
     padding-right: 2em;
+}
+
+.inline {
+    display: inline-block;
+    margin: 0em 0.2em;
+}
+
+.strong-grey {
+    color: #797070 !important;
+    font-weight: bold;
+}
+
+.half-screen-width {
+    width: 47%;
+    vertical-align: top;
+}
+
+.flipped-odd {
+    background-color: #F6F4F0;
+}
+
+.two-thirds-screen-width {
+    width: 66%;
+    vertical-align: top;
+}
+
+.one-third-screen-width {
+    width: 23%;
+    vertical-align: top;
+    float: right;
+}
+
+span.amount-right { 
+    margin-right: 5px;
+    color: #797070; 
+    text-transform: uppercase;
+    float: right;
+    font-size: 140%; 
+    margin-top: 1px;}
+
+a.descriptor { float: right;}
+
+.bold {
+    font-weight: bold;
 }
