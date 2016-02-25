@@ -6,7 +6,7 @@
 
 <div id="floatingNavWrapper">
 <div id="floatingNav" class="">        
-    <div class="withNav" id="changeDates"><h4>Foreign Agent Profile: {{ results.reg_name }}</h4></div>
+    <div class="withNav" id="changeDates"><h4><b>FOREIGN AGENT PROFILE</b>: <i>{{ results.reg_name }}</i></h4></div>
 
 
     <div id="miniNavWrapper">
@@ -27,58 +27,33 @@
 
 
 <a class="sectionLink" name="stats_section"></a>
-	<div class="overviewBar withNav withTip">
-		<h3 class="insideBar">Foreign Agent Summary
 
-
-        </div>
-	
-	<div class="withNav">
-		<h3 class="insideBar">
-		<h3>{{ results.reg_name }}</h3>
-		<p>
-			{% if ie_url == 'No Results' %}
-    			We found no entity with a similar name registered as a domestic lobbyist.
-    		{% else %}
-    			At least one entity with a similar name has registered as a domestic lobbyist. <a href={{ ie_url }}>Click here to explore</a>.
-    		{% endif %}
-		</p>
-	</div>
 	
 	<div class="module withNav">
 
 		<h3 class="insideBar">{{ results.registrant }}</h3>
-		<h4></h4>
-		<br>
 
 		{% if results.contributions13 %}
 			<h4>Contributions by the registrant's employees and or PAC in 2013:</h4>	
-			<span class="amount">${{ results.contributions13|floatformat:2|intcomma }}</span> 
+			<span class="amount strong-grey">${{ results.contributions13|floatformat:2|intcomma }}</span> 
 		
-		<div class="interiorMethodology">
-			<a class="descriptor" title="More Information" href="#runningTotalDescriptor">Information</a>
-			<div class="clear">
+			<div class="interiorMethodology">
+				<a class="descriptor" title="More Information" href="#runningTotalDescriptor">Information</a>
+				<div class="clear">
+				</div>
+				<div class="descriptorText" id="runningTotalDescriptor" style"display: none;">
+					<p>
+						The 2013 total adds the amounts reported in filings during the 2013 calendar year. This may include activities from 2012.
+					</p>
+				</div>
 			</div>
-			<div class="descriptorText" id="runningTotalDescriptor" style"display: none;">
-				<p>
-					The 2013 total adds the amounts reported in filings during the 2013 calendar year. This may include activities from 2012.
-				</p>
-			</div>
-		</div>
-		<div class="clear"></div>
-		<br>
+			<div class="clear"></div>
+			<br>
 		{% endif %}
-
-		{% if results.total_contributions %}
-			<h4>
-				See all FARA <a href="/contribution-table?reg_id={{ results.reg_id }}">political contribution records</a> from the registrant
-			</h4>
-		{% endif %}
-
 
 		{% if results.payments2013 %}
 			<h4>Payments to the Registrant in 2013:</h4>
-			<span class="amount">${{ results.payments2013|floatformat:2|intcomma }}</span>
+			<span class="amount strong-grey">${{ results.payments2013|floatformat:2|intcomma }}</span>
 			<div class="interiorMethodology">
 				<a class="descriptor" title="More Information" href="#runningTotalDescriptor">Information</a>
 				<div class="clear">
@@ -92,29 +67,7 @@
 			<div class="clear"></div>
 			<br>
 		{% endif %}
-
-		{% if results.payments2014 %}
-			<h4>Payments to the Registrant in 2014:</h4>
-			<span class="amount">${{ results.payments2014|floatformat:2|intcomma }}</span>
-			<div class="interiorMethodology">
-				<a class="descriptor" title="More Information" href="#runningTotalDescriptor14">Information</a>
-				<div class="clear">
-				</div>
-				<div class="descriptorText" id="runningTotalDescriptor14" style"display: none;">
-				<p>
-					The 2014 total represents payments that registered companies or individuals collected from foreign clients and reported to the Department of Justice during the 2012 calendar year. This may include payments form some 2013 activities. This total will be updated as documents are processed.
-				</p>
-				</div>
-			</div>
-			<div class="clear"></div>
-			<br>
-		{% endif %}
 		
-		{% if results.total_payments %}
-			<h4>
-				See all <a href="/payment-table?reg_id={{ results.reg_id }}">payment records</a> to the registrant
-			</h4>
-		{% endif %}
 		{% if results.disbursements2013 %}
 			<h4>Payments recived in 2013:<h4> 
 			<span class="amount">${{ results.disbursements2013|floatformat:2|intcomma }}</span>
@@ -131,17 +84,49 @@
 			<div class="clear"></div>
 			<br>
 		{% endif %}
+
+
+		<span class="inline"><h4><b>All Records</b>:</h4></span>
+		{% if results.total_contributions %}
+			<span class="inline">
+				<h4><a href="/contribution-table?reg_id={{ results.reg_id }}">FARA Political Contributions</a></h4>
+			</span>
+			<span class="inline">|</span>
+		{% endif %}
+
+
+		{% if results.total_payments %}
+			<span class="inline">
+				<h4>
+					<a href="/payment-table?reg_id={{ results.reg_id }}">Payments</a>
+				</h4>
+			</span>
+			<span class="inline">|</span>
+		{% endif %}
+
 		{% if results.total_disbursements %}
-			<h4>
-				See all <a href="/disbursement-table?reg_id={{ results.reg_id }}">disbursement records</a> by the registrant
-			</h4>
+			<span class="inline">
+				<h4>
+					<a href="/disbursement-table?reg_id={{ results.reg_id }}">Disbursements</a>
+				</h4>
+			</span>
+			<span class="inline">|</span>
 		{% endif %}
 
 		{% if results.total_contacts %}
-			<h4>
-				See all <a href="/contact-table?reg_id={{ results.reg_id }}">contact records</a> by the registrant 
-			</h4>
+			<span class="inline">
+				<h4>
+					<a href="/contact-table?reg_id={{ results.reg_id }}">Contacts</a> 
+				</h4>
+			</span>
 		{% endif %}
+
+
+		{% if ie_url != 'No Results' %}
+				<br><br>
+    				<span class="moreLink"><a href="{{ ie_url }}"><u>Domestic lobbyists with a similar name</u></a></span>
+    	{% endif %}
+		</p>
 
 	
 	</div>	
