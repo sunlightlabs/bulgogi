@@ -2,7 +2,8 @@
 <table>
 
 	<thead class="header">
-		<th>Document type</th><th>Registrant</th><th>Date received</th><th>Processed</th>
+		<th>Document type</th><th>Registrant</th><th>Date received</th>
+		<!-- <th>Processed</th> -->
 	</thead>
 	<tbody>
 		{% for c in table_info.1 %}
@@ -10,10 +11,11 @@
 				<td><a href="/{{ c.profile_url }}">{{ c.doc_type }}</a></td>
 				<td><a href="/reg-profile/{{ c.reg_id }}">{{ c.reg_name }}</a></td>
 				<td>{{ c.stamp_date }}</td>
-				<td>{% if c.processed = True %}
+				
+				<!-- <td>{% if c.processed = True %}
 						<img src="{% static "dryrub/images/icon_check.png" %}">
 					{% endif %}
-				</td>
+				</td> -->
 
 			</tr></a>
 		{% endfor %}

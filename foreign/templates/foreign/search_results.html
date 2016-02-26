@@ -1,17 +1,21 @@
 {% extends "foreign/foreign_base.html" %}
 {% block main_content %}
+{% load humanize %}
 
 {% if results.locations or results.clients or results.registrants or results.people_org or results.arms or results.interactions or results.docs %}
 <div id="floatingNavWrapper">
 <div id="floatingNav">        
    
     <div class="withNav" id="changeDates">
-    	<h3 class="insideBar withNav">Search Results- {{ q }}</h3>
+    	<h4 class="insideBar"><b>SEARCH RESULTS</b>: <i>{{ q|title }}</i></h4>
     </div>
 
     <div id="miniNavWrapper">
         <div id="miniNav">
             <ul>
+                {% if results.docs %}
+                	<li><a href="#documents">Documents</a></li>
+                {% endif %}
             	{% if results.locations %}
                 	<li><a href="#locations">Locations</a></li>
                 {% endif %}
@@ -30,9 +34,8 @@
                 {% if results.interactions %}
                 	<li><a href="#interactions">Interactions</a></li>
                 {% endif %}
-                {% if results.docs %}
-                	<li><a href="#documents">Documents</a></li>
-                {% endif %}
+
+
                 
             </ul>
         </div>
@@ -42,6 +45,56 @@
 {% else %}
 	<div class="withNav withTip">
 		<h3 class="insideBar">No results found for, "{{ q }}"</h3>
+	</div>
+{% endif %}
+
+{% if results.docs %}
+	<a class="sectionLink" name="documents"></a>
+	<div class="overviewBar withNav withTip">
+		<h3 class="insideBar">Documents</h3>
+	</div>
+	<div class=" withNav withTip">
+		<i>Documents can contain nuanced details that may not show up well in summary data but my reveal great stories. They are searchable by keyword.</i>
+	</div>
+	
+
+	<div class="module withNav">
+		{% for doctype in doctypes %}
+		<table class="doctype-table">
+			<thead>
+				<th><b>{{doctype}}</b></th>
+			</thead>
+			<tbody>
+				{% for r in results.docs %}
+					{% if r.info.type == doctype %}
+					<tr>
+						<td>
+							<a class="bold" href="/form-profile/{{ r.id}}">{{ r.info.registrant }}</a>
+							<br><i>{{ r.info.date }}</i>
+						</td>
+					</tr>
+					{% endif %}
+				{% endfor %}
+			</tbody>
+		</table>
+		{% endfor %}
+		<br>
+
+		<div class="pagination_container">
+			{% if results.previous_docs > 0 %}
+				<a href="/more-search?q={{ q }}&docpage={{ results.previous_docs }}">Previous Page</a> /
+			{% endif %}
+			{% if results.this_docs %}
+				Page {{ results.this_docs }}
+			{% endif %}
+			{% if results.total_docs %}
+				(of <a href="/more-search?q={{ q }}&docpage={{ results.total_docs }}">{{ results.total_docs }} document pages</a>)
+			{% endif %}
+			{% if results.next_docs %}
+				/ <a href="/more-search?q={{ q }}&docpage={{ results.next_docs }}">Next Page</a>
+			{% endif %}	
+		</div>
+
 	</div>
 {% endif %}
 
@@ -170,9 +223,24 @@
 	<h3 class="insideBar">Proposed Arms Sales</h3>
 </div>
 <div class="module withNav">
-	{% for p in results.arms %}
+	<!-- {% for p in results.arms %}
 		<a href="/arms-profile/{{ p.id }}">{{ p.info.title }}</a><br><br>
-	{% endfor %}
+	{% endfor %} -->
+	<table>
+		<thead class="header">
+			<th>Date</th><th>Title</th><th>Estimated value</th>
+		</thead id="arms-title">
+		<tbody>
+			{% for p in results.arms %}
+				<tr class="{% cycle 'odd' 'even' %}">
+					<td>{{ p.info.date }}</td>
+					<td><a href="/arms-profile/{{ p.id }}">{{ p.info.title }}</a></td>
+					<td><b><span class="strong-grey">{{ p.info.amount|floatformat:2|intcomma }}</span></b></td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>	
+
 
 	<div class="pagination_container">
 		{% if results.previous_arms > 0 %}
@@ -188,8 +256,6 @@
 			/ <a href="/more-search?q={{ q }}&armspage={{ results.next_arms }}">Next Page</a>
 		{% endif %}	
 	</div>
-
-
 </div>
 
 {% endif %}
@@ -199,35 +265,98 @@
 	<div class="overviewBar withNav withTip">
 		<h3 class="insideBar">Interactions</h3>
 	</div>
+
 	<div class="module withNav">
-		{% for r in results.interactions %}
-			<a href="/{{ r.info.type }}-table?{{ r.info.type }}_id={{ r.id}}">
-				 <h4>{{ r.info.type }} {{ r.info.date|date:"%d/%m/%y" }}</h4>
-				 {% if r.info.client %}
-				 	<p>Client: {{ r.info.client }}</p>
-				 {% endif %}
-				 <p>Foreign Agent:	{{ r.info.registrant }}</p>
-				 {% if r.info.amount %}
-				 	<p>Amount: {{ r.info.amount }}</p>
-				 {% endif %}
-				 {% if r.info.recipient %}
-				 	<p>{{ r.info.recipient }}</p>
-				 {% endif %}
-				 {% if r.info.contributor %}
-				 	<p>{{ r.info.contributor }}</p>
-				 {% endif %}
-				 {% if r.info.description %}
-				 	<p>Description: {{ r.info.description }}</p>
-				 {% endif %}
-				 {% if r.info.purpose %}
-				 	<p>Purpose: {{ r.info.purpose }}</p>
-				 {% endif %}
-				 {% if r.info.subcontractor %}
-				 	<p>Subcontractor: {{ r.info.subcontractor }}</p>
-				 {% endif %}
-				 <br><br>
-			</a>
-		{% endfor %}
+
+		<div>
+			<table><thead><tr><th><b>Payments (by client to foreign agent)</b></th></tr></thead></table>
+			{% for r in results.interactions %}
+				{% if r.info.type == 'payment' %}
+					<a href="/{{ r.info.type }}-table?{{ r.info.type }}_id={{ r.id}}">
+						<div class="interaction-holder even">
+							<div class="interaction-details">
+								{% if r.info.client %}<p><span class="blue-text">{{ r.info.client }} (Client)</span></p>{% endif %}
+
+								<p><span class="strong-grey">Foreign Agent</span>: {{ r.info.registrant }}</p>
+
+								{% if r.info.recipient %}<p><span class="strong-grey">Recipient</span>:{{ r.info.recipient }}</p>{% endif %}
+
+								{% if r.info.contributor %}<p><span class="strong-grey">Contributor</span>:{{ r.info.contributor }}</p>{% endif %}
+
+								{% if r.info.description %}<p><span class="strong-grey">Description</span>: {{ r.info.description }}</p>{% endif %}
+
+								{% if r.info.purpose %}<p><span class="strong-grey">Purpose</span>: {{ r.info.purpose }}</p>{% endif %}
+
+								{% if r.info.subcontractor %}<p><span class="strong-grey">Subcontractor</span>: {{ r.info.subcontractor }}</p>{% endif %}
+							</div>
+							<div class="interaction-amount">
+								{% if r.info.amount %}<h5><span class="strong-grey">${{ r.info.amount|floatformat:2|intcomma }}</span></h5>{% endif %}
+							</div>
+						 </div>
+					</a>
+				{% endif %}
+			{% endfor %}
+		</div>
+
+		<div>
+			<table><thead><tr><th><b>Contacts</b></th></tr></thead></table>
+			{% for r in results.interactions %}
+				{% if r.info.type == 'contact' %}
+					<a href="/{{ r.info.type }}-table?{{ r.info.type }}_id={{ r.id}}">
+						<div class="interaction-holder even">
+							<div class="interaction-details">
+								{% if r.info.client %}<p><span class="blue-text">{{ r.info.client }} (Client)</span></p>{% endif %}
+
+								<p><span class="strong-grey">Foreign Agent</span>: {{ r.info.registrant }}</p>
+
+								{% if r.info.recipient %}<p><span class="strong-grey">Recipient</span>:{{ r.info.recipient }}</p>{% endif %}
+
+								{% if r.info.contributor %}<p><span class="strong-grey">Contributor</span>:{{ r.info.contributor }}</p>{% endif %}
+
+								{% if r.info.description %}<p><span class="strong-grey">Description</span>: {{ r.info.description }}</p>{% endif %}
+
+								{% if r.info.purpose %}<p><span class="strong-grey">Purpose</span>: {{ r.info.purpose }}</p>{% endif %}
+
+								{% if r.info.subcontractor %}<p><span class="strong-grey">Subcontractor</span>: {{ r.info.subcontractor }}</p>{% endif %}
+							</div>
+							<div class="interaction-amount">
+								{% if r.info.amount %}<h5><span class="strong-grey">${{ r.info.amount|floatformat:2|intcomma }}</span></h5>{% endif %}
+							</div>
+						 </div>
+					</a>
+				{% endif %}
+			{% endfor %}
+		</div>
+
+		<div>
+		<table><thead><tr><th><b>Disbursements (by client to foreign agent)</b></th></tr></thead></table>
+			{% for r in results.interactions %}
+				{% if r.info.type == 'disbursement' %}
+					<a href="/{{ r.info.type }}-table?{{ r.info.type }}_id={{ r.id}}">
+						<div class="interaction-holder even">
+							<div class="interaction-details">
+								{% if r.info.client %}<p><span class="blue-text">{{ r.info.client }} (Client)</span></p>{% endif %}
+
+								<p><span class="strong-grey">Foreign Agent</span>: {{ r.info.registrant }}</p>
+
+								{% if r.info.recipient %}<p><span class="strong-grey">Recipient</span>:{{ r.info.recipient }}</p>{% endif %}
+
+								{% if r.info.contributor %}<p><span class="strong-grey">Contributor</span>:{{ r.info.contributor }}</p>{% endif %}
+
+								{% if r.info.description %}<p><span class="strong-grey">Description</span>: {{ r.info.description }}</p>{% endif %}
+
+								{% if r.info.purpose %}<p><span class="strong-grey">Purpose</span>: {{ r.info.purpose }}</p>{% endif %}
+
+								{% if r.info.subcontractor %}<p><span class="strong-grey">Subcontractor</span>: {{ r.info.subcontractor }}</p>{% endif %}
+							</div>
+							<div class="interaction-amount">
+								{% if r.info.amount %}<h5><span class="strong-grey">${{ r.info.amount|floatformat:2|intcomma }}</span></h5>{% endif %}
+							</div>
+						 </div>
+					</a>
+				{% endif %}
+			{% endfor %}
+		</div>
 		
 		<div class="pagination_container">
 			{% if results.previous_interaction > 0 %}
@@ -247,36 +376,7 @@
 	</div>
 {% endif %}
 
-{% if results.docs %}
-	<a class="sectionLink" name="documents"></a>
-	<div class="overviewBar withNav withTip">
-		<h3 class="insideBar">Documents</h3>
-	</div>
 
-	<div class="module withNav">
-		{% for r in results.docs %}
-			<a href="/form-profile/{{ r.id}}">
-			<p><b>{{ r.info.type }}</b> {{ r.info.registrant }} {{ r.info.date }}</p>
-			</a>
-		{% endfor %}
-
-		<div class="pagination_container">
-			{% if results.previous_docs > 0 %}
-				<a href="/more-search?q={{ q }}&docpage={{ results.previous_docs }}">Previous Page</a> /
-			{% endif %}
-			{% if results.this_docs %}
-				Page {{ results.this_docs }}
-			{% endif %}
-			{% if results.total_docs %}
-				(of <a href="/more-search?q={{ q }}&docpage={{ results.total_docs }}">{{ results.total_docs }} document pages</a>)
-			{% endif %}
-			{% if results.next_docs %}
-				/ <a href="/more-search?q={{ q }}&docpage={{ results.next_docs }}">Next Page</a>
-			{% endif %}	
-		</div>
-
-	</div>
-{% endif %}
 
 	
 {% endblock %}

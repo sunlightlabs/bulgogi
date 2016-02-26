@@ -174,3 +174,73 @@ a.descriptor { float: right;}
 .bold {
     font-weight: bold;
 }
+
+.doctype-table {
+    width: 22%;
+    margin: 0em 0.2em;
+    display: inline-block;
+    vertical-align: top;
+    min-height: 8em;
+}
+
+.doctype-table td {
+    padding-bottom: 0em;
+}
+
+.doctype-table th {
+    width: 11em;
+}
+
+#fdbk_tab {
+    display: none !important;
+}
+
+.searchBtn_sm_fara {
+    font-family: Arial;
+    height: 3.5em;
+    width: 4em;
+    border-radius: 10px;
+    background-color: #EDF3F1;
+    color: #0a6e92;
+    vertical-align: middle;
+    text-indent: 0em;
+}
+
+.interaction-holder {
+    vertical-align: top;
+    margin: 0.5em;
+    padding: 0.8em;
+    width: 44%;
+    display: inline-block;
+    color: #797070;
+}
+
+.interaction-holder:hover {
+    background-color: #EDF3F1;
+}
+
+.interaction-holder p {
+    margin: 0em auto;
+}
+
+.interaction-details {
+    display: inline-block;
+    vertical-align: top;
+    margin: 0em;
+    padding: 0em;
+    width: 72%;
+}
+
+.interaction-amount {
+    display: inline-block;
+    float: right;
+    vertical-align: top;
+    margin: 0em;
+    padding: 0em;
+    width: 27%;
+    text-align: right;
+}
+
+.blue-text {
+    color: #0a6e92;
+}

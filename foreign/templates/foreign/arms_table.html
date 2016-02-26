@@ -1,13 +1,21 @@
+{% load humanize %}
+
 <table>
 	<thead class="header">
-		<th>Date</th><th>Title</th><th>Estimated value</th>
+		<th>Date</th>
+		<th>Title</th>
+		<!-- Unitil backend for amounts is done
+		<th>Estimated value</th>
+		-->
 	</thead id="arms-title">
 	<tbody>
 		{% for r in results %}
 			<tr class="{{ r.row }}">
 				<td>{{ r.date }}</td>
 				<td><a href="/arms-profile/{{ r.id }}">{{ r.title }}</a></td>
-				<td><b><span class="strong-grey">{{ r.price }}</span></b></td>
+				<!-- Until backend for amounts is done 
+				<td><b><span class="strong-grey">{{ r.amount|floatformat:2|intcomma }}</span></b></td>
+				-->
 			</tr>
 		{% endfor %}
 	</tbody>
