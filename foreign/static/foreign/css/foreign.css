@@ -206,6 +206,18 @@ a.descriptor { float: right;}
     text-indent: 0em;
 }
 
+
+.map-left-col {
+    width: 75%;
+    display: inline-block;
+}
+
+.map-right-col {
+    width: 20%;
+    float: right;
+    display: inline-block;
+}
+
 .interaction-holder {
     vertical-align: top;
     margin: 0.5em;
