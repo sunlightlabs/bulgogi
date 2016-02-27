@@ -235,7 +235,7 @@
 				<tr class="{% cycle 'odd' 'even' %}">
 					<td>{{ p.info.date }}</td>
 					<td><a href="/arms-profile/{{ p.id }}">{{ p.info.title }}</a></td>
-					<td><b><span class="strong-grey">{{ p.info.amount|floatformat:2|intcomma }}</span></b></td>
+					<td><b><span class="strong-grey">{{ p.amount }}</span></b></td>
 				</tr>
 			{% endfor %}
 		</tbody>
