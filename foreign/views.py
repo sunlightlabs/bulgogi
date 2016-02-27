@@ -65,23 +65,18 @@ def incoming_arms(request):
 			print d, "Has no date"
 			date =  None
 
-		### Super duct tape version of price scraper  - this actually needs to happen at the database commit level ##
-		try:
-			price_string = requests.get("http://fara.sunlightfoundation.com.s3.amazonaws.com/arms_html/"+str(d["id"])+"/index.html").text.split("$")[1][:100]
-			price = "$"+re.compile(r'<[^>]+>').sub('', price_string).split("lion")[0]+"lion"
-		except:
-			price = "See record"
-		###
+		if d.has_key("amount"):
+			amount = d["amount"]
+	
 			
 		info ={
 			"date": date,
 			"id": d["id"],
 			"title": d["title"],
 			"row": row,
-			"price": price,
+			"amount": amount,
 
 		}
-
 
 		results.append(info)
 		count += 1
@@ -267,10 +262,13 @@ def client_profile(request, client_id):
 	results['location'] = data['location']
 	results['location_id'] = data['location_id']
 
+	if data.has_key('total_16'):
+		results['total_15'] = data['total_16']
+	if data.has_key('total_15'):
+		results['total_15'] = data['total_15']
 	if data.has_key('total_14'):
 		results['total_14'] = data['total_14']
-	if data.has_key('total_13'):
-		results['total_13'] = data['total_13']
+
 	if data.has_key('total_payment'):
 		results['total_payment'] = data['total_payment']
 	if data.has_key('contacts'):
@@ -856,7 +854,9 @@ def search(request):
 	if results['arms']['hits']['hits']:
 		a = []
 		for r in results['arms']['hits']['hits']:
-			a.append({'id':r['_id'], 'info':r['_source']})
+			price_string = r['_source']['text'].split("$")[1][:100]
+			amount = re.compile(r'<[^>]+>').sub('', price_string).split("lion")[0]+"lion"
+			a.append({'id':r['_id'], 'info':r['_source'], 'amount':amount})
 		data['arms'] = a
 
 		# page logic
@@ -925,7 +925,9 @@ def search(request):
 		if total > 1:
 			data['next_docs'] = 2
 
-	return render(request, 'foreign/search_results.html', {"results":data, 'q':q,})
+	doctypes = ['Supplemental', 'Exhibit AB', 'Exhibit C', 'Amendment', 'Short Form', 'Exhibit D', 'Conflict Provisions', 'Registration']
+
+	return render(request, 'foreign/search_results.html', {"results":data, 'q':q, 'doctypes':doctypes})
 
 
 def search_more(request):
