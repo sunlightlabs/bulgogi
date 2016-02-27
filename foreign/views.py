@@ -67,6 +67,8 @@ def incoming_arms(request):
 
 		if d.has_key("amount"):
 			amount = d["amount"]
+		else:
+			amount = None
 	
 			
 		info ={
