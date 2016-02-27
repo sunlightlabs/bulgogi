@@ -212,10 +212,42 @@ a.descriptor { float: right;}
     display: inline-block;
 }
 
-.map-right-col {
+.map-total-right {
     width: 20%;
     float: right;
     display: inline-block;
+}
+
+.arms-total-right {
+    margin-right: 5%;
+}
+
+.map-total-right h3 {
+    margin: 0em;
+    text-transform: none;
+    font-weight: normal;
+}
+
+.map-total-right h4 {
+    margin-top: 0.4em;
+}
+
+.map-total-right h5 {
+    margin-bottom: 1em;
+    color: black;
+}
+
+.flip-number {
+    margin: 0.05em;
+    padding: 0.2em 0.2em;
+    background-image: linear-gradient(to bottom, #b1d5d1, #b1d5d1 50%, #c9e5e9 50%, #c9e5e9);
+        background-size: cover;
+        background-repeat: no-repeat;
+}
+
+
+.flip-numbers-label {
+    color: #797070
 }
 
 .interaction-holder {
@@ -256,3 +288,13 @@ a.descriptor { float: right;}
 .blue-text {
     color: #0a6e92;
 }
+
+.tip {
+    text-transform: none;
+}
+
+.withTip h3 {
+    margin-bottom: 0em;
+}
+
+
