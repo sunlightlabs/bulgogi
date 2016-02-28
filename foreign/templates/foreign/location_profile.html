@@ -140,36 +140,7 @@
 					</div>
 					
 					<div class="inline one-third-screen-width">
-						{% if c.total_13 %}
-							
-							<a class="descriptor right" title="More Information" href="#PaymentDescriptor{{ c.id }}"></a><span class="amount amount-right strong-grey">${{ c.total_13|floatformat:2|intcomma }}</span>
-							<div class="interiorMethodology">
-								<div class="clear">
-								</div>
-								<div class="descriptorText" id="PaymentDescriptor{{ c.id }}" style"display: none;">
-									<p>The total adds all payments reported from this client reported by a registrant from the 2013 calendar year.</p>
-								</div>
-							</div>
-							<div class="clear"></div>
-							<p class="right">Total of processed payments reported in 2013</p>
-
-						{% endif %}
-
-						{% if c.total_14 %}
-						
-							<a class="descriptor" title="More Information" href="#PaymentDescriptor14{{ c.id }}"></a><span class="amount amount-right strong-grey">${{ c.total_14|floatformat:2|intcomma }}</span>
-							<div class="interiorMethodology">
-								
-								<div class="clear">
-								</div>
-								<div class="descriptorText" id="PaymentDescriptor14{{ c.id }}" style"display: none;">
-									<p>The total adds all payments reported from this client reported by a registrant from 2014 calendar year. Some client's totals may be ahead of other clients because different groups report at different times.</p>
-								</div>
-							</div>
-
-							<div class="clear"></div>
-							<p class="right">Running total of processed payments reported in 2014</p>
-						{% endif %}
+					
 
 						{% if c.total_15 %}
 							
