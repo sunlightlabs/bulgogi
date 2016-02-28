@@ -297,4 +297,13 @@ a.descriptor { float: right;}
     margin-bottom: 0em;
 }
 
+.document-primer-wrapper {
+padding-top: 6px; z-index: 3; position: absolute; top: 263px; 
+}
+
+.document-primer { background-color: #03212b; width: 88px; padding: 0px; color: #fff; line-height: 15px; font-size: 90%; font-family: Georgia, Times New Roman, Times, serif; font-style: oblique;}
+.document-primer:hover {background-color: #053749;}
+.document-primer li {padding: 0px 17px 15px 16px; margin-left: -10px;}
+.document-primer li a { color: #fff; padding-top: 2px; display: block; border: 0; }
+.document-primer li a:hover { text-decoration: none;}
 
