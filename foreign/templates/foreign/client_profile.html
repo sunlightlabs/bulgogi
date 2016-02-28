@@ -48,10 +48,10 @@
 			${{ results.total_13|floatformat:2|intcomma }}
 		</span>
 		<div class="interiorMethodology">
-			<a class="descriptor" title="More Information" href="#totalDescriptor">Information</a>
+			<a class="descriptor" title="More Information" href="#totalDescriptorLastYear">Information</a>
 			<div class="clear">
 			</div>
-			<div class="descriptorText" id="totalDescriptor" style"display: none;">
+			<div class="descriptorText" id="totalDescriptorLastYear" style"display: none;">
 				<p>The total adds all payments from this client reported to the Department of Justice during the 2013 calendar year. This may include payments form some 2012 activities.</p>
 			</div>
 		</div>
@@ -66,10 +66,10 @@
 			${{ results.total_14|floatformat:2|intcomma }}
 		</span>
 		<div class="interiorMethodology">
-			<a class="descriptor" title="More Information" href="#totalDescriptor14">Information</a>
+			<a class="descriptor" title="More Information" href="#totalDescriptorThisYear">Information</a>
 			<div class="clear">
 			</div>
-			<div class="descriptorText" id="totalDescriptor14" style"display: none;">
+			<div class="descriptorText" id="totalDescriptorThisYear" style"display: none;">
 				<p>The 2014 total adds all payments from this client reported to the Department of Justice during the 2014 calendar year. This may include payments form some 2013 activities. This total will be updated as documents are processed.</p>
 			</div>
 		</div>
@@ -77,6 +77,43 @@
 		<br>
 
 	{% endif %}
+
+	{% if results.total_15 %}
+		<h4>Payments from the client in 2015:</h4>
+		<span class="amount">
+			${{ results.total_15|floatformat:2|intcomma }}
+		</span>
+		<div class="interiorMethodology">
+			<a class="descriptor" title="More Information" href="#totalDescriptor">Information</a>
+			<div class="clear">
+			</div>
+			<div class="descriptorText" id="totalDescriptor" style"display: none;">
+				<p>The total adds all payments from this client reported to the Department of Justice during the 2015 calendar year. This may include payments form some 2014 activities.</p>
+			</div>
+		</div>
+		<div class="clear"></div>
+		<br>
+
+	{% endif %}
+
+	{% if results.total_16 %}
+		<h4>Payments from the client in 2016:</h4>
+		<span class="amount">
+			${{ results.total_16|floatformat:2|intcomma }}
+		</span>
+		<div class="interiorMethodology">
+			<a class="descriptor" title="More Information" href="#totalDescriptor14">Information</a>
+			<div class="clear">
+			</div>
+			<div class="descriptorText" id="totalDescriptor14" style"display: none;">
+				<p>The 2016 total adds all payments from this client reported to the Department of Justice during the 2016 calendar year. This may include payments form some 2015 activities. This total will be updated as documents are processed.</p>
+			</div>
+		</div>
+		<div class="clear"></div>
+		<br>
+
+	{% endif %}
+
 
 	{% if results.total_payment %}
 		<h4 class="insideBar">

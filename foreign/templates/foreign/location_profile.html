@@ -1,3 +1,4 @@
+
 {% extends "foreign/foreign_base.html" %}
 {% load humanize %}
 
@@ -168,6 +169,37 @@
 
 							<div class="clear"></div>
 							<p class="right">Running total of processed payments reported in 2014</p>
+						{% endif %}
+
+						{% if c.total_15 %}
+							
+							<a class="descriptor right" title="More Information" href="#PaymentDescriptorLastYear{{ c.id }}"></a><span class="amount amount-right strong-grey">${{ c.total_15|floatformat:2|intcomma }}</span>
+							<div class="interiorMethodology">
+								<div class="clear">
+								</div>
+								<div class="descriptorText" id="PaymentDescriptor{{ c.id }}" style"display: none;">
+									<p>The total adds all payments reported from this client reported by a registrant from the 2015 calendar year.</p>
+								</div>
+							</div>
+							<div class="clear"></div>
+							<p class="right">Total of processed payments reported in 2015</p>
+
+						{% endif %}
+
+						{% if c.total_16 %}
+						
+							<a class="descriptor" title="More Information" href="#PaymentDescriptorThisYear{{ c.id }}"></a><span class="amount amount-right strong-grey">${{ c.total_16|floatformat:2|intcomma }}</span>
+							<div class="interiorMethodology">
+								
+								<div class="clear">
+								</div>
+								<div class="descriptorText" id="PaymentDescriptorThisYear{{ c.id }}" style"display: none;">
+									<p>The total adds all payments reported from this client reported by a registrant from 2016 calendar year. Some client's totals may be ahead of other clients because different groups report at different times.</p>
+								</div>
+							</div>
+
+							<div class="clear"></div>
+							<p class="right">Running total of processed payments reported in 2016</p>
 						{% endif %}
 					</div>
 				</div>
