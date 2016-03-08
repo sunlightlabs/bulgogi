@@ -297,6 +297,12 @@ a.descriptor { float: right;}
     margin-bottom: 0em;
 }
 
+.tip h4 {
+    width: 150%;
+    margin-right: -2em;
+    line-height: 2em;
+}
+
 .document-primer-wrapper {
 padding-top: 6px; z-index: 3; position: absolute; top: 263px; 
 }
@@ -325,4 +331,14 @@ padding-top: 6px; z-index: 3; position: absolute; top: 263px;
 #mainContent #contentHeader input {
     font-size: 1em;
     font-style: italic;
+}
+
+
+
+#incoming-header {
+    margin-top: -3em;
+}
+
+.tip-unitalicized {
+    font-style: normal;
 }
