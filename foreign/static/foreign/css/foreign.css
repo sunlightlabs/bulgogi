@@ -198,7 +198,7 @@ a.descriptor { float: right;}
 .searchBtn_sm_fara {
     font-family: Arial;
     height: 3.5em;
-    width: 4em;
+    width: 5em;
     border-radius: 10px;
     background-color: #EDF3F1;
     color: #0a6e92;
@@ -307,3 +307,22 @@ padding-top: 6px; z-index: 3; position: absolute; top: 263px;
 .document-primer li a { color: #fff; padding-top: 2px; display: block; border: 0; }
 .document-primer li a:hover { text-decoration: none;}
 
+.sort {
+    background: url(../images/sortArows.png) 8px left no-repeat !important;
+    cursor: pointer;
+}
+
+.arms-tab {
+    background-color: #dcc000;
+    margin: 0px;
+    padding: 15px 5px;
+}
+
+#mainContent #contentHeader h2 {
+    font-size: 3.2em;
+}
+
+#mainContent #contentHeader input {
+    font-size: 1em;
+    font-style: italic;
+}
