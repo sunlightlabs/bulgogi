@@ -341,4 +341,5 @@ padding-top: 6px; z-index: 3; position: absolute; top: 263px;
 
 .tip-unitalicized {
     font-style: normal;
+    line-height: 1.2em;
 }
