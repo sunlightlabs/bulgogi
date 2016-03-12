@@ -78,6 +78,26 @@ table .even, li.even, div.even{
     background-color: #F6F4F0;
     }
 
+.foreignsort {
+    background: url(../images/sortArrowsforeign.png) 2px 15px no-repeat;
+    cursor: pointer;
+}
+.foreignsort.headerSortDown {
+    background: url(../images/sortArrowsforeign.png) 2px 15px no-repeat;
+}
+.foreignsort.headerSortUp {
+    background: url(../images/sortArrowsforeign.png) 2px 15px no-repeat;
+}
+.foreignsort.tablesorter-headerDesc {
+    background: url(../images/sortArrowsforeign.png) 2px 15px no-repeat;
+}
+.foreignsort.tablesorter-headerAsc {
+    background: url(../images/sortArrowsforeign.png) 2px 15px no-repeat;
+}
+
+
+
+
 th.sort.header {
     border: 1px solid #DADFDB !important;
     padding-right: 15px;
@@ -313,10 +333,6 @@ padding-top: 6px; z-index: 3; position: absolute; top: 263px;
 .document-primer li a { color: #fff; padding-top: 2px; display: block; border: 0; }
 .document-primer li a:hover { text-decoration: none;}
 
-.sort {
-    background: url(../images/sortArows.png) 8px left no-repeat !important;
-    cursor: pointer;
-}
 
 .arms-tab {
     background-color: #dcc000;
@@ -342,4 +358,10 @@ padding-top: 6px; z-index: 3; position: absolute; top: 263px;
 .tip-unitalicized {
     font-style: normal;
     line-height: 1.2em;
+}
+
+.active-tab a {
+    background-color: #FAE671;
+    padding: 1em 0.8em;
+    margin: auto -0.8em;
 }

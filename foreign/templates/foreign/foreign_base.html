@@ -51,19 +51,18 @@
     <nav id="sub_nav">
         <div>
           <ul>
-              <li class="first"><a href="/incoming-fara">REAL-TIME DISCLOSURES</a></li>
-              <li><a href="/registrants2013">REGISTERED AGENTS</a></li>
-          	  <li><a href="/clients">CLIENTS<a></li>
-              <li><a href="/incoming-arms">PROPOSED ARMS SALES</a></li>
+              <li class="first {% url 'incoming-fara' as url %}{% if request.path == url %}active-tab{% endif %}"><a href="/incoming-fara">REAL-TIME DISCLOSURES</a></li>
+              <li class="{% url 'registrants2013' as url %}{% if request.path == url %}active-tab{% endif %}"><a href="/registrants2013">REGISTERED AGENTS</a></li>
+          	  <li class="{% url 'clients' as url %}{% if request.path == url %}active-tab{% endif %}"><a href="/clients">CLIENTS</a></li>
+              <li class="{% url 'incoming-arms' as url %}{% if request.path == url %}active-tab{% endif %}"><a href="/incoming-arms">PROPOSED ARMS SALES</a></li>
           </ul>
         </div>
         <div class="sub_nav_right">
           <ul>
-            <li class=""><a href="/about">About</a></li>
+            <li class="{% url 'about' as url %}{% if request.path == url %}active-tab{% endif %}"><a href="/about">About</a></li>
           </ul>
         </div>
     </nav>
-
     {% block main_content %}{% endblock %}
 
 <script>

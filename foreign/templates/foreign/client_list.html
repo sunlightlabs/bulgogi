@@ -17,14 +17,14 @@
 
 <table class="tablesorter" "mainPageTable">
 	<thead class="header">
-		<th class="sort">Client</th>
-		<th class="sort">Location</th>
+		<th class="foreignsort">&nbsp;Client</th>
+		<th class="foreignsort">&nbsp;Location</th>
 	</thead>
 	<tbody>
 		{% for d in data %}
 			<tr > 
 				<td><a href="/client-profile/{{ d.client_id }}">{{ d.client_name }}</a></td>
-				<td><a href="/location-profile/{{ d.location_id }}">{{ d.location_name }}</td>
+                <td><a href="/location-profile/{{ d.location_id }}">{{ d.location_name }}</td>
 			</tr>
 		{% endfor %}
 	</tbody>

@@ -329,6 +329,9 @@ def reg_profile(request, reg_id):
 	if data['registrant'].has_key('payments2014'):
 		results['payments2014'] = data['registrant']['payments2014']
 
+	if data['registrant'].has_key('payments2015'):
+		results['payments2015'] = data['registrant']['payments2015']
+
 	if data.has_key('clients'):
 		clients = []
 		for c in data['clients']:
@@ -793,7 +796,6 @@ def clients(request):
 	query_params['key'] = settings.API_PASSWORD
 	response = requests.get(url, params=query_params)
 	data = response.json()
-
 	return render(request, 'foreign/client_list.html', {"data":data['results']})
 
 def search(request):

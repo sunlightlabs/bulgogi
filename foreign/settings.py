@@ -91,6 +91,7 @@ TEMPLATE_LOADERS = (
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     'dryrub.context_processors.custom_context',
+    'django.core.context_processors.request',
     )
 
 
@@ -168,9 +169,6 @@ LOGGING = {
 
 from herokal.settings import *
 #from local_settings import *
-
-DEBUG=os.environ['DEBUG'] == 'true'
-TEMPLATE_DEBUG=os.environ['TEMPLATE_DEBUG'] == 'true'
 
 if not DEBUG:
     INSTALLED_APPS += ('raven.contrib.django.raven_compat',)
