@@ -781,14 +781,14 @@ def contribution_table(request):
 
 	return render(request, 'foreign/contribution_table.html', {"title":data['title'], "page":page,"buttons":data['buttons'], "contributions":data['results'], 'ie_url':ie_url})
 
-def reg_totals13(request):
+def reg_totals(request):
 	url = "/".join([settings.FARA_ENDPOINT, "reg-2013"])
 	query_params = {}
 	query_params['key'] = settings.API_PASSWORD
 	response = requests.get(url, params=query_params)
 	data = response.json()
 
-	return render(request, 'foreign/registrants_2013.html', {"data":data['results']})
+	return render(request, 'foreign/registrants.html', {"data":data['results']})
 
 def clients(request):
 	url = "/".join([settings.FARA_ENDPOINT, "locations"])
