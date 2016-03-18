@@ -11,7 +11,7 @@
 			<tr class="{{ r.row }}">
 				<td>{{ r.date }}</td>
 				<td><a href="/arms-profile/{{ r.id }}">{{ r.title }}</a></td>
-				<td><b><span class="strong-grey">{{ r.amount|floatformat:2|intcomma }}</span></b></td>
+				<td><b><span class="strong-grey">{{ r.amount|floatformat:0|intcomma }}</span></b></td>
 			</tr>
 		{% endfor %}
 	</tbody>
