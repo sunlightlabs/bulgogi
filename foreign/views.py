@@ -69,8 +69,8 @@ def incoming_arms(request):
 			amount = d["amount"]
 		else:
 			amount = None
-	
-			
+
+
 		info ={
 			"date": date,
 			"id": d["id"],
@@ -443,7 +443,7 @@ def location13(request):
 	for key in data.keys():
 		locations.append(data[key])
 
-	return render(request, 'foreign/location_lobby13.html', {'locations':locations})	
+	return render(request, 'foreign/location_lobby13.html', {'locations':locations})
 
 def location_profile(request, location_id):
 	url = "/".join([settings.FARA_ENDPOINT, "place-profile", location_id])
@@ -559,7 +559,7 @@ def contact_table(request):
 	query_params = {}
 	query_params['key'] = settings.API_PASSWORD
 	# to IE api for download
-	ie_url = "http://transparencydata.com/api/1.0/fara/contact.xls?apikey=%s" % (settings.CONGRESS_PASSWORD) 
+	ie_url = "http://api.influenceexplorer.com/api/1.0/fara/contact.xls?apikey=%s" % (settings.CONGRESS_PASSWORD)
 
 	if request.GET.get('reg_id'):
 		query_params['reg_id'] = request.GET.get('reg_id')
@@ -616,7 +616,7 @@ def payment_table(request):
 	query_params['key'] = settings.API_PASSWORD
 
 	# to IE api for download
-	ie_url = "http://transparencydata.com/api/1.0/fara/payment.xls?apikey=%s" % (settings.CONGRESS_PASSWORD)
+	ie_url = "http://api.influenceexplorer.com/api/1.0/fara/payment.xls?apikey=%s" % (settings.CONGRESS_PASSWORD)
 
 	if request.GET.get('reg_id'):
 		query_params['reg_id'] = request.GET.get('reg_id')
@@ -654,7 +654,7 @@ def payment_table(request):
 	page['previous'] = p - 1
 	page['next'] = p + 1
 	page['total'] = data['page']['num_pages']
-	
+
 	url_param = ''
 	for key in query_params.keys():
 		if key != "key" and key != "p":
@@ -670,7 +670,7 @@ def disbursement_table(request):
 	query_params['key'] = settings.API_PASSWORD
 
 	# to IE api for download
-	ie_url = "http://transparencydata.com/api/1.0/fara/disbursement.xls?apikey=%s" % (settings.CONGRESS_PASSWORD)
+	ie_url = "http://api.influenceexplorer.com/api/1.0/fara/disbursement.xls?apikey=%s" % (settings.CONGRESS_PASSWORD)
 
 	if request.GET.get('disbursement_id'):
 		query_params['disbursement_id'] = request.GET.get('disbursement_id')
@@ -723,7 +723,7 @@ def contribution_table(request):
 	query_params['key'] = settings.API_PASSWORD
 
 	# to IE api for download
-	ie_url = "http://transparencydata.com/api/1.0/fara/contribution.xls?apikey=%s" % (settings.CONGRESS_PASSWORD)
+	ie_url = "http://api.influenceexplorer.com/api/1.0/fara/contribution.xls?apikey=%s" % (settings.CONGRESS_PASSWORD)
 
 	if request.GET.get('contribution_id'):
 		query_params['contribution_id'] = request.GET.get('contribution_id')
@@ -825,7 +825,7 @@ def search(request):
 
 		# page logic
 		total_hits = int(results['clients']['hits']['total'])
-		total = total_hits/5 
+		total = total_hits/5
 		if total_hits % 5 != 0:
 			total = total + 1
 		data['total_client'] = total
@@ -841,7 +841,7 @@ def search(request):
 
 		# page logic
 		total_hits = int(results['registrants']['hits']['total'])
-		total = total_hits/5 
+		total = total_hits/5
 		if total_hits % 5 != 0:
 			total = total + 1
 		data['total_reg'] = total
@@ -865,7 +865,7 @@ def search(request):
 
 		# page logic
 		total_hits = int(results['arms']['hits']['total'])
-		total = total_hits/10 
+		total = total_hits/10
 		if total_hits % 10 != 0:
 			total = total + 1
 		data['total_arms'] = total
@@ -889,7 +889,7 @@ def search(request):
 
 		# page logic
 		total_hits = int(results['interactions']['hits']['total'])
-		total = total_hits/20 
+		total = total_hits/20
 		if total_hits % 20 != 0:
 			total = total + 1
 		data['total_interaction'] = total
@@ -902,10 +902,10 @@ def search(request):
 		for r in results['locations']['hits']['hits']:
 			l.append({'id':r['_id'], 'info':r['_source']})
 		data['locations'] = l
-		
+
 		# page logic
 		total_hits = int(results['locations']['hits']['total'])
-		total = total_hits/20 
+		total = total_hits/20
 		if total_hits % 20 != 0:
 			total = total + 1
 		data['total_location'] = total
@@ -921,7 +921,7 @@ def search(request):
 
 		# page logic
 		total_hits = int(results['docs']['hits']['total'])
-		total = total_hits/20 
+		total = total_hits/20
 		if total_hits % 20 != 0:
 			total = total + 1
 		data['total_docs'] = total
@@ -956,15 +956,15 @@ def search_more(request):
 	if request.GET.get('peoplepage'):
 		peoplepage = int(request.GET.get('peoplepage'))
 		query_params['peoplepage'] = peoplepage
-	
+
 	if request.GET.get('armspage'):
 		armspage = int(request.GET.get('armspage'))
 		query_params['armspage'] = armspage
-	
+
 	if request.GET.get('interactionspage'):
 		interactionspage = int(request.GET.get('interactionspage'))
 		query_params['interactionspage'] = interactionspage
-	
+
 	if request.GET.get('locationpage'):
 		locationpage = int(request.GET.get('locationpage'))
 		query_params['locationpage'] = locationpage
@@ -988,13 +988,13 @@ def search_more(request):
 
 		# page logic
 		total_hits = int(results['clients']['hits']['total'])
-		total = total_hits/5 
+		total = total_hits/5
 		if total_hits % 5 != 0:
 			total = total + 1
 			data['total_client'] = total
 		if total > 1:
 			data['this_client'] = clientpage
-			data['previous_client'] = clientpage - 1	
+			data['previous_client'] = clientpage - 1
 		if total > 1 and clientpage < total:
 			data['next_client'] = clientpage + 1
 
@@ -1006,13 +1006,13 @@ def search_more(request):
 
 		# page logic
 		total_hits = int(results['registrants']['hits']['total'])
-		total = total_hits/5 
+		total = total_hits/5
 		if total_hits % 5 != 0:
 			total = total + 1
 			data['total_reg'] = total
 		if total > 1:
 			data['this_reg'] = regpage
-			data['previous_reg'] = regpage - 1	
+			data['previous_reg'] = regpage - 1
 		if total > 1 and regpage < total:
 			data['next_reg'] = regpage + 1
 
@@ -1024,13 +1024,13 @@ def search_more(request):
 
 		# page logic
 		total_hits = int(results['people_org']['hits']['total'])
-		total = total_hits/10 
+		total = total_hits/10
 		if total_hits % 10 != 0:
 			total = total + 1
 			data['total_people'] = total
 		if total > 1:
 			data['this_people'] = peoplepage
-			data['previous_people'] = peoplepage - 1	
+			data['previous_people'] = peoplepage - 1
 		if total > 1 and peoplepage < total:
 			data['next_people'] = peoplepage + 1
 
@@ -1043,13 +1043,13 @@ def search_more(request):
 
 		# page logic
 		total_hits = int(results['arms']['hits']['total'])
-		total = total_hits/10 
+		total = total_hits/10
 		if total_hits % 10 != 0:
 			total = total + 1
 			data['total_arms'] = total
 		if total > 1:
 			data['this_arms'] = armspage
-			data['previous_arms'] = armspage - 1	
+			data['previous_arms'] = armspage - 1
 		if total > 1 and armspage < total:
 			data['next_arms'] = armspage + 1
 
@@ -1069,13 +1069,13 @@ def search_more(request):
 
 		# page logic
 		total_hits = int(results['interactions']['hits']['total'])
-		total = total_hits/20 
+		total = total_hits/20
 		if total_hits % 20 != 0:
 			total = total + 1
 			data['total_interaction'] = total
 		if total > 1:
 			data['this_interaction'] = interactionspage
-			data['previous_interaction'] = interactionspage - 1	
+			data['previous_interaction'] = interactionspage - 1
 		if total > 1 and interactionspage < total:
 			data['next_interaction'] = interactionspage + 1
 
@@ -1087,13 +1087,13 @@ def search_more(request):
 
 		# page logic
 		total_hits = int(results['locations']['hits']['total'])
-		total = total_hits/20 
+		total = total_hits/20
 		if total_hits % 20 != 0:
 			total = total + 1
 			data['total_location'] = total
 		if total > 1:
 			data['this_location'] = locationpage
-			data['previous_location'] = locationpage - 1	
+			data['previous_location'] = locationpage - 1
 		if total > 1 and locationpage < total:
 			data['next_location'] = locationpage + 1
 
@@ -1105,15 +1105,14 @@ def search_more(request):
 
 		# page logic
 		total_hits = int(results['docs']['hits']['total'])
-		total = total_hits/20 
+		total = total_hits/20
 		if total_hits % 20 != 0:
 			total = total + 1
 			data['total_docs'] = total
 		if total > 1:
 			data['this_docs'] = docpage
-			data['previous_docs'] = docpage - 1	
+			data['previous_docs'] = docpage - 1
 		if total > 1 and docpage < total:
 			data['next_docs'] = docpage + 1
 
 	return render(request, 'foreign/search_results.html', {"results":data, 'q':q})
-
