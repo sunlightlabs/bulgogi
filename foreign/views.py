@@ -585,17 +585,16 @@ def convert_get_params(request):
 
 	return query_params
 
-def generate_csv(request):
+def generate_csv(request, model_str):
 	query_params = convert_get_params(request)
 	query_params['key'] = settings.API_PASSWORD
-	s3_url = requests.get("/".join([settings.FARA_ENDPOINT, "generate_csv/disbursement"]),
+	s3_url = requests.get("/".join([settings.FARA_ENDPOINT, "generate_csv/" +  model_str]),
 					  params=convert_get_params(request)).json()['url']
 	return HttpResponseRedirect(s3_url)
 
 def contact_table(request):
 	url = "/".join([settings.FARA_ENDPOINT, "contact-table"])
 	query_params = {}
-	query_params['key'] = settings.API_PASSWORD
 	# to IE api for download
 	ie_url = "http://api.influenceexplorer.com/api/1.0/fara/contact.xls?apikey=%s" % (settings.CONGRESS_PASSWORD)
 
@@ -636,6 +635,7 @@ def contact_table(request):
 	else:
 		p = 1
 
+	query_params['key'] = settings.API_PASSWORD
 	response = requests.get(url, params=query_params)
 	data = response.json()
 
@@ -657,7 +657,6 @@ def contact_table(request):
 def payment_table(request):
 	url = "/".join([settings.FARA_ENDPOINT, "payment-table"])
 	query_params = {}
-	query_params['key'] = settings.API_PASSWORD
 
 	# to IE api for download
 	ie_url = "http://api.influenceexplorer.com/api/1.0/fara/payment.xls?apikey=%s" % (settings.CONGRESS_PASSWORD)
@@ -695,6 +694,7 @@ def payment_table(request):
 	else:
 		p = 1
 
+	query_params['key'] = settings.API_PASSWORD
 	response = requests.get(url, params=query_params)
 	data = response.json()
 
@@ -716,7 +716,6 @@ def payment_table(request):
 def disbursement_table(request):
 	url = "/".join([settings.FARA_ENDPOINT, "disbursement-table"])
 	query_params = {}
-	query_params['key'] = settings.API_PASSWORD
 
 	# to IE api for download
 	ie_url = "http://api.influenceexplorer.com/api/1.0/fara/disbursement.xls?apikey=%s" % (settings.CONGRESS_PASSWORD)
@@ -754,6 +753,7 @@ def disbursement_table(request):
 	else:
 		p = 1
 
+	query_params['key'] = settings.API_PASSWORD
 	response = requests.get(url, params=query_params)
 	data = response.json()
 
@@ -775,7 +775,6 @@ def disbursement_table(request):
 def contribution_table(request):
 	url = "/".join([settings.FARA_ENDPOINT, "contribution-table"])
 	query_params = {}
-	query_params['key'] = settings.API_PASSWORD
 
 	# to IE api for download
 	ie_url = "http://api.influenceexplorer.com/api/1.0/fara/contribution.xls?apikey=%s" % (settings.CONGRESS_PASSWORD)
@@ -824,6 +823,7 @@ def contribution_table(request):
 	else:
 		p = 1
 
+	query_params['key'] = settings.API_PASSWORD
 	response = requests.get(url, params=query_params)
 	data = response.json()
 
