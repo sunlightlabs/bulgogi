@@ -557,6 +557,7 @@ def make_doc_table(data, page):
 def convert_get_params(request):
 
 	query_params = {}
+	query_params['key'] = settings.API_PASSWORD
 
 	if request.GET.get('reg_id'):
 		query_params['reg_id'] = request.GET.get('reg_id')
