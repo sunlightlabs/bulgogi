@@ -30,6 +30,8 @@ urlpatterns = patterns('',
     # to check status
     url(r'^test', 'foreign.views.test', name='test'),
     url(r'^map', 'foreign.views.map', name='map'),
+    url(r'^generate_csv/(?P<model_str>(contact|contribution|payment|disbursement|client))$','foreign.views.generate_csv', name='generate-csv'),
+
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     # Uncomment the next line to enable the admin:

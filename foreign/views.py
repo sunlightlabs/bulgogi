@@ -1,6 +1,7 @@
 import requests
 import json
 import re
+import urllib
 
 from requests.auth import HTTPBasicAuth
 
@@ -9,11 +10,16 @@ from django.http import HttpResponseRedirect
 from django.http import HttpResponse
 
 from django.conf import settings
+from django.core.urlresolvers import reverse
+
 
 # Converts the original url to the sunlight url
 def http_link(link):
 	link = "http://fara.sunlightfoundation.com.s3.amazonaws.com/html/" + link[25:-4] + "/index.html"
 	return link
+
+def url_with_querystring(path, **kwargs):
+	return path + '?' + urllib.urlencode(kwargs)
 
 def about(request):
 	return render(request, 'foreign/about_foreign.html',)
@@ -579,6 +585,13 @@ def convert_get_params(request):
 
 	return query_params
 
+def generate_csv(request):
+	query_params = convert_get_params(request)
+	query_params['key'] = settings.API_PASSWORD
+	s3_url = requests.get("/".join([settings.FARA_ENDPOINT, "generate_csv/disbursement"]),
+					  params=convert_get_params(request)).json()['url']
+	return HttpResponseRedirect(s3_url)
+
 def contact_table(request):
 	url = "/".join([settings.FARA_ENDPOINT, "contact-table"])
 	query_params = {}
@@ -611,9 +624,8 @@ def contact_table(request):
 		ie_url = '%s&location_id=%s' % (ie_url, request.GET.get('location_id'))
 
 	try:
-		s3_url = requests.get("/".join([settings.FARA_ENDPOINT, "generate_csv/contact"]),
-							  params=convert_get_params(request)).json()['url']
-		ie_url = s3_url
+		generate_csv_url = url_with_querystring(reverse('generate-csv', kwargs={'model_str': 'contact'}), **query_params)
+		ie_url = generate_csv_url
 	except:
 		pass
 
@@ -671,9 +683,8 @@ def payment_table(request):
 		ie_url = '%s&location_id=%s' % (ie_url, request.GET.get('location_id'))
 
 	try:
-		s3_url = requests.get("/".join([settings.FARA_ENDPOINT, "generate_csv/payment"]),
-							  params=convert_get_params(request)).json()['url']
-		ie_url = s3_url
+		generate_csv_url = url_with_querystring(reverse('generate-csv', kwargs={'model_str': 'payment'}), **query_params)
+		ie_url = generate_csv_url
 	except:
 		pass
 
@@ -731,9 +742,8 @@ def disbursement_table(request):
 		ie_url = '%s&location_id=%s' % (ie_url, request.GET.get('location_id'))
 
 	try:
-		s3_url = requests.get("/".join([settings.FARA_ENDPOINT, "generate_csv/disbursement"]),
-							  params=convert_get_params(request)).json()['url']
-		ie_url = s3_url
+		generate_csv_url = url_with_querystring(reverse('generate-csv', kwargs={'model_str': 'disbursement'}), **query_params)
+		ie_url = generate_csv_url
 	except:
 		pass
 
@@ -791,9 +801,8 @@ def contribution_table(request):
 		ie_url = '%s&registrant_id=%s' % (ie_url, request.GET.get('registrant_id'))
 
 	try:
-		s3_url = requests.get("/".join([settings.FARA_ENDPOINT, "generate_csv/contribution"]),
-							  params=convert_get_params(request)).json()['url']
-		ie_url = s3_url
+		generate_csv_url = url_with_querystring(reverse('generate-csv', kwargs={'model_str': 'contribution'}), **query_params)
+		ie_url = generate_csv_url
 	except:
 		pass
 
