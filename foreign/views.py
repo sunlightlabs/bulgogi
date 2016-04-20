@@ -32,7 +32,7 @@ def error(request):
 	return render(request, 'foreign/500.html')
 
 def map(request):
- 	return render(request, 'foreign/map.html',)
+	return render(request, 'foreign/map.html',)
 
 def incoming_arms(request):
 	if request.GET.get('p'):
@@ -554,6 +554,30 @@ def make_doc_table(data, page):
 
 	return render(request, 'foreign/location_profile.html', {"results":results})
 
+def convert_get_params(request):
+
+	query_params = {}
+
+	if request.GET.get('reg_id'):
+		query_params['reg_id'] = request.GET.get('reg_id')
+
+	if request.GET.get('doc_id'):
+		query_params['doc_id'] = request.GET.get('doc_id')
+
+	if request.GET.get('client_id'):
+		query_params['client_id'] = request.GET.get('client_id')
+
+	if request.GET.get('recipient_id'):
+		query_params['recipient_id'] = request.GET.get('recipient_id')
+
+	if request.GET.get('contact_id'):
+		query_params['contact_id'] = request.GET.get('contact_id')
+
+	if request.GET.get('location_id'):
+		query_params['location_id'] = request.GET.get('location_id')
+
+	return query_params
+
 def contact_table(request):
 	url = "/".join([settings.FARA_ENDPOINT, "contact-table"])
 	query_params = {}
@@ -584,6 +608,13 @@ def contact_table(request):
 	if request.GET.get('location_id'):
 		query_params['location_id'] = request.GET.get('location_id')
 		ie_url = '%s&location_id=%s' % (ie_url, request.GET.get('location_id'))
+
+	try:
+		s3_url = requests.get("/".join([settings.FARA_ENDPOINT, "generate_csv/contact"]),
+							  params=convert_get_params(request)).json()['url']
+		ie_url = s3_url
+	except:
+		pass
 
 	if request.GET.get('p'):
 		page = int(request.GET.get('p'))
@@ -638,6 +669,12 @@ def payment_table(request):
 		query_params['location_id'] = request.GET.get('location_id')
 		ie_url = '%s&location_id=%s' % (ie_url, request.GET.get('location_id'))
 
+	try:
+		s3_url = requests.get("/".join([settings.FARA_ENDPOINT, "generate_csv/payment"]),
+							  params=convert_get_params(request)).json()['url']
+		ie_url = s3_url
+	except:
+		pass
 
 	if request.GET.get('p'):
 		page = int(request.GET.get('p'))
@@ -692,6 +729,13 @@ def disbursement_table(request):
 		query_params['location_id'] = request.GET.get('location_id')
 		ie_url = '%s&location_id=%s' % (ie_url, request.GET.get('location_id'))
 
+	try:
+		s3_url = requests.get("/".join([settings.FARA_ENDPOINT, "generate_csv/disbursement"]),
+							  params=convert_get_params(request)).json()['url']
+		ie_url = s3_url
+	except:
+		pass
+
 	if request.GET.get('p'):
 		page = int(request.GET.get('p'))
 		p = int(request.GET.get('p'))
@@ -744,6 +788,13 @@ def contribution_table(request):
 	if request.GET.get('registrant'):
 		query_params['registrant'] = request.GET.get('registrant')
 		ie_url = '%s&registrant_id=%s' % (ie_url, request.GET.get('registrant_id'))
+
+	try:
+		s3_url = requests.get("/".join([settings.FARA_ENDPOINT, "generate_csv/contribution"]),
+							  params=convert_get_params(request)).json()['url']
+		ie_url = s3_url
+	except:
+		pass
 
 	### Not supported yet
 	# if request.GET.get('recipient'):
