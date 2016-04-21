@@ -1099,7 +1099,9 @@ def search_more(request):
 	if results.has_key('arms') and results['arms']['hits']['hits']:
 		a = []
 		for r in results['arms']['hits']['hits']:
-			a.append({'id':r['_id'], 'info':r['_source']})
+			price_string = r['_source']['text'].split("$")[1][:100]
+			amount = re.compile(r'<[^>]+>').sub('', price_string).split("lion")[0]+"lion"
+			a.append({'id':r['_id'], 'info':r['_source'], 'amount':amount})
 		data['arms'] = a
 
 		# page logic
