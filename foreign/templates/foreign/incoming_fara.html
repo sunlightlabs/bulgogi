@@ -1,4 +1,9 @@
 {% extends "foreign/foreign_base.html" %}
+{% load staticfiles %}
+
+{% block js %}
+<script src="{% static "dryrub/js/jquery.tablesorter.min.js" %}"></script>
+{% endblock %}
 {% block main_content %}
 
 <!--
@@ -6,6 +11,7 @@
 		<h3>Foreign Agent Feed</h3>
 </div>
 -->
+
 
 <div id="floatingNavWrapper">
 <div id="floatingNav">  
@@ -32,9 +38,19 @@
 </div>
 
 <div class="module withNav">
-	
 	{% include "foreign/fara_doc_table.html" with table_info=table_info %}
-
 </div>
+
+<script type="text/javascript">
+// - See more at: http://www.christianmontoya.com/2008/11/14/extending-jquery-tablesorter-to-support-comma-delimited-numbers/#sthash.md10swBV.dpuf
+$(document).ready(function() {
+   // jQuery.tablesorter.addParser({ id: "fancyNumber", is: function(s) { return /^[0-9]?[0-9,\.]*$/.test(s); }, format: function(s) { return jQuery.tablesorter.formatFloat( s.replace(/,/g,'') ); }, type: "numeric" });
+
+    $("table").tablesorter({
+        sortList: [[0,0]],
+        widgets: ['zebra']
+    });
+});
+</script>
 
 {% endblock %}

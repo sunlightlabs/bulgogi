@@ -12,6 +12,9 @@
 	"Where is the US exporting weapons? Dig into the latest federal arms proposals here: #foreigninfluence http://{{ OG_DOMAIN }}{{ request.path }}"
 {% endblock %}
 
+{% block js %}
+<script src="{% static "dryrub/js/jquery.tablesorter.min.js" %}"></script>
+{% endblock %}
 
 {% block main_content %}
 
@@ -43,5 +46,17 @@
 {% include "foreign/arms_table.html" with results=results info=info %}
 
 </div>
+
+<script type="text/javascript">
+// - See more at: http://www.christianmontoya.com/2008/11/14/extending-jquery-tablesorter-to-support-comma-delimited-numbers/#sthash.md10swBV.dpuf
+$(document).ready(function() {
+   // jQuery.tablesorter.addParser({ id: "fancyNumber", is: function(s) { return /^[0-9]?[0-9,\.]*$/.test(s); }, format: function(s) { return jQuery.tablesorter.formatFloat( s.replace(/,/g,'') ); }, type: "numeric" });
+
+    $("table").tablesorter({
+        sortList: [[0,0]],
+        widgets: ['zebra']
+    });
+});
+</script>
 
 {% endblock %}

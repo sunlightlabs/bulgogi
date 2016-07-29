@@ -1,11 +1,11 @@
 {% load humanize %}
 
-<table>
-	<thead class="header">
-		<th>Date</th>
-		<th>Title</th>
-		<th>Estimated value</th>
-	</thead id="arms-title">
+<table class="tablesorter mainPageTable">
+	<thead id="arms-title" class="header">
+		<th class="foreignsort">&nbsp;Date</th>
+		<th class="foreignsort">&nbsp;Title</th>
+		<th class="foreignsort">&nbsp;Estimated value</th>
+	</thead>
 	<tbody>
 		{% for r in results %}
 			<tr class="{{ r.row }}">

@@ -33,28 +33,34 @@
 {% block main %}
     <div id="contentHeader">
 
-    <div style="float:right">
-        <form id="searchForeign" action="/search" method="get">
-            <input name="q" placeholder="Country, person or keyword" maxlength="200" type="text" id="id_query">
-            <button class="searchBtn_sm_fara" type="submit" value="Go">Search</button>
-        </form>
-        
-        <div class="clear"></div>
-        <span class="tip"></span>
-    </div>
+        <h2 style="float:left">Foreign Influence Explorer</h2>
 
-        <p>
-            <h2>Foreign Influence Explorer</h2>
+        <div style="float:right">
+            <form id="searchForeign" action="/search" method="get">
+                <input name="q" placeholder="Country, person or keyword" maxlength="200" type="text" id="id_query">
+                <button class="searchBtn_sm_fara" type="submit" value="Go">Search</button>
+            </form>
+            <div class="clear"></div>
+        </div>
+
+        <p style="clear:both; padding-top:10px; font-size:12px">
+            Until 2014, we manually entered data from the PDFs disclosed by the Department of Justice.
+            That's how you can see itemized disbursements, lists of contacts, individual contributions,
+            and other breakdowns of the information contained in those documents.
+            We no longer manually pull that information, but we keep asking the Department of Justice to
+            improve their data production standards so that you'll have access to that information!
+            Until that time, we're providing this information for archival purposes only.
+            Please check our "Real-Time Disclosures" and "Proposed Arms Sales" for up-to-date information.
         </p>
+
     </div>
 
     <nav id="sub_nav">
         <div>
           <ul>
               <li class="first {% url 'incoming-fara' as url %}{% if request.path == url %}active-tab{% endif %}"><a href="/incoming-fara">REAL-TIME DISCLOSURES</a></li>
-              <li class="{% url 'registrants' as url %}{% if request.path == url %}active-tab{% endif %}"><a href="/registrants">REGISTERED AGENTS</a></li>
-          	  <li class="{% url 'clients' as url %}{% if request.path == url %}active-tab{% endif %}"><a href="/clients">CLIENTS</a></li>
               <li class="{% url 'incoming-arms' as url %}{% if request.path == url %}active-tab{% endif %}"><a href="/incoming-arms">PROPOSED ARMS SALES</a></li>
+              <li class="{% url 'archived-data' as url %}{% if request.path == url %}active-tab{% endif %}"><a href="/archived-data">ARCHIVED DATA</a></li>
           </ul>
         </div>
         <div class="sub_nav_right">

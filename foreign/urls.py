@@ -27,6 +27,7 @@ urlpatterns = patterns('',
     url(r'^lobby-location2013', 'foreign.views.location13', name='location2013'),
     url(r'^search', 'foreign.views.search', name='search'),
     url(r'^more-search', 'foreign.views.search_more', name='more-search'),
+    url(r'^archived-data', 'foreign.views.archived_data', name='archived-data'),
     # to check status
     url(r'^test', 'foreign.views.test', name='test'),
     url(r'^map', 'foreign.views.map', name='map'),

@@ -851,6 +851,22 @@ def reg_totals(request):
 
 	return render(request, 'foreign/registrants.html', {"data":data['results']})
 
+def archived_data(request):
+	url = "/".join([settings.FARA_ENDPOINT, "reg-2013"])
+	query_params = {}
+	query_params['key'] = settings.API_PASSWORD
+	response = requests.get(url, params=query_params)
+	reg_data = response.json()
+
+	url = "/".join([settings.FARA_ENDPOINT, "locations"])
+	query_params = {}
+	query_params['key'] = settings.API_PASSWORD
+	response = requests.get(url, params=query_params)
+	client_data = response.json()
+
+	return render(request, 'foreign/archived_data.html', {'reg_data': reg_data['results'],
+														  'client_data': client_data['results']})
+
 def clients(request):
 	url = "/".join([settings.FARA_ENDPOINT, "locations"])
 	query_params = {}

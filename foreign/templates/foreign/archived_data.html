@@ -1,0 +1,113 @@
+{% extends "foreign/foreign_base.html" %}
+{% load humanize %}
+{% load static %}
+
+{% block js %}
+<script src="{% static "dryrub/js/jquery.tablesorter.min.js" %}"></script>
+{% endblock %}
+
+{% block main_content %}
+<div class="module withNav">
+
+    <div class="tip">
+        <h4><b>Registered agents</b> are hired by foreign entities to represent them in influencing US policy.</h4>
+    </div>
+
+    <div class="clear"></div>
+
+    <div style="height:600px; overflow:scroll">
+        <table class="tablesorter mainPageTable">
+            <thead class="header">
+                <th class="foreignsort">&nbsp;Registered Agent</th>
+                <th class="foreignsort">&nbsp;Payments</th>
+
+        <!-- Hand entered data, so we are suspending displaying for now
+        <th class="foreignsort">&nbsp;Federal lobbying</th>
+                <th class="foreignsort">&nbsp;State Dept. contacts</th>
+                <th class="foreignsort">&nbsp;Media contacts</th>
+                <th class="foreignsort">&nbsp;Political Donations</th>
+        -->
+            </thead>
+            <tbody>
+                {% for d in reg_data %}
+                    <tr >
+                        <td><a href="/reg-profile/{{ d.reg_id }}">{{ d.reg_name }}</a></td>
+                        <td>{{ d.payments2013|floatformat:2|intcomma }}</td>
+
+        <!-- From hand entered data
+                        <td>{% if d.federal_lobbying == True %}
+                                Yes
+                            {% else %}
+                                No
+                            {% endif %}
+
+                        </td>
+                        <td>
+                            {% if d.state_dept_lobbying == True %}
+                                Yes
+                            {% else %}
+                                No
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if d.pr == True %}
+                                Yes
+                            {% else %}
+                                No
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if d.contribution == True %}
+                                Yes
+                            {% else %}
+                                No
+                            {% endif %}
+                        </td>
+                    -->
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<div class="module withNav">
+
+    <div class="tip">
+        <h4><b>Clients</b> hire agents to represent them in influencing US policy.</h4>
+    </div>
+
+    <div class="clear"></div>
+
+    <div style="height:600px; overflow:scroll">
+        <table class="tablesorter mainPageTable">
+            <thead class="header">
+                <th class="foreignsort">&nbsp;Client</th>
+                <th class="foreignsort">&nbsp;Location</th>
+            </thead>
+            <tbody>
+                {% for d in client_data %}
+                    <tr >
+                        <td><a href="/client-profile/{{ d.client_id }}">{{ d.client_name }}</a></td>
+                        <td><a href="/location-profile/{{ d.location_id }}">{{ d.location_name }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+// - See more at: http://www.christianmontoya.com/2008/11/14/extending-jquery-tablesorter-to-support-comma-delimited-numbers/#sthash.md10swBV.dpuf
+$(document).ready(function() { 
+    jQuery.tablesorter.addParser({ id: "fancyNumber", is: function(s) { return /^[0-9]?[0-9,\.]*$/.test(s); }, format: function(s) { return jQuery.tablesorter.formatFloat( s.replace(/,/g,'') ); }, type: "numeric" }); 
+
+    $("table").tablesorter({ 
+        sortList: [[0,0]], 
+        widgets: ['zebra']
+    }); 
+});
+</script>
+{% endblock %}
