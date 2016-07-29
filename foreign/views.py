@@ -937,6 +937,8 @@ def search(request):
 		for r in results['arms']['hits']['hits']:
 			price_string = r['_source']['text'].split("$")[1][:100]
 			amount = re.compile(r'<[^>]+>').sub('', price_string).split("lion")[0]+"lion"
+			if 'T' in r['_source']['date']:
+				r['_source']['date'] = r['_source']['date'].split('T')[0]
 			a.append({'id':r['_id'], 'info':r['_source'], 'amount':amount})
 		data['arms'] = a
 
